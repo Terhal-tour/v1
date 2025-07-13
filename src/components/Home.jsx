@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Hero from "./Hero";
 import AboutUs from "./AboutUs";
 import TopRatedPlacesHome from "./TopRatedPlacesHome";
@@ -9,34 +10,29 @@ export default function Home() {
   const [places, setPlaces] = useState([]);
   const [events, setEvents] = useState([]);
   const [recommended, setRecommended] = useState([]);
-  
+
   useEffect(() => {
-      const token = sessionStorage.getItem("jwt");
-    fetch("http://localhost:3000/places/top")
-      .then((res) => res.json())
-      .then((data) => setPlaces(data))
-      .catch((err) => console.error("Error fetching places:", err));
+    const token = sessionStorage.getItem("jwt");
 
-    fetch("http://localhost:3000/events/eventsinHome")
-      .then((res) => res.json())
-      .then((data) => {
-        setEvents(data);
+    const fetchTopRatedPlaces = axios.get("http://localhost:3000/places/top");
+    const fetchEvents = axios.get("http://localhost:3000/events/eventsinHome");
+    const fetchRecommended = axios.get("http://localhost:3000/places/suggested", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    Promise.all([fetchTopRatedPlaces, fetchEvents, fetchRecommended])
+      .then(([placesRes, eventsRes, recommendedRes]) => {
+        setPlaces(placesRes.data);
+        setEvents(eventsRes.data);
+        setRecommended(recommendedRes.data.places);
       })
-      .catch((err) => console.error("Error fetching events:", err));
-
-fetch("http://localhost:3000/places/suggested", {
-  headers: {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-  },
-})
-  .then((res) => res.json())
-  .then((data) => {
-    setRecommended(data.places);
-  })
-  .catch((err) => console.error("Error fetching recommended places:", err));
+      .catch((err) => {
+        console.error("Error fetching data:", err);
+      });
   }, []);
-  console.log(events);
 
   return (
     <>
@@ -44,7 +40,7 @@ fetch("http://localhost:3000/places/suggested", {
 
       {/* hero */}
       <Hero />
-     
+
       {sessionStorage.getItem("jwt") && (
         <RecommendedPlaces recommended={recommended} />
       )}
@@ -52,9 +48,10 @@ fetch("http://localhost:3000/places/suggested", {
       {places.length > 0 && <TopRatedPlacesHome places={places} />}
 
       {events.length > 0 && <UpCommingEvents events={events} />}
+
       {/* about us */}
       <AboutUs />
-      {/* final component */}
+
 
       {/* footer */}
     </>
