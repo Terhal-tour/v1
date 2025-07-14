@@ -5,40 +5,50 @@ import AboutUs from "./AboutUs";
 import TopRatedPlacesHome from "./TopRatedPlacesHome";
 import UpCommingEvents from "./UpCommingEvents";
 import RecommendedPlaces from "./RecommendedPlaces";
+import Spinner from "./Spinner";
 
 export default function Home() {
   const [places, setPlaces] = useState([]);
   const [events, setEvents] = useState([]);
   const [recommended, setRecommended] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
     const token = sessionStorage.getItem("jwt");
-
-    const fetchTopRatedPlaces = axios.get("http://localhost:3000/places/top");
-    const fetchEvents = axios.get("http://localhost:3000/events/eventsinHome");
-    const fetchRecommended = axios.get("http://localhost:3000/places/suggested", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    Promise.all([fetchTopRatedPlaces, fetchEvents, fetchRecommended])
-      .then(([placesRes, eventsRes, recommendedRes]) => {
-        setPlaces(placesRes.data);
-        setEvents(eventsRes.data);
-        setRecommended(recommendedRes.data.places);
+    Promise.all([
+      fetch("http://localhost:3000/places/top").then((res) => res.json()),
+      fetch("http://localhost:3000/events/eventsinHome").then((res) => res.json()),
+      fetch("http://localhost:3000/places/suggested", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res.json()),
+    ])
+      .then(([placesData, eventsData, recommendedData]) => {
+        if (isMounted) {
+          setPlaces(placesData);
+          setEvents(eventsData);
+          setRecommended(recommendedData.places || []);
+          setLoading(false);
+        }
       })
       .catch((err) => {
+        if (isMounted) setLoading(false);
         console.error("Error fetching data:", err);
       });
+    return () => {
+      isMounted = false;
+    };
   }, []);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <>
-      {/* navbar */}
-
-      {/* hero */}
       <Hero />
 
       {sessionStorage.getItem("jwt") && (
@@ -46,14 +56,8 @@ export default function Home() {
       )}
 
       {places.length > 0 && <TopRatedPlacesHome places={places} />}
-
       {events.length > 0 && <UpCommingEvents events={events} />}
-
-      {/* about us */}
       <AboutUs />
-
-
-      {/* footer */}
     </>
   );
 }

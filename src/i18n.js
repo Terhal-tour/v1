@@ -1,0 +1,78 @@
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+
+const resources = {
+  EN: {
+    translation: {
+      brand: 'Terhal',
+      destinations: 'Destinations',
+      experiences: 'Experiences',
+      blog: 'Blog',
+      about: 'About Us',
+      signup: 'Sign Up',
+      login: 'Log In',
+      lang: 'EN',
+      hero_title: 'Discover the Wonders of Egypt',
+      hero_subtitle: 'Explore ancient ruins, vibrant cities, and breathtaking landscapes with Terhal.',
+      hero_button: 'Explore Destinations',
+      about_title: 'About Terhal',
+      about_desc: 'Terhal is your premier guide to exploring the rich history and diverse culture of Egypt. We offer curated travel experiences, insightful content, and personalized recommendations to help you create unforgettable memories.',
+      top_rated_title: 'Top Rated Places',
+      events_title: 'Upcoming Events & Experiences',
+      no_events: 'No upcoming events at the moment.',
+      no_description: 'No description available.',
+      recommended_title: 'Recommended Places for You',
+      notfound_title: 'Page Not Found',
+      notfound_desc: 'Sorry, the page you are looking for does not exist or has been moved.',
+      notfound_home: 'Go Home',
+      footer_tagline: 'Your gateway to Egyptian adventures.',
+      footer_contact: 'Contact Us',
+      footer_privacy: 'Privacy Policy',
+      footer_terms: 'Terms of Service',
+      footer_copyright: 'All rights reserved.',
+    },
+  },
+  AR: {
+    translation: {
+      brand: 'ترحال',
+      destinations: 'الوجهات',
+      experiences: 'تجارب',
+      blog: 'مدونة',
+      about: 'معلومات عنا',
+      signup: 'إنشاء حساب',
+      login: 'تسجيل الدخول',
+      lang: 'AR',
+      hero_title: 'اكتشف عجائب مصر',
+      hero_subtitle: 'استكشف الآثار القديمة، المدن النابضة بالحياة، والمناظر الطبيعية الخلابة مع ترحال.',
+      hero_button: 'استكشف الوجهات',
+      about_title: 'عن ترحال',
+      about_desc: 'ترحال هو دليلك الأول لاستكشاف التاريخ الغني والثقافة المتنوعة في مصر. نقدم تجارب سفر منسقة، ومحتوى ثري، وتوصيات شخصية لمساعدتك على خلق ذكريات لا تُنسى.',
+      top_rated_title: 'أفضل الأماكن تقييماً',
+      events_title: 'الفعاليات والتجارب القادمة',
+      no_events: 'لا توجد فعاليات قادمة حالياً.',
+      no_description: 'لا يوجد وصف متاح.',
+      recommended_title: 'أماكن مقترحة لك',
+      notfound_title: 'الصفحة غير موجودة',
+      notfound_desc: 'عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها.',
+      notfound_home: 'العودة للرئيسية',
+      footer_tagline: 'بوابتك للمغامرات المصرية.',
+      footer_contact: 'تواصل معنا',
+      footer_privacy: 'سياسة الخصوصية',
+      footer_terms: 'شروط الخدمة',
+      footer_copyright: 'جميع الحقوق محفوظة.',
+    },
+  },
+};
+
+i18n
+  .use(initReactI18next)
+  .init({
+    resources,
+    lng: localStorage.getItem('lang') || 'EN',
+    fallbackLng: 'EN',
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
+export default i18n; 
