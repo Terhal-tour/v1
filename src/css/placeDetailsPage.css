@@ -1,0 +1,18 @@
+:root {
+  --pyramid-stone: #f4ebd9;
+  --nile-green: #4b7f52;
+  --sunset-coral: #f76c5e;
+  --text-dark: #2d2a26;
+  --text-light: #6b665f;
+}
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Playfair Display", serif;
+}
