@@ -5,6 +5,9 @@ import Footer from "./components/Footer";
 import NotFound from "./components/NotFound";
 import { Routes, Route } from "react-router-dom";
 import RecommendationReviews from "./components/RecomendatioReviews";
+import Places from "./pages/Places";
+import PlaceInfo from "./pages/PlaceInfo";
+
 
 function App() {
   return (
