@@ -1,0 +1,53 @@
+:root {
+  --sahara-dust: #dad2c5;
+  --date-palm-green: #3e6259;
+  --ancient-amber: #daa520;
+  --warm-white: #fefefe;
+  --soft-cream: #f7f4f0;
+  --muted-brown: #8b7a6b;
+}
+body {
+  font-family: "Roboto", sans-serif;
+}
+.text-warm-white {
+  color: white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-display {
+  font-family: "Playfair Display", serif;
+}
+.bg-primary {
+  @apply bg-[var(--sahara-dust)];
+}
+.text-primary-action {
+  @apply text-[var(--date-palm-green)];
+}
+.bg-primary-action {
+  @apply bg-[var(--date-palm-green)];
+}
+.text-highlight {
+  @apply text-[var(--ancient-amber)];
+}
+.bg-highlight {
+  @apply bg-[var(--ancient-amber)];
+}
+.border-highlight {
+  @apply border-[var(--ancient-amber)];
+}
+.text-support {
+  @apply text-[var(--muted-brown)];
+}
+.bg-support {
+  @apply bg-[var(--soft-cream)];
+}
+
+.active-link{
+  background-color:var(--ancient-amber) ;
+  color: var(--warm-white);
+}
