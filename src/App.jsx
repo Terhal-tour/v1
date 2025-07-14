@@ -1,4 +1,3 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Assestant from "./components/Assestant";
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
@@ -13,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         {/* Add other routes here as needed */}
+        <Route/>
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
