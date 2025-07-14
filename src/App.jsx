@@ -16,7 +16,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         {/* Add other routes here as needed */}
-        <Route path="/assestant" element={<Assestant />} />
+        <Route path="/assistant" element={<Assestant />} />
+        <Route path="/places"  element={<Places/>} />
+        <Route path="/places/:_id"  element={<PlaceInfo/>} />
         <Route path="/review" element={<RecommendationReviews />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
