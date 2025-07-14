@@ -12,8 +12,10 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
     "daisyui": "^5.0.46",
+    "i18next": "^25.3.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-i18next": "^15.6.0",
     "react-router-dom": "^7.6.3",
     "swiper": "^11.2.10",
     "tailwindcss": "^4.1.11"

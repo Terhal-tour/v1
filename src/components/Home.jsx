@@ -4,59 +4,55 @@ import AboutUs from "./AboutUs";
 import TopRatedPlacesHome from "./TopRatedPlacesHome";
 import UpCommingEvents from "./UpCommingEvents";
 import RecommendedPlaces from "./RecommendedPlaces";
+import Spinner from "./Spinner";
 
 export default function Home() {
   const [places, setPlaces] = useState([]);
   const [events, setEvents] = useState([]);
   const [recommended, setRecommended] = useState([]);
-  
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-      const token = sessionStorage.getItem("jwt");
-    fetch("http://localhost:3000/places/top")
-      .then((res) => res.json())
-      .then((data) => setPlaces(data))
-      .catch((err) => console.error("Error fetching places:", err));
-
-    fetch("http://localhost:3000/events/eventsinHome")
-      .then((res) => res.json())
-      .then((data) => {
-        setEvents(data);
+    let isMounted = true;
+    const token = sessionStorage.getItem("jwt");
+    Promise.all([
+      fetch("http://localhost:3000/places/top").then((res) => res.json()),
+      fetch("http://localhost:3000/events/eventsinHome").then((res) => res.json()),
+      fetch("http://localhost:3000/places/suggested", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res.json()),
+    ])
+      .then(([placesData, eventsData, recommendedData]) => {
+        if (isMounted) {
+          setPlaces(placesData);
+          setEvents(eventsData);
+          setRecommended(recommendedData.places || []);
+          setLoading(false);
+        }
       })
-      .catch((err) => console.error("Error fetching events:", err));
-
-fetch("http://localhost:3000/places/suggested", {
-  headers: {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-  },
-})
-  .then((res) => res.json())
-  .then((data) => {
-    setRecommended(data.places);
-  })
-  .catch((err) => console.error("Error fetching recommended places:", err));
+      .catch((err) => {
+        if (isMounted) setLoading(false);
+        console.error("Error fetching data:", err);
+      });
+    return () => {
+      isMounted = false;
+    };
   }, []);
-  console.log(events);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <>
-      {/* navbar */}
-
-      {/* hero */}
       <Hero />
-     
-      {sessionStorage.getItem("jwt") && (
-        <RecommendedPlaces recommended={recommended} />
-      )}
-
+      {sessionStorage.getItem("jwt") && <RecommendedPlaces recommended={recommended} />}
       {places.length > 0 && <TopRatedPlacesHome places={places} />}
-
       {events.length > 0 && <UpCommingEvents events={events} />}
-      {/* about us */}
       <AboutUs />
-      {/* final component */}
-
-      {/* footer */}
     </>
   );
 }
