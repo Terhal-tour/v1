@@ -7,13 +7,15 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Link, NavLink } from "react-router-dom";
 import ChildPlace from "./ChildPlace";
+import { useTranslation } from "react-i18next";
 
 export default function RecommendedPlaces({ recommended = [] }) {
+  const { t } = useTranslation();
   return (
     <section className="py-16 bg-orange-50" id="recommended-places">
       <div className="container mx-auto px-6">
         <h2 className="text-3xl sm:text-4xl font-bold text-center text-amber-900 mb-10">
-          Recommended Places for You
+          {t('recommended_title')}
         </h2>
 
         <Swiper
