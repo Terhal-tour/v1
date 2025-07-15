@@ -1,4 +1,5 @@
 import React from "react";
+import "./../css/error.css";
 
 const Error = ({ message = "Something went wrong.", onRetry }) => (
   <div className="flex flex-col items-center justify-center py-12">
