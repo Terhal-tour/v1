@@ -1,0 +1,87 @@
+:root {
+  --temple-gray: #e4e4e4;
+  --oasis-green: #4c7860;
+  --sand-accent: #f2d6b3;
+  --text-color: #1a1a1a;
+  --background-color: var(--temple-gray);
+}
+body {
+  font-family: Inter, "Noto Sans", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+/* .table-header-cell {
+  @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+}
+.table-body-cell {
+  @apply px-6 py-4 whitespace-nowrap text-sm text-gray-800;
+}
+.status-active {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-[var(--oasis-green)];
+}
+.status-inactive {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800;
+}
+.action-link {
+  @apply text-[var(--oasis-green)] hover:text-green-800;
+} */
+
+
+.table-header-cell {
+  padding-left: 1.5rem;   /* px-6 = 1.5rem * 4 = 24px */
+  padding-right: 1.5rem;
+  padding-top: 0.75rem;   /* py-3 = 0.75rem * 4 = 12px */
+  padding-bottom: 0.75rem;
+  text-align: left;
+  font-size: 0.75rem;     /* text-xs */
+  font-weight: 500;       /* font-medium */
+  color: rgb(107, 114, 128); /* text-gray-500 */
+  text-transform: uppercase;
+  letter-spacing: 0.05em; /* tracking-wider = 0.05em */
+}
+
+.table-body-cell {
+  padding-left: 1.5rem;   /* px-6 = 1.5rem * 4 = 24px */
+  padding-right: 1.5rem;
+  padding-top: 1rem;      /* py-4 = 1rem * 4 = 16px */
+  padding-bottom: 1rem;
+  white-space: nowrap;
+  font-size: 0.875rem;    /* text-sm */
+  color: rgb(31, 41, 55); /* text-gray-800 */
+}
+
+.status-active {
+  display: inline-flex;
+  align-items: center;
+  padding-left: 0.625rem;  /* px-2.5 = 10px */
+  padding-right: 0.625rem;
+  padding-top: 0.125rem;   /* py-0.5 = 2px */
+  padding-bottom: 0.125rem;
+  border-radius: 9999px;   /* rounded-full */
+  font-size: 0.75rem;      /* text-xs */
+  font-weight: 500;        /* font-medium */
+  background-color: rgb(209, 250, 229); /* bg-green-100 */
+  color: var(--oasis-green);
+}
+
+.status-inactive {
+  display: inline-flex;
+  align-items: center;
+  padding-left: 0.625rem;  /* px-2.5 */
+  padding-right: 0.625rem;
+  padding-top: 0.125rem;   /* py-0.5 */
+  padding-bottom: 0.125rem;
+  border-radius: 9999px;   /* rounded-full */
+  font-size: 0.75rem;      /* text-xs */
+  font-weight: 500;        /* font-medium */
+  background-color: rgb(254, 226, 226); /* bg-red-100 */
+  color: rgb(153, 27, 27); /* text-red-800 */
+}
+
+.action-link {
+  color: var(--oasis-green);
+}
+
+.action-link:hover {
+  color: rgb(22, 101, 52); /* text-green-800 */
+}
