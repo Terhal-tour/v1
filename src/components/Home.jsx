@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+//import axios from "axios";
 import Hero from "./Hero";
 import AboutUs from "./AboutUs";
 import TopRatedPlacesHome from "./TopRatedPlacesHome";

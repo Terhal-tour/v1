@@ -8,16 +8,17 @@ import Places from "./pages/Places";
 import PlaceInfo from "./pages/PlaceInfo";
 import UserLayout from "./layouts/UserLayout";
 import AdminLayout from "./layouts/AdminLayout";
-
+import SignUp from "./components/SignUp"
+import Login from "./components/login"
+import VerifyEmail from "./components/VerifyEmail";
 import AdminCrudPlaces from "./pages/admin/AdminCrudPlaces";
 
-// 👇 تأكد أنك مستورد Navbar و Footer
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 function App() {
-  const location = useLocation();
-  const isAssistantRoute = location.pathname === "/assistant";
+  //const location = useLocation();
+  //const isAssistantRoute = location.pathname === "/assistant";
 
   return (
     <>
@@ -30,7 +31,12 @@ function App() {
             <Route path="places" element={<Places />} />
             <Route path="places/:_id" element={<PlaceInfo />} />
             <Route path="review" element={<RecommendationReviews />} />
+            <Route path="signup" element={<SignUp/>}/>
+            <Route path="login" element={<Login/>}/>
+            <Route path="/verify-email/:token" element={<VerifyEmail />} />
+
             <Route path="*" element={<NotFound />} />
+            
           </Route>
 
           {/* Admin layout routes */}
