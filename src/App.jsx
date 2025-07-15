@@ -10,8 +10,8 @@ import UserLayout from "./layouts/UserLayout";
 import AdminLayout from "./layouts/AdminLayout";
 
 import AdminCrudPlaces from "./pages/admin/AdminCrudPlaces";
-import AdminCategories from "./pages/admin/AdminCategories";
-import CategoryForm from "./pages/admin/CategoryForm";
+import AdminCategories from "./components/AdminCategories";
+import CategoryForm from "./components/CategoryForm";
 
 function App() {
   const location = useLocation();
