@@ -12,18 +12,22 @@ import AdminLayout from "./layouts/AdminLayout";
 import AdminCrudPlaces from "./pages/admin/AdminCrudPlaces";
 import AdminCategories from "./components/AdminCategories";
 import CategoryForm from "./components/CategoryForm";
+import NoNavFoter from "./layouts/NoNavFoter";
 
 function App() {
   const location = useLocation();
 
   return (
     <>
+    
       <Routes>
-        {/* User layout routes */}
         {/* [TODO CREATE LAYOUT TO REMOVE NAV , FOOTER EROM THE ASSISTANT PAGE ] */}
+        <Route path="/" element={<NoNavFoter/>}>
+          <Route path="assistant" element={<Assestant />} />
+        </Route>
+        {/* User layout routes */}
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Home />} />
-          <Route path="assistant" element={<Assestant />} />
           <Route path="places" element={<Places />} />
           <Route path="places/:_id" element={<PlaceInfo />} />
           <Route path="review" element={<RecommendationReviews />} />
