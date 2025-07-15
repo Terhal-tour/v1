@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios"; // إذا كنت تستخدم axios
+import axios from "axios"; 
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from "../../components/Spinner";

@@ -14,7 +14,7 @@ export default function Home() {
   const [recommended, setRecommended] = useState([]);
   const [loading, setLoading] = useState(true);
 // [TODO WILL BE ADDED FROM LOGIN]
-  sessionStorage.setItem('jwt',"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NmUxZDg4MWZiMmMwNTdkNGRmZDNmZCIsImlhdCI6MTc1MjU2NDYzNiwiZXhwIjoxNzUzMTY5NDM2fQ.Q3aehdOSEDzWM11CYDz2CSwvoDI_gn14klCQzSWreGo")
+  // sessionStorage.setItem('jwt',"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NmUxZDg4MWZiMmMwNTdkNGRmZDNmZCIsImlhdCI6MTc1MjU2NDYzNiwiZXhwIjoxNzUzMTY5NDM2fQ.Q3aehdOSEDzWM11CYDz2CSwvoDI_gn14klCQzSWreGo")
   useEffect(() => {
     let isMounted = true;
     const token = sessionStorage.getItem("jwt");
