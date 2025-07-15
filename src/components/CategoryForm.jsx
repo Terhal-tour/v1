@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios"; 
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import Spinner from "../../components/Spinner";
+import Spinner from "./Spinner";
+
 
 const CategoryForm = () => {
   const [title, setTitle] = useState("");
@@ -78,30 +79,44 @@ const CategoryForm = () => {
     );
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <h2 className="text-xl font-bold text-center text-amber-800">
-        {isEdit ? "Edit Category" : "Create Category"}
-      </h2>
+    <div className="min-h-screen  flex items-center justify-center p-4 sm:p-6">
+      <form 
+        onSubmit={handleSubmit} 
+        className="space-y-6 bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-2xl max-w-lg w-full border-4 border-amber-600"
+        
+      >
+        <h2 className="text-3xl font-bold text-center text-blue-900 font-serif tracking-wide">
+          {isEdit ? "Edit Category" : "Create New Category"}
+        </h2>
 
-      <div>
-        <label className="block mb-1 text-amber-700">Title</label>
-        <input
-          className="w-full border px-4 py-2 rounded bg-amber-50"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-      </div>
+        <div>
+          <label className="block mb-2 text-lg text-amber-800 font-medium">Title </label>
+          <input
+            className="w-full border-2 border-turquoise-600 px-4 py-3 rounded-lg bg-amber-50/70 text-blue-900 focus:outline-none focus:ring-4 focus:ring-turquoise-400 placeholder:text-blue-500 transition-all duration-300"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            placeholder="Enter  title"
+          />
+        </div>
 
-      <div className="flex justify-end gap-2">
-        <button
-          type="submit"
-          className="px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700"
-        >
-          {isEdit ? "Update" : "Create"}
-        </button>
-      </div>
-    </form>
+        <div className="flex justify-center gap-4">
+          <button
+            type="submit"
+            className="px-8 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors duration-300 font-serif text-lg shadow-lg hover:shadow-xl"
+          >
+            {isEdit ? "Update " : "Create "}
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/admin/categories")}
+            className="px-8 py-3 bg-turquoise-600 text-amber-600 rounded-lg hover:bg-turquoise-700 transition-colors duration-300 font-serif text-lg shadow-lg hover:shadow-xl"
+          >
+            Return 
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
