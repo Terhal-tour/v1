@@ -1,18 +1,20 @@
 import React, { useState } from "react";
+import "./../css/assistant.css";
 
 export default function Assistant() {
   const [inputValue, setInputValue] = useState("");
-  const [messages, setMessages] = useState([{
-    id: 0,
-    text: "Hello there! I'm Terhal, your AI travel assistant. I'm here to help you plan your perfect trip to Egypt. Whether you're looking for historical sites, cultural experiences, or hidden gems, I've got you covered. What are your interests for this trip?",
-    sender: "assistant",
-    time: new Date().toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    }),
-    type: "text",
-  }
-]);
+  const [messages, setMessages] = useState([
+    {
+      id: 0,
+      text: "Hello there! I'm Terhal, your AI travel assistant. I'm here to help you plan your perfect trip to Egypt. Whether you're looking for historical sites, cultural experiences, or hidden gems, I've got you covered. What are your interests for this trip?",
+      sender: "assistant",
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      type: "text",
+    },
+  ]);
   const [isTyping, setIsTyping] = useState(false);
 
   const handleSendMessage = async () => {
@@ -194,36 +196,39 @@ export default function Assistant() {
                           Here's your personalized itinerary:
                         </p>
                         <div className="space-y-4">
-                          {message.itinerary.map((day, index) => (
-                            <div
-                              key={index}
-                              className="border-l-2 border-[var(--gold-accent)] pl-4"
-                            >
-                              <h4 className="font-bold text-[var(--gold-accent)] mb-2">
-                                {day.day}
-                              </h4>
-                              <div className="mb-2">
-                                <p className="text-xs opacity-80 mb-1">
-                                  Places to visit:
-                                </p>
-                                <ul className="text-xs space-y-1">
-                                  {day.places.map((place, placeIndex) => (
-                                    <li
-                                      key={placeIndex}
-                                      className="flex items-center gap-1"
-                                    >
-                                      <span className="w-1 h-1 bg-[var(--gold-accent)] rounded-full"></span>
-                                      {place}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                              <div className="text-xs opacity-90">
-                                <p className="font-medium">Advice:</p>
-                                <p>{day.advice}</p>
-                              </div>
+                          {console.log(message)}
+                          {message.itinerary.error ? (
+                            <div className="text-sm text-red-500">
+                              {message.itinerary.error}
                             </div>
-                          ))}
+                          ) : message.itinerary ? (
+                            message.itinerary.map((day, index) => (
+                              <div
+                                key={index}
+                                className="border-l-2 border-[var(--gold-accent)] pl-4"
+                              >
+                                <h4 className="font-bold text-[var(--gold-accent)] mb-2">
+                                  {day.day}
+                                </h4>
+                                <div className="mb-2">
+                                  <p className="text-xs opacity-80 mb-1">
+                                    Places to visit:
+                                  </p>
+                                  <ul className="text-xs space-y-1">
+                                    {day.places.map((place, placeIndex) => (
+                                      <li
+                                        key={placeIndex}
+                                        className="flex items-center gap-1"
+                                      >
+                                        <span className="w-1 h-1 bg-[var(--gold-accent)] rounded-full"></span>
+                                        {place}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              </div>
+                            ))
+                          ) : null}
                         </div>
                       </div>
                     )}

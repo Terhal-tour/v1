@@ -1,0 +1,13 @@
+ :root {
+     --papyrus-cream: #F8F5E4;
+     --nile-indigo: #35477D;
+     --gold-accent: #E4B363;
+     --white: #FFFFFF;
+     --text-secondary: #A0988E;
+     --border-color: #EAE3D9;
+ }
+
+ body {
+     font-family: 'Cairo', sans-serif;
+     background-color: var(--papyrus-cream);
+ }

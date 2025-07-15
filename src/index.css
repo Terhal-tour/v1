@@ -1,25 +1,11 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-:root {
-  --color-desert-sand: #f4e5d8;
-  --color-nile-blue: #003366;
-  --color-gold: #ed7b2a;
-  --color-warm-white: #faf8f5;
-  --color-soft-gray: #e6e6e6;
-  --color-text-dark: #181411;
-  --color-text-light: #897261;
-  --papyrus-cream: #F8F5E4;
-  --nile-indigo: #35477D;
-  --gold-accent: #E4B363;
-  --white: #FFFFFF;
-  --text-secondary: #A0988E;
-  --border-color: #EAE3D9;
-}
+
 
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  background-color: var(--papyrus-cream);
+  background-color:#F8F5E4
 
 }
 

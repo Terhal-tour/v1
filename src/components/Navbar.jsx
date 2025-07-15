@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import "./../css/navbar.css";
 import i18n from "../i18n";
-
 const Navbar = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
