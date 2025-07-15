@@ -10,35 +10,34 @@ import UserLayout from "./layouts/UserLayout";
 import AdminLayout from "./layouts/AdminLayout";
 
 import AdminCrudPlaces from "./pages/admin/AdminCrudPlaces";
-
-// 👇 تأكد أنك مستورد Navbar و Footer
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import AdminCategories from "./components/AdminCategories";
+import CategoryForm from "./components/CategoryForm";
 
 function App() {
   const location = useLocation();
-  const isAssistantRoute = location.pathname === "/assistant";
 
   return (
     <>
-        <Routes>
-          {/* User layout routes */}
-          {/* [TODO CREATE LAYOUT TO REMOVE NAV , FOOTER EROM THE ASSISTANT PAGE ] */}
-          <Route path="/" element={<UserLayout />}>
-            <Route index element={<Home />} />
-            <Route path="assistant" element={<Assestant />} />
-            <Route path="places" element={<Places />} />
-            <Route path="places/:_id" element={<PlaceInfo />} />
-            <Route path="review" element={<RecommendationReviews />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
+      <Routes>
+        {/* User layout routes */}
+        {/* [TODO CREATE LAYOUT TO REMOVE NAV , FOOTER EROM THE ASSISTANT PAGE ] */}
+        <Route path="/" element={<UserLayout />}>
+          <Route index element={<Home />} />
+          <Route path="assistant" element={<Assestant />} />
+          <Route path="places" element={<Places />} />
+          <Route path="places/:_id" element={<PlaceInfo />} />
+          <Route path="review" element={<RecommendationReviews />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
 
-          {/* Admin layout routes */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="places" element={<AdminCrudPlaces />} />
-            {/* Add more admin routes here */}
-          </Route>
-        </Routes>
+        {/* Admin layout routes */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="places" element={<AdminCrudPlaces />} />
+          <Route path="categories" element={<AdminCategories />} />
+          <Route path="categories/:id" element={<CategoryForm />} />
+          {/* Add more admin routes here */}
+        </Route>
+      </Routes>
     </>
   );
 }

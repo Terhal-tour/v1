@@ -5,16 +5,17 @@
 
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  background-color:#F8F5E4
-
+  /* background-color: #F8F5E4 */
 }
 
 .parallax {
-      background-attachment: fixed;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
 .font-jakarta {
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
+
