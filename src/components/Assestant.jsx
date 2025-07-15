@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./../css/assistant.css";
+import { NavLink } from "react-router-dom";
 
 export default function Assistant() {
   const [inputValue, setInputValue] = useState("");
@@ -133,9 +134,9 @@ export default function Assistant() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button className="flex items-center justify-center rounded-full h-10 w-10 bg-transparent text-[var(--nile-indigo)] hover:bg-[var(--nile-indigo)]/10">
+            <NavLink to="/" className="flex items-center justify-center rounded-full h-10 w-10 bg-transparent text-[var(--nile-indigo)] hover:bg-[var(--nile-indigo)]/10">
               <svg
-                fill="currentColor"
+                fill="blue"
                 height="24px"
                 viewBox="0 0 256 256"
                 width="24px"
@@ -143,7 +144,7 @@ export default function Assistant() {
               >
                 <path d="M128,96a32,32,0,1,0,32,32A32,32,0,0,0,128,96Zm0,48a16,16,0,1,1,16-16A16,16,0,0,1,128,144ZM48,96a32,32,0,1,0,32,32A32,32,0,0,0,48,96Zm0,48a16,16,0,1,1,16-16A16,16,0,0,1,48,144Zm160-48a32,32,0,1,0-32-32A32,32,0,0,0,208,96Zm0-16a16,16,0,1,1-16,16A16,16,0,0,1,208,80Z"></path>
               </svg>
-            </button>
+            </NavLink>
           </div>
         </header>
         <main className="flex-1 pt-24 pb-28 px-4 sm:px-6 lg:px-8">
