@@ -45,7 +45,8 @@ export default function Register() {
       const res = await axios.post("http://localhost:3000/auth/login", formData);
       setMessage(res.data.message);
       setErrors({});
-       navigate("/");
+        sessionStorage.setItem("jwt", res.data.token); 
+      navigate("/");
     } catch (err) {
       setMessage(err.response?.data?.message || "login failed");
     }
