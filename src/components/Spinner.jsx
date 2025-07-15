@@ -1,4 +1,5 @@
 import React from "react";
+import "./../css/navbar.css";
 
 const Spinner = () => (
   <div className="flex flex-col items-center justify-center min-h-[60vh]">

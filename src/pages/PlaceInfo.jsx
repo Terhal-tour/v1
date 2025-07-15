@@ -7,8 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 function PlaceInfo() {
 
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NzRlZTllNzMzMzE4MTAzYmJkNmUwYyIsImlhdCI6MTc1MjQ5MzgxOSwiZXhwIjoxNzUzMDk4NjE5fQ.jUTXtIpz0-g_Ni4Cl0ceUGSn-B8UPCX2QGf482fekeQ'
-
+    const token = sessionStorage.getItem("jwt");
     const { _id } = useParams();
     console.log(_id);
     
