@@ -1,28 +1,46 @@
+import { Routes, Route } from "react-router-dom";
+
 import Assestant from "./components/Assestant";
 import Home from "./components/Home";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import NotFound from "./components/NotFound";
-import { Routes, Route } from "react-router-dom";
 import RecommendationReviews from "./components/RecomendatioReviews";
 import Places from "./pages/Places";
 import PlaceInfo from "./pages/PlaceInfo";
+import UserLayout from "./layouts/UserLayout";
+import AdminLayout from "./layouts/AdminLayout";
+
+import AdminCrudPlaces from "./pages/admin/AdminCrudPlaces";
+
+
 
 
 function App() {
   return (
     <>
-      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        {/* Add other routes here as needed */}
-        <Route path="/assistant" element={<Assestant />} />
-        <Route path="/places"  element={<Places/>} />
-        <Route path="/places/:_id"  element={<PlaceInfo/>} />
-        <Route path="/review" element={<RecommendationReviews />} />
+      {/* user layout routes */}
+      <Route path="/" element={<UserLayout />}>
+        <Route index element={<Home />} />
+        <Route path="assistant" element={<Assestant />} />
+        <Route path="places" element={<Places />} />
+        <Route path="places/:_id" element={<PlaceInfo />} />
+        <Route path="review" element={<RecommendationReviews />} />
         <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
+      </Route>
+
+      {/* ADMIN layout routes */}
+      <Route
+        path="/admin"
+        element={
+          // <RequireAdmin>
+            <AdminLayout />
+          // </RequireAdmin>
+        }
+      >
+        <Route path="/admin/places" element={<AdminCrudPlaces/>} />
+        {/* More admin pages */}
+      </Route>
+    </Routes>
     </>
   );
 }
