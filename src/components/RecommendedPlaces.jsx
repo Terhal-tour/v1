@@ -40,7 +40,7 @@ export default function RecommendedPlaces({ recommended = [] }) {
         </Swiper>
         <NavLink
           to="/review"
-          className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold rounded-full shadow-lg hover:from-amber-700 hover:to-orange-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out group"
+          className="inline-flex pt-3 justify-center items-center px-8 py-4 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold rounded-full shadow-lg hover:from-amber-700 hover:to-orange-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out group"
         >
           review the recomendations
         </NavLink>
