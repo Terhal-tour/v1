@@ -8,8 +8,8 @@ import Places from "./pages/Places";
 import PlaceInfo from "./pages/PlaceInfo";
 import UserLayout from "./layouts/UserLayout";
 import AdminLayout from "./layouts/AdminLayout";
-import SignUp from "./components/SignUp"
-import Login from "./components/login"
+import SignUp from "./components/SignUp";
+import Login from "./components/login";
 import VerifyEmail from "./components/VerifyEmail";
 import AdminCrudPlaces from "./pages/admin/AdminCrudPlaces";
 import AdminCategories from "./components/AdminCategories";
@@ -22,10 +22,9 @@ function App() {
 
   return (
     <>
-    
       <Routes>
         {/* [TODO CREATE LAYOUT TO REMOVE NAV , FOOTER EROM THE ASSISTANT PAGE ] */}
-        <Route path="/" element={<NoNavFoter/>}>
+        <Route path="/" element={<NoNavFoter />}>
           <Route path="assistant" element={<Assestant />} />
         </Route>
         {/* User layout routes */}
@@ -34,17 +33,15 @@ function App() {
           <Route path="places" element={<Places />} />
           <Route path="places/:_id" element={<PlaceInfo />} />
           <Route path="review" element={<RecommendationReviews />} />
-            <Route path="signup" element={<SignUp/>}/>
-            <Route path="login" element={<Login/>}/>
-            <Route path="/verify-email/:token" element={<VerifyEmail />} />
-
+          <Route path="signup" element={<SignUp />} />
+          <Route path="login" element={<Login />} />
+          <Route path="/verify-email/:token" element={<VerifyEmail />} />
           <Route path="*" element={<NotFound />} />
-            
         </Route>
 
         {/* Admin layout routes */}
         <Route path="/admin" element={<AdminLayout />}>
-          <Route path="dashboard" element={<AdminDashboard/>} />
+          <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="places" element={<AdminCrudPlaces />} />
           <Route path="categories" element={<AdminCategories />} />
           <Route path="categories/:id" element={<CategoryForm />} />

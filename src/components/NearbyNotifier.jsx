@@ -122,7 +122,7 @@ export default function NearbyNotifier() {
     }
 
     const data = await res.json();
-// console.log(data.places);
+console.log(data.places);
 
     if (data?.places?.length) {
       setNearbyCount(data.places.length);
