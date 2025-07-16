@@ -7,7 +7,7 @@ import bgImage from '../assets/dmitrii-zhodzishskii-5aEHOQrb2Qk-unsplash.jpg';
 
 export default function Register() {
     const navigate = useNavigate();
-
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
    
     email: "",
@@ -21,14 +21,22 @@ export default function Register() {
     const { name, value, type, checked } = e.target;
     const fieldValue = type === "checkbox" ? (checked ? "AR" : "EN") : value;
     setFormData((prev) => ({ ...prev, [name]: fieldValue }));
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
   const validate = () => {
     const newErrors = {};
    
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    if (!formData.password.trim()) newErrors.password = "Password is required";
-   
+  
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      newErrors.email = "Email is invalid";
+    }
+
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required";
+    } 
     return newErrors;
   };
 
@@ -64,8 +72,8 @@ return (
     <div className="relative flex min-h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-lg space-y-8 rounded-2xl bg-white/90 backdrop-blur-md text-gray-900 p-10 shadow-2xl tracking-wide text-[17px] leading-relaxed">
         <div>
-          <h1 className="text-center text-4xl font-extrabold text-[var(--dark-slate-green)]">Terhal</h1>
-          <h2 className="mt-2 text-center text-2xl font-bold text-[var(--dark-slate-green)]">Login To your account</h2>
+          <h1 className="text-center text-4xl font-extrabold text-orange-500">Terhal</h1>
+          {/* <h2 className="mt-2 text-center text-2xl font-bold text-[var(--dark-slate-green)]">Login To your account</h2> */}
          
         </div>
 
@@ -79,13 +87,34 @@ return (
           />
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="w-full rounded-md border border-orange-400 px-3 py-2 shadow-sm focus:border-[var(--sunset-orange)] focus:ring-[var(--sunset-orange)] focus:outline-none"
-            onChange={handleChange}
-          />
+          <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                className="w-full rounded-md border border-orange-400 px-3 py-2 pr-10 shadow-sm focus:border-[var(--sunset-orange)] focus:ring-[var(--sunset-orange)] focus:outline-none"
+                onChange={handleChange}
+              />
+              <span
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                <i
+                  className={`fa-solid ${
+                    showPassword ? "fa-eye-slash" : "fa-eye"
+                  }`}
+                ></i>
+              </span>
+            </div>
+            {/* Forgot password link */}
+  <div className="text-right">
+    <Link
+      to="/forgot-password"
+      className="text-sm text-orange-500 font-medium hover:underline"
+    >
+      Forgot your password?
+    </Link>
+  </div>
           {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
 
           
@@ -97,7 +126,21 @@ return (
             Login
           </button>
 
-          {message && <p className="text-center text-sm text-[var(--palm-green)]">{message}</p>}
+        
+            {message && (
+              <p
+                className={`text-center text-sm ${
+                  message.toLowerCase().includes("invalid") ||
+                  message.toLowerCase().includes("fail") ||
+                   message.toLowerCase().includes("verify") ||
+                  message.toLowerCase().includes("exists")
+                    ? "text-red-500"
+                    : "text-green-600"
+                }`}
+              >
+                {message}
+              </p>
+            )}
         </form>
 
         <div className="text-sm text-center mt-4">
