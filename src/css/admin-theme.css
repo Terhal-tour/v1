@@ -1,0 +1,77 @@
+/* admin-theme.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap');
+
+:root {
+  --obsidian-black: #1c1c1c;
+  --highlight-color: #4f46e5;
+  --neutral-color: #f9fafb;
+  --text-primary: #1c1c1c;
+  --text-secondary: #6b7280;
+  --background-primary: #ffffff;
+  --background-secondary: #f3f4f6;
+  --border-color: #e5e7eb;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+}
+
+/* Custom Scrollbar Style */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--highlight-color);
+  border-radius: 4px;
+}
+
+/* Utility Classes */
+.bg-primary {
+  background-color: var(--background-primary);
+}
+
+.bg-secondary {
+  background-color: var(--background-secondary);
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.border-primary {
+  border-color: var(--border-color);
+}
+
+/* Button Style Example */
+.btn-primary {
+  background-color: var(--highlight-color);
+  color: var(--neutral-color);
+  font-weight: bold;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+/* Chart Colors Example */
+.chart-colors {
+  --chart-color-1: #4f46e5;
+  --chart-color-2: #10b981;
+  --chart-color-3: #f59e0b;
+  --chart-color-4: #ef4444;
+}
