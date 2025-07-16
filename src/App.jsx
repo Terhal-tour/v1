@@ -13,6 +13,8 @@ import AdminCrudPlaces from "./pages/admin/AdminCrudPlaces";
 import AdminCategories from "./components/AdminCategories";
 import CategoryForm from "./components/CategoryForm";
 import NoNavFoter from "./layouts/NoNavFoter";
+import AddNewPlace from "./pages/admin/AddNewPlace";
+import EditPlace from "./pages/admin/EditPlace";
 
 function App() {
   const location = useLocation();
@@ -39,6 +41,8 @@ function App() {
           <Route path="places" element={<AdminCrudPlaces />} />
           <Route path="categories" element={<AdminCategories />} />
           <Route path="categories/:id" element={<CategoryForm />} />
+          <Route path="addNewPlace"  element={<AddNewPlace/>}/>
+          <Route path="/admin/editPlace/:id" element={<EditPlace />} />
           {/* Add more admin routes here */}
         </Route>
       </Routes>

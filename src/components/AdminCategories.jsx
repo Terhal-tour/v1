@@ -6,10 +6,10 @@ import { NavLink } from "react-router-dom";
 export default function AdminCategories() {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
-//   sessionStorage.setItem(
-//     "jwt",
-//     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NmNiNGI5Y2IxYzM4ZmEyOTcxNmQ4ZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc1MjU4MTY4MiwiZXhwIjoxNzUzMTg2NDgyfQ.X4vdhaEDuNb6xc2LDOTFl1o5tbBUCbK7Q2KnbZlXhvA"
-//   );
+  sessionStorage.setItem(
+    "jwt",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NmNiNGI5Y2IxYzM4ZmEyOTcxNmQ4ZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc1MjU4MTY4MiwiZXhwIjoxNzUzMTg2NDgyfQ.X4vdhaEDuNb6xc2LDOTFl1o5tbBUCbK7Q2KnbZlXhvA"
+  );
   const token = sessionStorage.getItem("jwt");
 
   const handleDeleteCategory = async (categoryId) => {
