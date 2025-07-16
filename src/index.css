@@ -1,11 +1,9 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-@import './css/admin-theme.css';
-
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  background-color: #F8F5E4
+  background-color: #F8F5E4;
 }
 
 .parallax {
@@ -18,4 +16,3 @@ body {
 .font-jakarta {
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
-
