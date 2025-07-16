@@ -9,6 +9,8 @@ function Places() {
     const [placeLocation, setPlaceLocation] = useState('')
     const [categories, setCategories] = useState([])
     const [activeCategory, setActiveCategory] = useState('All');
+    const token = sessionStorage.getItem("jwt");
+
 
     const [sortBy, setSortBy] = useState('');
 
@@ -50,11 +52,9 @@ function Places() {
 
     // fetch categories 
     useEffect(() => {
-        // const token = sessionStorage.getItem("jwt");
-
         axios.get(`http://localhost:3000/categories`, {
             headers: {
-                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NzRlZTllNzMzMzE4MTAzYmJkNmUwYyIsImlhdCI6MTc1MjQ5MzgxOSwiZXhwIjoxNzUzMDk4NjE5fQ.jUTXtIpz0-g_Ni4Cl0ceUGSn-B8UPCX2QGf482fekeQ`,
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
         })
