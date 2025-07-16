@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Routes, Route, useLocation, Router } from "react-router-dom";
 
 import Assestant from "./components/Assestant";
@@ -16,6 +17,7 @@ import AdminCategories from "./components/AdminCategories";
 import CategoryForm from "./components/CategoryForm";
 import NoNavFoter from "./layouts/NoNavFoter";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminCrudEvents from "./pages/admin/AdminCrudEvents";
 
 function App() {
   const location = useLocation();
@@ -45,6 +47,7 @@ function App() {
           <Route path="places" element={<AdminCrudPlaces />} />
           <Route path="categories" element={<AdminCategories />} />
           <Route path="categories/:id" element={<CategoryForm />} />
+          <Route path="events" element={<AdminCrudEvents />} />
           {/* Add more admin routes here */}
         </Route>
       </Routes>
