@@ -8,7 +8,9 @@ import Places from "./pages/Places";
 import PlaceInfo from "./pages/PlaceInfo";
 import UserLayout from "./layouts/UserLayout";
 import AdminLayout from "./layouts/AdminLayout";
-
+import SignUp from "./components/SignUp"
+import Login from "./components/login"
+import VerifyEmail from "./components/VerifyEmail";
 import AdminCrudPlaces from "./pages/admin/AdminCrudPlaces";
 import AdminCategories from "./components/AdminCategories";
 import CategoryForm from "./components/CategoryForm";
@@ -32,7 +34,12 @@ function App() {
           <Route path="places" element={<Places />} />
           <Route path="places/:_id" element={<PlaceInfo />} />
           <Route path="review" element={<RecommendationReviews />} />
+            <Route path="signup" element={<SignUp/>}/>
+            <Route path="login" element={<Login/>}/>
+            <Route path="/verify-email/:token" element={<VerifyEmail />} />
+
           <Route path="*" element={<NotFound />} />
+            
         </Route>
 
         {/* Admin layout routes */}
