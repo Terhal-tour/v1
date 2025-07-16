@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-
+@import './styles/admin-theme.css';
 
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;

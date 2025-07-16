@@ -13,6 +13,7 @@ import AdminCrudPlaces from "./pages/admin/AdminCrudPlaces";
 import AdminCategories from "./components/AdminCategories";
 import CategoryForm from "./components/CategoryForm";
 import NoNavFoter from "./layouts/NoNavFoter";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 function App() {
   const location = useLocation();
@@ -36,6 +37,7 @@ function App() {
 
         {/* Admin layout routes */}
         <Route path="/admin" element={<AdminLayout />}>
+          <Route path="dashboard" element={<AdminDashboard/>} />
           <Route path="places" element={<AdminCrudPlaces />} />
           <Route path="categories" element={<AdminCategories />} />
           <Route path="categories/:id" element={<CategoryForm />} />
