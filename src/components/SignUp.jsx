@@ -117,7 +117,7 @@ export default function Register() {
       console.log(formData);
 
       const res = await axios.post(
-        "http://localhost:3000/auth/register",
+        "https://terhal-backend-6jk2.vercel.app/auth/register",
         formData
       );
       setMessage(res.data.message);
