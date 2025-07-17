@@ -29,7 +29,7 @@ function Places() {
 
     // fetch all places 
     useEffect(() => {
-        axios.get("http://localhost:3000/places/suggested")
+        axios.get("https://terhal-backend-6jk2.vercel.app/places/suggested")
             .then((res) => setPlaces(res.data.places))
             .catch((err) => console.error("Error fetching places:", err))
 
@@ -37,7 +37,7 @@ function Places() {
     // fetch place depend on search
     useEffect(() => {
         const fetchplace = () => {
-            axios.get(`http://localhost:3000/places/search?q=${placeLocation}`)
+            axios.get(`https://terhal-backend-6jk2.vercel.app/places/search?q=${placeLocation}`)
                 .then((res) => setPlaces(res.data))
                 .catch((err) => console.error("Error fetching searched places:", err))
         }
@@ -52,7 +52,7 @@ function Places() {
     useEffect(() => {
         // const token = sessionStorage.getItem("jwt");
 
-        axios.get(`http://localhost:3000/categories`, {
+        axios.get(`https://terhal-backend-6jk2.vercel.app/categories`, {
             headers: {
                 Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NzRlZTllNzMzMzE4MTAzYmJkNmUwYyIsImlhdCI6MTc1MjQ5MzgxOSwiZXhwIjoxNzUzMDk4NjE5fQ.jUTXtIpz0-g_Ni4Cl0ceUGSn-B8UPCX2QGf482fekeQ`,
                 "Content-Type": "application/json",

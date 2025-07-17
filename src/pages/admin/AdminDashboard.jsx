@@ -42,10 +42,10 @@ const AdminDashboard = () => {
         // Fetch all API data in parallel
         const [overviewRes, nationalitiesRes, topRatedRes, reviewsRes] =
           await Promise.all([
-            axios.get("http://localhost:3000/admin/stats/overview", config),
-            axios.get("http://localhost:3000/admin/stats/nationalities", config),
-            axios.get("http://localhost:3000/admin/stats/top-rated", config),
-            axios.get("http://localhost:3000/admin/stats/reviews-analysis", config),
+            axios.get("https://terhal-backend-6jk2.vercel.app/admin/stats/overview", config),
+            axios.get("https://terhal-backend-6jk2.vercel.app/admin/stats/nationalities", config),
+            axios.get("https://terhal-backend-6jk2.vercel.app/admin/stats/top-rated", config),
+            axios.get("https://terhal-backend-6jk2.vercel.app/admin/stats/reviews-analysis", config),
           ]);
 
         // Set state with received data

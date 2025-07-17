@@ -14,7 +14,7 @@ export default function RecommendationReviews() {
       if (!token) return;
 
       try {
-        const res = await fetch("http://localhost:3000/user/reviews/me", {
+        const res = await fetch("https://terhal-backend-6jk2.vercel.app/user/reviews/me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -51,7 +51,7 @@ export default function RecommendationReviews() {
     const payload = { status, review };
 
     try {
-      const response = await fetch("http://localhost:3000/user/reviews", {
+      const response = await fetch("https://terhal-backend-6jk2.vercel.app/user/reviews", {
         method: existingReview ? "PATCH" : "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export default function RecommendationReviews() {
     if (!window.confirm("Are you sure you want to delete your review?")) return;
 
     try {
-      const res = await fetch("http://localhost:3000/user/reviews", {
+      const res = await fetch("https://terhal-backend-6jk2.vercel.app/user/reviews", {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
