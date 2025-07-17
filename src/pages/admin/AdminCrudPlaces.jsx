@@ -21,7 +21,7 @@ function AdminCrudPlaces() {
 
     // fetch all places 
     useEffect(() => {
-        axios.get("http://localhost:3000/places/suggested")
+        axios.get("https://terhal-backend-6jk2.vercel.app/places/suggested")
             .then((res) => setPlaces(res.data.places))
             .catch((err) => console.error("Error fetching places:", err))
 
@@ -29,7 +29,7 @@ function AdminCrudPlaces() {
     // fetch place depend on search
     useEffect(() => {
         const fetchplace = () => {
-            axios.get(`http://localhost:3000/places/search?q=${placeLocation}`)
+            axios.get(`https://terhal-backend-6jk2.vercel.app/places/search?q=${placeLocation}`)
                 .then((res) => setPlaces(res.data))
                 .catch((err) => console.error("Error fetching searched places:", err))
         }
