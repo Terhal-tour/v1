@@ -23,11 +23,11 @@ export default function Home() {
     let isMounted = true;
     const token = sessionStorage.getItem("jwt");
     Promise.all([
-      fetch("http://localhost:3000/places/top").then((res) => res.json()),
-      fetch("http://localhost:3000/events/eventsinHome").then((res) =>
+      fetch("https://terhal-backend-6jk2.vercel.app/places/top").then((res) => res.json()),
+      fetch("https://terhal-backend-6jk2.vercel.app/events/eventsinHome").then((res) =>
         res.json()
       ),
-      fetch("http://localhost:3000/places/suggested", {
+      fetch("https://terhal-backend-6jk2.vercel.app/places/suggested", {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

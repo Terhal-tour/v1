@@ -50,7 +50,7 @@ export default function Register() {
     try {
         console.log(formData);
 
-      const res = await axios.post("http://localhost:3000/auth/login", formData);
+      const res = await axios.post("https://terhal-backend-6jk2.vercel.app/auth/login", formData);
       setMessage(res.data.message);
       setErrors({});
         sessionStorage.setItem("jwt", res.data.token); 

@@ -20,7 +20,7 @@ export default function AdminCategories() {
       );
       if (confirmation) {
         const res = await axios.delete(
-          `http://localhost:3000/categories/${categoryId}`,
+          `https://terhal-backend-6jk2.vercel.app/categories/${categoryId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -47,7 +47,7 @@ export default function AdminCategories() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch("http://localhost:3000/categories", {
+        const res = await fetch("https://terhal-backend-6jk2.vercel.app/categories", {
           headers: {
             Authorization: token,
           },

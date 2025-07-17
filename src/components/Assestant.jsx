@@ -38,7 +38,7 @@ export default function Assistant() {
       try {
         const token = sessionStorage.getItem("jwt");
         const response = await fetch(
-          "http://localhost:3000/assestant/plan-trip",
+          "https://terhal-backend-6jk2.vercel.app/assestant/plan-trip",
           {
             method: "POST",
             headers: {
