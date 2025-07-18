@@ -30,7 +30,8 @@ const resources = {
       footer_privacy: 'Privacy Policy',
       footer_terms: 'Terms of Service',
       footer_copyright: 'All rights reserved.',
-      near_by_title:'near by places'
+      near_by_title:'near by places',
+      review_recommendations:"review Recommendations"
     },
   },
   AR: {
@@ -61,7 +62,8 @@ const resources = {
       footer_privacy: 'سياسة الخصوصية',
       footer_terms: 'شروط الخدمة',
       footer_copyright: 'جميع الحقوق محفوظة.',
-      near_by_title:'الاماكن القريبه'
+      near_by_title:'الاماكن القريبه',
+      review_recommendations:'قيم الاقتراحات'
     },
   },
 };
