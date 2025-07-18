@@ -59,6 +59,7 @@ export default function Register() {
       console.log(user)
       setErrors({});
         sessionStorage.setItem("jwt", res.data.token); 
+        
         if (user?.role === "admin") {
       navigate("/dashboard");
     } else {
