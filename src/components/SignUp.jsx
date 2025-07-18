@@ -45,7 +45,7 @@ export default function Register() {
   }, []);
 
   const [showPassword, setShowPassword] = useState(false);
-
+const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -114,10 +114,11 @@ export default function Register() {
       return;
     }
     try {
+      setLoading(true)
       console.log(formData);
 
       const res = await axios.post(
-        "http://localhost:3000/auth/register",
+        "https://terhal-backend-6jk2.vercel.app/auth/register",
         formData
       );
       setMessage(res.data.message);
@@ -125,6 +126,9 @@ export default function Register() {
       console.log(res.data.message);
     } catch (err) {
       setMessage(err.response?.data?.error || "Registration failed");
+    }
+    finally{
+      setLoading(false)
     }
   };
 
@@ -262,11 +266,21 @@ export default function Register() {
             </div>
 
             <button
-              type="submit"
-              className="group relative w-full flex justify-center rounded-md bg-orange-500 py-3 px-4 text-base font-semibold text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-[var(--sunset-orange)] focus:ring-offset-2"
-            >
-              Create Account
-            </button>
+  type="submit"
+  disabled={loading}
+  className={`group relative w-full flex justify-center rounded-md py-3 px-4 text-base font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[var(--sunset-orange)] focus:ring-offset-2 ${
+    loading ? 'bg-orange-300 cursor-not-allowed' : 'bg-orange-500 hover:bg-opacity-90'
+  }`}
+>
+  {loading ? (
+    <span className="flex items-center gap-2">
+      <i className="fa fa-spinner fa-spin"></i> Loading...
+    </span>
+  ) : (
+    "Sign Up"
+  )}
+</button>
+
 
             {message && (
               <p

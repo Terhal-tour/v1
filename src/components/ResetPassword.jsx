@@ -15,6 +15,7 @@ export default function ResetPassword() {
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,11 +51,14 @@ export default function ResetPassword() {
     }
 
     try {
-      const res = await axios.post("http://localhost:3000/auth/resetPassword", formData);
+      setLoading(true)
+      const res = await axios.post("https://terhal-backend-6jk2.vercel.app/auth/resetPassword", formData);
       setMessage(res.data.message);
       navigate("/login");
     } catch (err) {
       setMessage(err.response?.data?.error || "Reset failed");
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -76,7 +80,7 @@ export default function ResetPassword() {
   {/* Label + Input */}
   <div>
     <label htmlFor="code" className="block text-sm font-semibold text-orange-800 mb-1">
-     Enter The Code Sent To Your(valid for 15 minutes)
+     Enter Code Sent To Your Email(valid for 15 minutes)
     </label>
     <input
       type="text"
@@ -114,11 +118,21 @@ export default function ResetPassword() {
   </div>
 
   <button
-    type="submit"
-    className="group relative w-full flex justify-center rounded-md bg-orange-500 py-3 px-4 text-base font-semibold text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-[var(--sunset-orange)] focus:ring-offset-2"
-  >
-    Reset Password
-  </button>
+  type="submit"
+  disabled={loading}
+  className={`group relative w-full flex justify-center rounded-md py-3 px-4 text-base font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[var(--sunset-orange)] focus:ring-offset-2 ${
+    loading ? 'bg-orange-300 cursor-not-allowed' : 'bg-orange-500 hover:bg-opacity-90'
+  }`}
+>
+  {loading ? (
+    <span className="flex items-center gap-2">
+      <i className="fa fa-spinner fa-spin"></i> Loading...
+    </span>
+  ) : (
+    "Reset Password"
+  )}
+</button>
+
 
   {message && (
     <p
