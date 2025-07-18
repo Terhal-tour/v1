@@ -11,6 +11,7 @@ export default function ForgetPassword() {
   });
     const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const fieldValue = type === "checkbox" ? (checked ? "AR" : "EN") : value;
@@ -37,14 +38,18 @@ export default function ForgetPassword() {
       return;
     }
     try {
+       setLoading(true)
         console.log(formData);
 
-      const res = await axios.post("http://localhost:3000/auth/forgetPassword", formData);
+      const res = await axios.post("https://terhal-backend-6jk2.vercel.app/auth/forgetPassword", formData);
       setMessage(res.data.message);
       setErrors({});
       navigate("/reset-password");
         } catch (err) {
       setMessage(err.response?.data?.error);
+    }
+    finally{
+      setLoading(false)
     }
   };
   return (
@@ -74,15 +79,22 @@ export default function ForgetPassword() {
           />
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
+<button
+  type="submit"
+  disabled={loading}
+  className={`group relative w-full flex justify-center rounded-md py-3 px-4 text-base font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[var(--sunset-orange)] focus:ring-offset-2 ${
+    loading ? 'bg-orange-300 cursor-not-allowed' : 'bg-orange-500 hover:bg-opacity-90'
+  }`}
+>
+  {loading ? (
+    <span className="flex items-center gap-2">
+      <i className="fa fa-spinner fa-spin"></i> Loading...
+    </span>
+  ) : (
+    "Send"
+  )}
+</button>
 
-          <button
-            type="submit"
-            className="group relative w-full flex justify-center rounded-md bg-orange-500 py-3 px-4 text-base font-semibold text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-[var(--sunset-orange)] focus:ring-offset-2"
-          >
-           Send
-          </button>
-
-        
             {message && (
               <p
                 className={`text-center text-sm ${

@@ -8,6 +8,8 @@ import bgImage from '../assets/dmitrii-zhodzishskii-5aEHOQrb2Qk-unsplash.jpg';
 export default function Register() {
     const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
    
     email: "",
@@ -48,9 +50,10 @@ export default function Register() {
       return;
     }
     try {
+        setLoading(true);
         console.log(formData);
 
-      const res = await axios.post("http://localhost:3000/auth/login", formData);
+      const res = await axios.post("https://terhal-backend-6jk2.vercel.app/auth/login", formData);
       setMessage(res.data.message);
       const user = res.data.user;
       console.log(user)
@@ -62,7 +65,10 @@ export default function Register() {
       navigate("/");
     }
     } catch (err) {
-      setMessage(err.response?.data?.error || "login failed");
+      console.log(err)
+      setMessage(err.response.data.message|| "login failed");
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -113,7 +119,10 @@ return (
               </span>
             </div>
             {/* Forgot password link */}
-  <div className="text-right">
+ 
+          {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+
+           <div className="text-right">
     <Link
       to="/forget-password"
       className="text-sm text-orange-500 font-medium hover:underline"
@@ -121,16 +130,22 @@ return (
       Forgot your password?
     </Link>
   </div>
-          {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-
-          
-
-          <button
-            type="submit"
-            className="group relative w-full flex justify-center rounded-md bg-orange-500 py-3 px-4 text-base font-semibold text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-[var(--sunset-orange)] focus:ring-offset-2"
-          >
-            Login
-          </button>
+         
+        <button
+  type="submit"
+  disabled={loading}
+  className={`group relative w-full flex justify-center rounded-md py-3 px-4 text-base font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[var(--sunset-orange)] focus:ring-offset-2 ${
+    loading ? 'bg-orange-300 cursor-not-allowed' : 'bg-orange-500 hover:bg-opacity-90'
+  }`}
+>
+  {loading ? (
+    <span className="flex items-center gap-2">
+      <i className="fa fa-spinner fa-spin"></i> 
+    </span>
+  ) : (
+    "Login"
+  )}
+</button>
 
         
             {message && (
