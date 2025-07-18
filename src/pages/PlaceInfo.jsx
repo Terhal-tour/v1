@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom';
 import "../css/placeDetailsPage.css";
 import { ToastContainer, toast } from 'react-toastify';
+import { HeartIcon as HeartOutline } from '@heroicons/react/24/outline';
+import { HeartIcon as HeartSolid } from '@heroicons/react/24/solid';
+
 
 
 function PlaceInfo() {
@@ -10,7 +13,7 @@ function PlaceInfo() {
     const token = sessionStorage.getItem("jwt");
     const { _id } = useParams();
     console.log(_id);
-    
+
     const [place, setPlace] = useState(null);
     const [suggestions, setSuggestions] = useState(null);
     const [showFullDescription, setShowFullDescription] = useState(false);
@@ -18,7 +21,19 @@ function PlaceInfo() {
     const [hoverRating, setHoverRating] = useState(0);
     const [isFavourite, setIsFavourite] = useState(false);
     const ratingAdded = () => toast("rating added succsessfuly");
-    const placeAddedToFavorites = () => toast("place added to favorites succsessfuly");
+    const placeAddedToFavorites = (status) => {
+        switch (status) {
+            case "added":
+                toast.success("Place added to favourites successfully!");
+                break;
+            case "removed":
+                toast.info("Place removed from favourites.");
+                break;
+            default:
+                toast.warn(`Unexpected status: ${status}`);
+                break;
+        }
+    };
 
 
 
@@ -47,19 +62,54 @@ function PlaceInfo() {
 
     const handleFavourite = async () => {
         try {
-            await axios.post(`https://backend-mu-ten-26.vercel.app/places/${place._id}/favourite`, {}, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
+            // 1️⃣ Check if the place is favourited
+            const checkRes = await axios.get(
+                `https://backend-mu-ten-26.vercel.app/places/${place._id}/is-favourited`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
-            });
-            setIsFavourite(!isFavourite);
-            placeAddedToFavorites()
+            );
+
+            const isCurrentlyFavourited = checkRes.data.isFavourited;
+
+            let response;
+
+            if (isCurrentlyFavourited) {
+                // 2️⃣ Remove if it’s already favourited
+                response = await axios.delete(
+                    `https://backend-mu-ten-26.vercel.app/places/${place._id}/favourite`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                setIsFavourite(false);
+                placeAddedToFavorites("removed");
+            } else {
+                // 2️⃣ Add if not favourited
+                response = await axios.post(
+                    `https://backend-mu-ten-26.vercel.app/places/${place._id}/favourite`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                setIsFavourite(true);
+                placeAddedToFavorites("added");
+            }
         } catch (err) {
             console.error(err);
-            alert("Failed to add to favourites");
+            alert("Failed to toggle favourite");
         }
     };
+
+
 
 
 
@@ -157,8 +207,8 @@ function PlaceInfo() {
                                     <h3 className="text-xl font-semibold mb-2">Rate this place</h3>
                                     <div className="flex items-center mb-4">
                                         {[1, 2, 3, 4, 5].map((value) => (
-                                            
-                                            
+
+
                                             <svg
                                                 key={value}
                                                 onClick={() => handleRate(value)}
@@ -166,8 +216,8 @@ function PlaceInfo() {
                                                 onMouseLeave={() => setHoverRating(0)}
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 className={`w-8 h-8 cursor-pointer transition-colors ${(hoverRating || rating) >= value
-                                                        ? "text-yellow-400"
-                                                        : "text-gray-300"
+                                                    ? "text-yellow-400"
+                                                    : "text-gray-300"
                                                     }`}
                                                 fill="currentColor"
                                                 viewBox="0 0 20 20"
@@ -175,7 +225,7 @@ function PlaceInfo() {
                                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975h4.184c.969 0 1.371 1.24.588 1.81l-3.39 2.46 1.286 3.975c.3.921-.755 1.688-1.54 1.118l-3.39-2.46-3.39 2.46c-.784.57-1.838-.197-1.539-1.118l1.285-3.975-3.39-2.46c-.784-.57-.38-1.81.588-1.81h4.184l1.286-3.975z" />
                                             </svg>
                                         ))}
-                                        
+
                                     </div>
                                     <ToastContainer />
 
@@ -183,12 +233,24 @@ function PlaceInfo() {
                                     {/*  Add to favourites */}
                                     <button
                                         onClick={handleFavourite}
-                                        className={`px-4 py-2 rounded-lg text-white ${isFavourite ? "bg-rose-500" : "bg-gray-700"
-                                            } hover:opacity-90 transition`}
+                                        className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white ${isFavourite ? "bg-rose-500" : "bg-gray-700"
+                                            } hover:opacity-90 transition cursor-pointer`}
                                     >
-                                        {isFavourite ? "Added to Favourites " : "Add to Favourites "}
+                                        {isFavourite ? (
+                                            <>
+                                                <HeartSolid className="w-5 h-5" />
+                                                <span>Remove from Favourites</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <HeartOutline className="w-5 h-5" />
+                                                <span>Add to Favourites</span>
+                                            </>
+                                        )}
                                     </button>
-                                   
+
+
+
                                 </div>
 
 
@@ -261,236 +323,15 @@ function PlaceInfo() {
                                 </div>
                             </section>
                         </div>
-                        <div className="flex justify-center pt-4">
+                        {/* <div className="flex justify-center pt-4">
                             <NavLink to={'/assistant'} className="flex items-center gap-3 bg-[var(--sunset-coral)] text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-opacity-90 transform hover:-translate-y-1 transition-all duration-300">
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM18 13.5l.375 1.405a1.875 1.875 0 01-2.25 2.25L15 16.5l-1.405.375a1.875 1.875 0 01-2.25-2.25L12 13.5l.375-1.405a1.875 1.875 0 012.25-2.25L15 10.5l1.405-.375a1.875 1.875 0 012.25 2.25L18 13.5z" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                                 <span>Plan Visit with AI Assistant</span>
                             </NavLink>
-                        </div>
-                        {/* rating */}
-                        {/* <section className="border-t border-stone-200 pt-8">
-                            <h3 className="text-2xl font-bold mb-6">Ratings &amp; Reviews</h3>
-                            <div className="flex flex-col md:flex-row gap-8 items-start">
-                                <div className="flex flex-col items-center gap-2 w-full md:w-1/3 p-6 bg-stone-50 rounded-xl">
-                                    <p className="text-6xl font-black text-[var(--nile-green)]">
-                                        4.8
-                                    </p>
-                                    <div className="flex gap-0.5 text-yellow-500">
-                                        <svg
-                                            className="w-6 h-6"
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                        >
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg
-                                            className="w-6 h-6"
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                        >
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg
-                                            className="w-6 h-6"
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                        >
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg
-                                            className="w-6 h-6"
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                        >
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg
-                                            className="w-6 h-6 text-gray-300"
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                        >
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                    </div>
-                                    <p className="text-[var(--text-light)] text-sm mt-1">
-                                        Based on 1,234 reviews
-                                    </p>
-                                </div>
-                                <div className="flex-1 space-y-2 w-full">
-                                    <div className="flex items-center gap-4 text-sm">
-                                        <span className="w-8">5 ★</span>
-                                        <div className="w-full bg-stone-200 rounded-full h-2.5">
-                                            <div
-                                                className="bg-yellow-400 h-2.5 rounded-full"
-                                                style={{ width: "75%" }}
-                                            />
-                                        </div>
-                                        <span className="w-10 text-right">75%</span>
-                                    </div>
-                                    <div className="flex items-center gap-4 text-sm">
-                                        <span className="w-8">4 ★</span>
-                                        <div className="w-full bg-stone-200 rounded-full h-2.5">
-                                            <div
-                                                className="bg-yellow-400 h-2.5 rounded-full"
-                                                style={{ width: "15%" }}
-                                            />
-                                        </div>
-                                        <span className="w-10 text-right">15%</span>
-                                    </div>
-                                    <div className="flex items-center gap-4 text-sm">
-                                        <span className="w-8">3 ★</span>
-                                        <div className="w-full bg-stone-200 rounded-full h-2.5">
-                                            <div
-                                                className="bg-yellow-400 h-2.5 rounded-full"
-                                                style={{ width: "5%" }}
-                                            />
-                                        </div>
-                                        <span className="w-10 text-right">5%</span>
-                                    </div>
-                                    <div className="flex items-center gap-4 text-sm">
-                                        <span className="w-8">2 ★</span>
-                                        <div className="w-full bg-stone-200 rounded-full h-2.5">
-                                            <div
-                                                className="bg-yellow-400 h-2.5 rounded-full"
-                                                style={{ width: "3%" }}
-                                            />
-                                        </div>
-                                        <span className="w-10 text-right">3%</span>
-                                    </div>
-                                    <div className="flex items-center gap-4 text-sm">
-                                        <span className="w-8">1 ★</span>
-                                        <div className="w-full bg-stone-200 rounded-full h-2.5">
-                                            <div
-                                                className="bg-yellow-400 h-2.5 rounded-full"
-                                                style={{ width: "2%" }}
-                                            />
-                                        </div>
-                                        <span className="w-10 text-right">2%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="space-y-6 mt-8">
-                                <div className="flex items-start gap-4">
-                                    <img
-                                        alt="Aisha"
-                                        className="w-12 h-12 rounded-full object-cover"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAewDJhWLXG_6G8k97ZyjVuLyC_1aCM3qAIVNsleu-seuEX2xV1BCQwtzzro1QIe_xEvIgL_c1qfJINnlGnDbwp5LbG8jM8QtdlmersaYF2pCPxOo1lj0mNIjjFk4nUH5TA4rFhJoq3GIfIK4s_-4E6qcVJnJDImighGMBP47Bjzmz8zcTIZ6SyPcb4E8SjoxfaKym0F8NmxD6qg2yt8tHYMg6SvBlmGb1swZSw2rtg14xqTR8esSsiHTbiMI0qqoiR3m91WfUUhA"
-                                    />
-                                    <div className="flex-1">
-                                        <div className="flex justify-between items-center">
-                                            <div>
-                                                <p className="font-bold">Aisha</p>
-                                                <p className="text-xs text-[var(--text-light)]">
-                                                    2 weeks ago
-                                                </p>
-                                            </div>
-                                            <div className="flex gap-0.5 text-yellow-500">
-                                                <svg
-                                                    className="w-4 h-4"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                >
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                                <svg
-                                                    className="w-4 h-4"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                >
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                                <svg
-                                                    className="w-4 h-4"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                >
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                                <svg
-                                                    className="w-4 h-4"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                >
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                                <svg
-                                                    className="w-4 h-4"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                >
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <p className="mt-2 text-[var(--text-light)]">
-                                            "Absolutely breathtaking! The Pyramids are a must-see for
-                                            anyone visiting Egypt. The history and scale of the
-                                            structures are awe-inspiring."
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-4">
-                                    <img
-                                        alt="Omar"
-                                        className="w-12 h-12 rounded-full object-cover"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuoq0qaqXh1WnO359eQxi35YuCfznScv1oGrD7Bsp6k8ENohfJnwobrmZOpXbzOivwrlq6SnR5Jq9ZLi56KVyg4yUMIa61GNRpXW890EkVKH9V-iYPZ6JyioV3XWAKj6ioSipmkCcpRE1DdBHpRGI4DU4_exmM0Wb6NJ-K2-wRiwB-GbX-r7XtCUNRv22wUUYLSN2wthyWVMZqlzs5Ni6pIfGO3AzD0dm5kmdaEPfRUBP492AeVaM2U9w0RWiXba6DcmnsNEDZag"
-                                    />
-                                    <div className="flex-1">
-                                        <div className="flex justify-between items-center">
-                                            <div>
-                                                <p className="font-bold">Omar</p>
-                                                <p className="text-xs text-[var(--text-light)]">
-                                                    1 month ago
-                                                </p>
-                                            </div>
-                                            <div className="flex gap-0.5 text-yellow-500">
-                                                <svg
-                                                    className="w-4 h-4"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                >
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                                <svg
-                                                    className="w-4 h-4"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                >
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                                <svg
-                                                    className="w-4 h-4"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                >
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                                <svg
-                                                    className="w-4 h-4"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                >
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                                <svg
-                                                    className="w-4 h-4 text-gray-300"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                >
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <p className="mt-2 text-[var(--text-light)]">
-                                            "A fantastic experience, but be prepared for crowds and
-                                            the desert heat. The Sphinx is also a highlight."
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </section> */}
+                        </div> */}
+
                     </div>
                     {/* suggestions */}
                     <section>
