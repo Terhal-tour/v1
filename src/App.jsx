@@ -11,8 +11,9 @@ import AdminLayout from "./layouts/AdminLayout";
 import SignUp from "./components/SignUp"
 import Login from "./components/login"
 import VerifyEmail from "./components/VerifyEmail";
+import ForgetPassword from "./components/ForgetPassword";
 import AdminCrudPlaces from "./pages/admin/AdminCrudPlaces";
-
+import ResetPassword from "./components/ResetPassword";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -33,8 +34,9 @@ function App() {
             <Route path="review" element={<RecommendationReviews />} />
             <Route path="signup" element={<SignUp/>}/>
             <Route path="login" element={<Login/>}/>
+            <Route path="forget-password" element={<ForgetPassword/>}/>
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
-
+            <Route path="reset-password" element={<ResetPassword/>}/>
             <Route path="*" element={<NotFound />} />
             
           </Route>
