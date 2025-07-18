@@ -109,7 +109,7 @@ export default function NearbyNotifier() {
 
   try {
     const token = sessionStorage.getItem("jwt");
-    const res = await fetch("https://backend-mu-ten-26.vercel.app/places/nearby?radius=10", {
+    const res = await fetch("https://terhal-backend-6jk2.vercel.app/places/nearby?radius=10", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

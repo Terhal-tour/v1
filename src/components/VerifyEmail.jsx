@@ -11,7 +11,7 @@ export default function VerifyEmail() {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const res = await axios.post(`https://backend-mu-ten-26.vercel.app/auth/verify-email/${token}`);
+        const res = await axios.post(`https://terhal-backend-6jk2.vercel.app/auth/verify-email/${token}`);
         setMessage(res.data.message || "Email verified successfully!");
         setStatus("success");
       } catch (err) {
