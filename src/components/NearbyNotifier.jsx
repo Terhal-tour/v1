@@ -155,7 +155,7 @@ console.log(data.places);
     fetchNearby();
 
     // Set interval for every 30 minute (60000ms) - you can adjust this
-    intervalRef.current = setInterval(fetchNearby,30* 60 * 1000);
+    intervalRef.current = setInterval(fetchNearby , 30* 60 * 1000);
 
     return () => {
       if (intervalRef.current) {

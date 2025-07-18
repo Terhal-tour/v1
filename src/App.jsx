@@ -30,18 +30,18 @@ function App() {
         {/* [TODO CREATE LAYOUT TO REMOVE NAV , FOOTER EROM THE ASSISTANT PAGE ] */}
         <Route path="/" element={<NoNavFoter />}>
           <Route path="assistant" element={<Assestant />} />
+          <Route path="review" element={<RecommendationReviews />} />
         </Route>
         {/* User layout routes */}
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Home />} />
           <Route path="places" element={<Places />} />
           <Route path="places/:_id" element={<PlaceInfo />} />
-          <Route path="review" element={<RecommendationReviews />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="login" element={<Login />} />
           <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
-          <Route path="reset-password" element={<ResetPassword />} />{" "}
+          <Route path="reset-password" element={<ResetPassword />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 
