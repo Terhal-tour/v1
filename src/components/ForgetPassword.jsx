@@ -1,31 +1,23 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { useState } from 'react'
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-
-import axios from "axios";
 import bgImage from '../assets/dmitrii-zhodzishskii-5aEHOQrb2Qk-unsplash.jpg';
-
-export default function Register() {
+export default function ForgetPassword() {
     const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const [formData, setFormData] = useState({
-   
-    email: "",
-    password: "",
-   
+ const [formData, setFormData] = useState({
+   email: "",   
   });
-  const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const fieldValue = type === "checkbox" ? (checked ? "AR" : "EN") : value;
     setFormData((prev) => ({ ...prev, [name]: fieldValue }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
-
   const validate = () => {
     const newErrors = {};
    
@@ -36,13 +28,9 @@ export default function Register() {
       newErrors.email = "Email is invalid";
     }
 
-    if (!formData.password.trim()) {
-      newErrors.password = "Password is required";
-    } 
     return newErrors;
   };
-
-  const handleSubmit = async (e) => {
+   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -50,30 +38,22 @@ export default function Register() {
       return;
     }
     try {
-        setLoading(true);
+       setLoading(true)
         console.log(formData);
 
-      const res = await axios.post("https://terhal-backend-6jk2.vercel.app/auth/login", formData);
+      const res = await axios.post("https://terhal-backend-6jk2.vercel.app/auth/forgetPassword", formData);
       setMessage(res.data.message);
-      const user = res.data.user;
-      console.log(user)
       setErrors({});
-        sessionStorage.setItem("jwt", res.data.token); 
-        if (user?.role === "admin") {
-      navigate("/dashboard");
-    } else {
-      navigate("/");
+      navigate("/reset-password");
+        } catch (err) {
+      setMessage(err.response?.data?.error);
     }
-    } catch (err) {
-      console.log(err)
-      setMessage(err.response.data.message|| "login failed");
-    }finally{
+    finally{
       setLoading(false)
     }
   };
-
-return (
-  <div
+  return (
+    <div
     className="relative min-h-screen bg-cover bg-center"
     style={{ backgroundImage: `url(${bgImage})`, fontFamily: '"Encode Sans Expanded", sans-serif' }}
   >
@@ -99,39 +79,7 @@ return (
           />
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
-          <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                placeholder="Password"
-                className="w-full rounded-md border border-orange-400 px-3 py-2 pr-10 shadow-sm focus:border-[var(--sunset-orange)] focus:ring-[var(--sunset-orange)] focus:outline-none"
-                onChange={handleChange}
-              />
-              <span
-                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
-                onClick={() => setShowPassword((prev) => !prev)}
-              >
-                <i
-                  className={`fa-solid ${
-                    showPassword ? "fa-eye-slash" : "fa-eye"
-                  }`}
-                ></i>
-              </span>
-            </div>
-            {/* Forgot password link */}
- 
-          {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-
-           <div className="text-right">
-    <Link
-      to="/forget-password"
-      className="text-sm text-orange-500 font-medium hover:underline"
-    >
-      Forgot your password?
-    </Link>
-  </div>
-         
-        <button
+<button
   type="submit"
   disabled={loading}
   className={`group relative w-full flex justify-center rounded-md py-3 px-4 text-base font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[var(--sunset-orange)] focus:ring-offset-2 ${
@@ -140,19 +88,19 @@ return (
 >
   {loading ? (
     <span className="flex items-center gap-2">
-      <i className="fa fa-spinner fa-spin"></i> 
+      <i className="fa fa-spinner fa-spin"></i> Loading...
     </span>
   ) : (
-    "Login"
+    "Send"
   )}
 </button>
 
-        
             {message && (
               <p
                 className={`text-center text-sm ${
                   message.toLowerCase().includes("invalid") ||
                   message.toLowerCase().includes("fail") ||
+                  message.toLowerCase().includes("not") ||
                    message.toLowerCase().includes("verify") ||
                   message.toLowerCase().includes("exists")
                     ? "text-red-500"
@@ -164,15 +112,8 @@ return (
             )}
         </form>
 
-        <div className="text-sm text-center mt-4">
-          <Link to="/signup" className="inline-block text-black-900 font-semibold tracking-wide hover:underline transition-all duration-200">
-  Do Not have an account? Sign Up
-</Link>
-
-        </div>
       </div>
     </div>
   </div>
 );
-
 }
