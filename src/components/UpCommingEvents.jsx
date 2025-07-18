@@ -7,13 +7,15 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 export default function UpCommingEvents({ events }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === "ar"; 
   const eventCount = events?.length || 0;
 
   return (
     <section
       className="py-20 sm:py-28 bg-gradient-to-br from-amber-50 to-orange-50"
       id="events"
+      dir={isRTL ? "rtl" : "ltr"} 
     >
       <div className="container mx-auto px-6">
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-center text-amber-900 mb-12">
@@ -31,15 +33,17 @@ export default function UpCommingEvents({ events }) {
             navigation
             pagination={{ clickable: true }}
             slidesPerView={1}
+            dir={isRTL ? "rtl" : "ltr"} 
             breakpoints={{
               640: { slidesPerView: 1 },
               768: { slidesPerView: 2 },
               1024: { slidesPerView: 3 },
             }}
-            className="h-[550px]" 
+            className="h-[550px]"
           >
             {events.map((event) => (
               <SwiperSlide key={event.id}>
+                {/* Slide Content */}
                 <div className="bg-gradient-to-br from-orange-100 to-amber-100 rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300 hover:shadow-xl border border-amber-200 flex flex-col h-full">
                   <div className="w-full h-56 relative">
                     <iframe

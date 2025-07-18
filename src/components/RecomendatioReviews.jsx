@@ -133,11 +133,11 @@ export default function RecommendationReviews() {
         <div className="relative z-10">
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold text-amber-900 mb-2">
-              Share Your Journey
+              Share Your opinion
             </h2>
             <div className="w-16 h-1 bg-gradient-to-r from-amber-600 to-yellow-500 mx-auto rounded-full"></div>
             <p className="text-amber-700 mt-2 text-sm">
-              Tell us about your Egyptian adventure
+              Tell us about Recommendations did you like it ?
             </p>
           </div>
 
