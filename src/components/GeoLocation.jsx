@@ -9,7 +9,7 @@ export default function GeoLocation() {
         async (pos) => {
           const { latitude, longitude } = pos.coords;
           try {
-            await fetch('https://terhal-backend-6jk2.vercel.app/user/location', {
+            await fetch('https://backend-mu-ten-26.vercel.app/user/location', {
               method: 'PATCH',
               headers: {
                 'Content-Type': 'application/json',

@@ -29,7 +29,7 @@ function PlaceInfo() {
     };
     const handleRate = async (value) => {
         try {
-            await axios.post(`https://terhal-backend-6jk2.vercel.app/places/${place._id}/rate`, {
+            await axios.post(`https://backend-mu-ten-26.vercel.app/places/${place._id}/rate`, {
                 rating: value,
             }, {
                 headers: {
@@ -47,7 +47,7 @@ function PlaceInfo() {
 
     const handleFavourite = async () => {
         try {
-            await axios.post(`https://terhal-backend-6jk2.vercel.app/places/${place._id}/favourite`, {}, {
+            await axios.post(`https://backend-mu-ten-26.vercel.app/places/${place._id}/favourite`, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
@@ -65,7 +65,7 @@ function PlaceInfo() {
 
 
     useEffect(() => {
-        axios.get(`https://terhal-backend-6jk2.vercel.app/places/${_id}`, {
+        axios.get(`https://backend-mu-ten-26.vercel.app/places/${_id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",

@@ -14,7 +14,7 @@ export default function RecommendationReviews() {
       if (!token) return;
 
       try {
-        const res = await fetch("https://terhal-backend-6jk2.vercel.app/user/reviews/me", {
+        const res = await fetch("https://backend-mu-ten-26.vercel.app/user/reviews/me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -51,7 +51,7 @@ export default function RecommendationReviews() {
     const payload = { status, review };
 
     try {
-      const response = await fetch("https://terhal-backend-6jk2.vercel.app/user/reviews", {
+      const response = await fetch("https://backend-mu-ten-26.vercel.app/user/reviews", {
         method: existingReview ? "PATCH" : "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export default function RecommendationReviews() {
     if (!window.confirm("Are you sure you want to delete your review?")) return;
 
     try {
-      const res = await fetch("https://terhal-backend-6jk2.vercel.app/user/reviews", {
+      const res = await fetch("https://backend-mu-ten-26.vercel.app/user/reviews", {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -133,11 +133,11 @@ export default function RecommendationReviews() {
         <div className="relative z-10">
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold text-amber-900 mb-2">
-              Share Your Journey
+              Share Your opinion
             </h2>
             <div className="w-16 h-1 bg-gradient-to-r from-amber-600 to-yellow-500 mx-auto rounded-full"></div>
             <p className="text-amber-700 mt-2 text-sm">
-              Tell us about your Egyptian adventure
+              Tell us about Recommendations did you like it ?
             </p>
           </div>
 
