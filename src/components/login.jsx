@@ -60,7 +60,7 @@ export default function Register() {
       setErrors({});
         sessionStorage.setItem("jwt", res.data.token); 
         if (user?.role === "admin") {
-      navigate("/admin-dashboard");
+      navigate("/dashboard");
     } else {
       navigate("/");
     }
