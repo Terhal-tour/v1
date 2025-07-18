@@ -20,6 +20,8 @@ import CategoryForm from "./components/CategoryForm";
 import NoNavFoter from "./layouts/NoNavFoter";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminCrudEvents from "./pages/admin/AdminCrudEvents";
+import AddNewPlace from "./pages/admin/AddNewPlace";
+import EditPlace from "./pages/admin/EditPlace";
 
 function App() {
   const location = useLocation();
@@ -52,6 +54,8 @@ function App() {
           <Route path="categories" element={<AdminCategories />} />
           <Route path="categories/:id" element={<CategoryForm />} />
           <Route path="events" element={<AdminCrudEvents />} />
+          <Route path="addNewPlace"  element={<AddNewPlace/>}/>
+          <Route path="/admin/editPlace/:id" element={<EditPlace />} />
           {/* Add more admin routes here */}
         </Route>
       </Routes>
