@@ -19,7 +19,7 @@ function AdminCrudEvents() {
   // Fetch events for a specific page with limit
   const fetchEvents = (page = 1) => {
     setLoading(true);
-    axios.get(`https://terhal-backend-6jk2.vercel.app/events?limit=${EVENTS_PER_PAGE}&page=${page}`, {
+    axios.get(`https://backend-mu-ten-26.vercel.app/events?limit=${EVENTS_PER_PAGE}&page=${page}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {
@@ -77,7 +77,7 @@ function AdminCrudEvents() {
     };
     if (modalMode === 'create') {
       try {
-        await axios.post('https://terhal-backend-6jk2.vercel.app/events', payload, {
+        await axios.post('https://backend-mu-ten-26.vercel.app/events', payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setShowModal(false);
@@ -87,7 +87,7 @@ function AdminCrudEvents() {
       }
     } else if (modalMode === 'edit' && editId) {
       try {
-        await axios.put(`https://terhal-backend-6jk2.vercel.app/events/${editId}`, payload, {
+        await axios.put(`https://backend-mu-ten-26.vercel.app/events/${editId}`, payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setShowModal(false);
@@ -102,7 +102,7 @@ function AdminCrudEvents() {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this event?')) return;
     try {
-      await axios.delete(`https://terhal-backend-6jk2.vercel.app/events/${id}`, {
+      await axios.delete(`https://backend-mu-ten-26.vercel.app/events/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchEvents(currentPage); // Fetch the current page after deletion
