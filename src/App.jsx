@@ -24,6 +24,7 @@ import SupportUsButton from "./components/SupportUsButton";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import AddNewPlace from "./pages/admin/AddNewPlace";
 import EditPlace from "./pages/admin/EditPlace";
+import Settings from "./pages/Settings";
 
 function App() {
   const location = useLocation();
@@ -46,6 +47,7 @@ function App() {
           <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
           <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 
