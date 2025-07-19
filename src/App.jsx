@@ -20,6 +20,8 @@ import CategoryForm from "./components/CategoryForm";
 import NoNavFoter from "./layouts/NoNavFoter";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminCrudEvents from "./pages/admin/AdminCrudEvents";
+import AddNewPlace from "./pages/admin/AddNewPlace";
+import EditPlace from "./pages/admin/EditPlace";
 import SupportUsButton from "./components/SupportUsButton";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import AddNewPlace from "./pages/admin/AddNewPlace";
