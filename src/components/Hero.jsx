@@ -7,9 +7,11 @@ export default function Hero() {
     <section
       className="relative h-[90vh] parallax"
       style={{
-        backgroundImage:
-          'linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBwHewz0gmdlpLx7Kf5oWcdKdF55iWduA7cFNrw_O5MdD83k9Z4IcTgdphtyA89zZW63Rg5km08pgHVfNMYHgPXmIVwoJYYQOTQP5EpDV8GtQvDRZNRcIuGfkVttTrfUjL6qlMSEt9-jCFxi1UZ3gLfju_a-lpLTO9NemJjmzXLJsWCmMj9Ukn9JUG_WzFmrINeVAUqPJLzljFYblO9OpNST7m78luKHU0iZZztRuAdYAGbaME_tgZubVITYGxKpBqi55wUmYinPgw")',
-      }}
+    backgroundImage:
+      'linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("/assets/images/heroImage.jpg")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  }}
     >
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 text-center text-white px-4">
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter">
