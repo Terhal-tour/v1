@@ -3,3 +3,57 @@
     --color-nile-blue: #003366;
 
 }
+
+/* Responsive Navbar Styles */
+.navbar-mobile-menu {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .navbar-links {
+    gap: 2rem;
+  }
+  .navbar-mobile-menu {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100vw;
+    background: #fff;
+    z-index: 100;
+    padding: 1.5rem 0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+  }
+  .navbar-links.open {
+    display: flex;
+  }
+  .navbar-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .navbar-links {
+    display: flex !important;
+    flex-direction: row;
+    position: static;
+    width: auto;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    border-radius: 0;
+  }
+}
