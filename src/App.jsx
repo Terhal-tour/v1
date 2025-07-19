@@ -20,6 +20,8 @@ import CategoryForm from "./components/CategoryForm";
 import NoNavFoter from "./layouts/NoNavFoter";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminCrudEvents from "./pages/admin/AdminCrudEvents";
+import SupportUsButton from "./components/SupportUsButton";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 function App() {
   const location = useLocation();
@@ -54,7 +56,12 @@ function App() {
           <Route path="events" element={<AdminCrudEvents />} />
           {/* Add more admin routes here */}
         </Route>
+
+        {/* payment */}
+        <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
+      <SupportUsButton />
+      
     </>
   );
 }
