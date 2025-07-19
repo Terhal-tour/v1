@@ -53,13 +53,13 @@ export default function Register() {
         setLoading(true);
         console.log(formData);
 
-      const res = await axios.post("https://backend-mu-ten-26.vercel.app/auth/login", formData);
+      const res = await axios.post("https://backend-mu-ten-26.vercel.app/auth/admin/login", formData);
       setMessage(res.data.message);
       const user = res.data.user;
       console.log(user)
       setErrors({});
         sessionStorage.setItem("jwt", res.data.token); 
-        navigate("/")
+        navigate("/dashboard")
     } catch (err) {
       console.log(err)
       setMessage(err.response.data.message|| "login failed");
@@ -118,14 +118,7 @@ return (
  
           {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
 
-           <div className="text-right">
-    <Link
-      to="/forget-password"
-      className="text-sm text-orange-500 font-medium hover:underline"
-    >
-      Forgot your password?
-    </Link>
-  </div>
+     
          
         <button
   type="submit"
@@ -160,12 +153,6 @@ return (
             )}
         </form>
 
-        <div className="text-sm text-center mt-4">
-          <Link to="/signup" className="inline-block text-black-900 font-semibold tracking-wide hover:underline transition-all duration-200">
-  Do Not have an account? Sign Up
-</Link>
-
-        </div>
       </div>
     </div>
   </div>

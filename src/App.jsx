@@ -25,6 +25,8 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import AddNewPlace from "./pages/admin/AddNewPlace";
 import EditPlace from "./pages/admin/EditPlace";
 import Settings from "./pages/Settings";
+import Profile from "./components/Profile";
+import AdminLogin from "./components/AdminLogin"
 
 function App() {
   const location = useLocation();
@@ -48,6 +50,8 @@ function App() {
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
           <Route path="reset-password" element={<ResetPassword />} />
           <Route path="settings" element={<Settings />} />
+             <Route path="profile" element={<Profile/>}/>
+            <Route path="adminLogin" element={<AdminLogin/>}/>
           <Route path="*" element={<NotFound />} />
         </Route>
 
