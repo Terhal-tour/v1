@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const SupportUsButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +12,7 @@ const SupportUsButton = () => {
       window.location.href = data.url;
     } catch (err) {
       console.error(err);
-      alert("Something went wrong!");
+      toast.error("Something went wrong!");
     }
   };
 

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 function AdminCrudEvents() {
   const [events, setEvents] = useState([]);
@@ -83,7 +84,7 @@ function AdminCrudEvents() {
         setShowModal(false);
         fetchEvents(currentPage); // Fetch the current page after creation
       } catch (err) {
-        alert('Failed to create event');
+        toast.error('Failed to create event');
       }
     } else if (modalMode === 'edit' && editId) {
       try {
@@ -93,7 +94,7 @@ function AdminCrudEvents() {
         setShowModal(false);
         fetchEvents(currentPage); // Fetch the current page after update
       } catch (err) {
-        alert('Failed to update event');
+        toast.error('Failed to update event');
       }
     }
   };
@@ -107,7 +108,7 @@ function AdminCrudEvents() {
       });
       fetchEvents(currentPage); // Fetch the current page after deletion
     } catch (err) {
-      alert('Failed to delete event');
+      toast.error('Failed to delete event');
     }
   };
 
