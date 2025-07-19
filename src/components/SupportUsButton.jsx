@@ -7,7 +7,7 @@ const SupportUsButton = () => {
 
   const handleDonate = async () => {
     try {
-      const { data } = await axios.post(`http://localhost:3000/payment/checkout`, { amount });
+      const { data } = await axios.post(`https://backend-mu-ten-26.vercel.app/payment/checkout`, { amount });
       window.location.href = data.url;
     } catch (err) {
       console.error(err);
