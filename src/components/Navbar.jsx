@@ -110,7 +110,17 @@ const Navbar = () => {
           </button>
           {token ? (
             <>
-              welcome home
+              <NavLink
+                to="/settings"
+                className="flex items-center gap-1 px-4 py-2 rounded bg-gray-100 text-black font-semibold border border-gray-200 hover:bg-gray-200 transition"
+                title="Settings"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7zm7.5-3.5a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0z"/>
+                </svg>
+                Settings
+              </NavLink>
+              <span> welcome home </span>
               <button className="px-6 py-2 rounded bg-[var(--color-gold)] text-white font-semibold hover:bg-[var(--color-nile-blue)] hover:text-[var(--color-gold)] transition">
                 logout
               </button>
