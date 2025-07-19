@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import ChildPlace from "../components/ChildPlace";
 import axios from "axios";
 import "../css/placesPage.css";
+import { useTranslation } from "react-i18next";
 
 function Places() {
+  const { t, i18n } = useTranslation();
   const [places, setPlaces] = useState([]);
   const [placeName, setPlaceName] = useState("");
   const [categories, setCategories] = useState([]);
@@ -70,18 +72,15 @@ function Places() {
         {/* breadcrump */}
         <div className="breadcrumbs text-sm text-support mb-4">
           <ul>
-            <li><Link to='/' className="hover:text-primary-action">Home</Link></li>
-
-            <li className="text-primary-action font-medium">places</li>
+            <li><Link to='/' className="hover:text-primary-action">{t('home')}</Link></li>
+            <li className="text-primary-action font-medium">{t('places')}</li>
           </ul>
         </div>
-
         {/* heading section */}
         <div className="text-center mb-12">
-          <h2 className="text-5xl font-bold text-primary-action font-display">Discover Places in Egypt</h2>
-          <p className="text-lg text-support mt-2">Explore 123 amazing destinations</p>
+          <h2 className="text-5xl font-bold text-primary-action font-display">{t('discover_places_title')}</h2>
+          <p className="text-lg text-support mt-2">{t('discover_places_subtitle', { count: places.length })}</p>
         </div>
-
         {/* Search, Filters, Sort */}
         <div className="backdrop-blur-md py-6 rounded-xl shadow-lg mb-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 px-6 items-center">
@@ -95,7 +94,7 @@ function Places() {
                 }}
                 className="form-input w-full pl-10 pr-4 py-3 rounded-lg border-2 border-muted-brown/30 
                 bg-warm-white focus:ring-2 focus:ring-highlight focus:border-highlight transition-shadow"
-                placeholder="Search by name"
+                placeholder={t('search_by_name')}
               />
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-support">
                 <svg
@@ -114,7 +113,6 @@ function Places() {
                 </svg>
               </div>
             </div>
-
             {/* Categories */}
             <div className="md:col-span-9 flex justify-evenly items-center gap-4">
               <button
@@ -123,22 +121,18 @@ function Places() {
                 text-primary-action hover:bg-soft-cream transition-colors cursor-pointer 
                 ${activeCategory === "All" ? "active-link" : ""}`}
               >
-                All
+                {t('all')}
               </button>
-
               {categories?.map((category) => (
                 <button
                   key={category._id}
                   onClick={() => setActiveCategory(category.title)}
-                  className={`px-4 py-2 text-l font-medium rounded-full bg-warm-white
-                  text-primary-action hover:bg-soft-cream transition-colors cursor-pointer 
-                  ${activeCategory === category.title ? "active-link" : ""}`}
+                  className={`px-4 py-2 text-l font-medium rounded-full bg-warm-white text-primary-action hover:bg-soft-cream transition-colors cursor-pointer ${activeCategory === category.title ? "active-link" : ""}`}
                 >
                   {category.title}
                 </button>
               ))}
             </div>
-
             {/* Sort */}
             <div className="md:col-span-1 flex justify-center items-center gap-4">
               <select
@@ -146,14 +140,13 @@ function Places() {
                 onChange={(e) => setSortBy(e.target.value)}
                 className="form-select rounded-lg border-2 border-muted-brown/30 bg-warm-white focus:ring-2 focus:ring-highlight focus:border-highlight transition-shadow py-3"
               >
-                <option value="">Sort by</option>
-                <option value="rating">Rating</option>
-                <option value="name">Name</option>
+                <option value="">{t('sort_by')}</option>
+                <option value="rating">{t('sort_by_rating')}</option>
+                <option value="name">{t('sort_by_name')}</option>
               </select>
             </div>
           </div>
         </div>
-
         {/* Places Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {filteredAndSortedPlaces?.length > 0 ? (
@@ -161,7 +154,7 @@ function Places() {
               <ChildPlace place={place} key={place._id} />
             ))
           ) : (
-            <p className="text-center">No places found.</p>
+            <p className="text-center">{t('no_places_found')}</p>
           )}
         </div>
 
