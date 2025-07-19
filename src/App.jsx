@@ -20,6 +20,7 @@ import CategoryForm from "./components/CategoryForm";
 import NoNavFoter from "./layouts/NoNavFoter";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminCrudEvents from "./pages/admin/AdminCrudEvents";
+import Settings from "./pages/Settings";
 
 function App() {
   const location = useLocation();
@@ -42,6 +43,7 @@ function App() {
           <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
           <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 
