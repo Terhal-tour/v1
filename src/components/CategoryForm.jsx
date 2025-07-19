@@ -17,7 +17,7 @@ const CategoryForm = () => {
     if (isEdit) {
       setLoading(true);
       axios
-        .get(`https://terhal-backend-6jk2.vercel.app/categories/${id}`, {
+        .get(`https://backend-mu-ten-26.vercel.app/categories/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +39,7 @@ const CategoryForm = () => {
     try {
       if (isEdit) {
         await axios.put(
-          `https://terhal-backend-6jk2.vercel.app/categories/${id}`,
+          `https://backend-mu-ten-26.vercel.app/categories/${id}`,
           { title },
           {
             headers: {
@@ -50,7 +50,7 @@ const CategoryForm = () => {
         toast.success("Category updated!");
       } else {
         await axios.post(
-          `https://terhal-backend-6jk2.vercel.app/categories`,
+          `https://backend-mu-ten-26.vercel.app/categories`,
           { title },
           {
             headers: {
