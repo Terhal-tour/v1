@@ -16,6 +16,8 @@ import AdminCrudPlaces from "./pages/admin/AdminCrudPlaces";
 import ResetPassword from "./components/ResetPassword";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Profile from "./components/Profile";
+import AdminLogin from "./components/AdminLogin"
 
 function App() {
   //const location = useLocation();
@@ -37,6 +39,8 @@ function App() {
             <Route path="forget-password" element={<ForgetPassword/>}/>
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
             <Route path="reset-password" element={<ResetPassword/>}/>
+             <Route path="profile" element={<Profile/>}/>
+            <Route path="adminLogin" element={<AdminLogin/>}/>
             <Route path="*" element={<NotFound />} />
             
           </Route>
