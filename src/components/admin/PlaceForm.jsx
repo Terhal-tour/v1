@@ -12,7 +12,7 @@ export default function PlaceForm({ initialData, onSubmitSuccess }) {
     // fetch categories 
     useEffect(() => {
 
-        axios.get(`http://localhost:3000/categories`, {
+        axios.get(`https://backend-mu-ten-26.vercel.app/categories`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
@@ -55,13 +55,13 @@ export default function PlaceForm({ initialData, onSubmitSuccess }) {
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         try {
             if (initialData?._id) {
-                await axios.put(`http://localhost:3000/admin/place/${initialData._id}`, values, {
+                await axios.put(`https://backend-mu-ten-26.vercel.app/admin/place/${initialData._id}`, values, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
             } else {
-                await axios.post(`http://localhost:3000/admin/place`, values, {
+                await axios.post(`https://backend-mu-ten-26.vercel.app/admin/place`, values, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

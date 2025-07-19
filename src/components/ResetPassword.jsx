@@ -52,7 +52,7 @@ export default function ResetPassword() {
 
     try {
       setLoading(true)
-      const res = await axios.post("https://terhal-backend-6jk2.vercel.app/auth/resetPassword", formData);
+      const res = await axios.post("https://backend-mu-ten-26.vercel.app/auth/resetPassword", formData);
       setMessage(res.data.message);
       navigate("/login");
     } catch (err) {

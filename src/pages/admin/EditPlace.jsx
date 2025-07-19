@@ -18,7 +18,7 @@ export default function EditPlace() {
       return;
     }
 
-    axios.get(`https://terhal-backend-6jk2.vercel.app/places/${id}`, {
+    axios.get(`https://backend-mu-ten-26.vercel.app/places/${id}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {

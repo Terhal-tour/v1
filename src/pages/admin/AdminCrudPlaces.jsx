@@ -21,13 +21,13 @@ function AdminCrudPlaces() {
     let res;
     if (placeName.trim() !== "") {
      res = await axios.get(
-      `https://terhal-backend-6jk2.vercel.app/places/search?q=${placeName}`
+      `https://backend-mu-ten-26.vercel.app/places/search?q=${placeName}`
      );
      setPlaces(res.data);
      setTotalPages(1);
     } else {
      res = await axios.get(
-      `https://terhal-backend-6jk2.vercel.app/admin/place?page=${currentPage}`
+      `https://backend-mu-ten-26.vercel.app/admin/place?page=${currentPage}`
      );
      setPlaces(res.data.data);
      setTotalPages(res.data.totalPages);
@@ -43,7 +43,7 @@ function AdminCrudPlaces() {
  const toggleVisibility = async (placeId) => {
   try {
    await axios.put(
-    `https://terhal-backend-6jk2.vercel.app/admin/place/${placeId}/visibility`
+    `https://backend-mu-ten-26.vercel.app/admin/place/${placeId}/visibility`
    );
    setPlaces((prev) =>
     prev.map((p) =>
