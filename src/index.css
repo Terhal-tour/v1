@@ -9,6 +9,10 @@ body {
   background-color: #F8F5E4;
 }
 
+.dark body {
+  background-color: #122a4a;
+}
+
 .parallax {
   background-attachment: fixed;
   background-position: center;
