@@ -20,13 +20,13 @@ function Places() {
         let response;
         if (placeName.trim() !== "") {
           response = await axios.get(
-            `https://terhal-backend-6jk2.vercel.app/places/search?q=${placeName}`
+            `https://backend-mu-ten-26.vercel.app/places/search?q=${placeName}`
           );
           setPlaces(response.data); // This is search result, no pagination
           setTotalPages(1); // No pagination for search, treat as single page
         } else {
           response = await axios.get(
-            `https://terhal-backend-6jk2.vercel.app/places?page=${currentPage}`
+            `https://backend-mu-ten-26.vercel.app/places?page=${currentPage}`
           );
           setPlaces(response.data.data);
           setTotalPages(response.data.totalPages);
