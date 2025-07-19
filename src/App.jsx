@@ -26,7 +26,7 @@ import AddNewPlace from "./pages/admin/AddNewPlace";
 import EditPlace from "./pages/admin/EditPlace";
 import Settings from "./pages/Settings";
 import Profile from "./components/Profile";
-import AdminLogin from "./components/AdminLogin"
+import AdminLogin from "./components/AdminLogin";
 
 function App() {
   const location = useLocation();
@@ -50,8 +50,8 @@ function App() {
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
           <Route path="reset-password" element={<ResetPassword />} />
           <Route path="settings" element={<Settings />} />
-             <Route path="profile" element={<Profile/>}/>
-            <Route path="adminLogin" element={<AdminLogin/>}/>
+          <Route path="profile" element={<Profile />} />
+          <Route path="adminLogin" element={<AdminLogin />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 
@@ -62,7 +62,7 @@ function App() {
           <Route path="categories" element={<AdminCategories />} />
           <Route path="categories/:id" element={<CategoryForm />} />
           <Route path="events" element={<AdminCrudEvents />} />
-          <Route path="addNewPlace"  element={<AddNewPlace/>}/>
+          <Route path="addNewPlace" element={<AddNewPlace />} />
           <Route path="/admin/editPlace/:id" element={<EditPlace />} />
           {/* Add more admin routes here */}
         </Route>
@@ -71,7 +71,6 @@ function App() {
         <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
       <SupportUsButton />
-      
     </>
   );
 }

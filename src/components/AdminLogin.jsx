@@ -59,7 +59,7 @@ export default function Register() {
       console.log(user)
       setErrors({});
         sessionStorage.setItem("jwt", res.data.token); 
-        navigate("/dashboard")
+        navigate("/admin/dashboard")
     } catch (err) {
       console.log(err)
       setMessage(err.response.data.message|| "login failed");

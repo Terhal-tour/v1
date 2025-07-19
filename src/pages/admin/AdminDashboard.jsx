@@ -18,10 +18,7 @@ import "../../css/admin-theme.css";
 
 const AdminDashboard = () => {
   
-  sessionStorage.setItem(
-    "jwt",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NmNiNGI5Y2IxYzM4ZmEyOTcxNmQ4ZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc1MjU4MTY4MiwiZXhwIjoxNzUzMTg2NDgyfQ.X4vdhaEDuNb6xc2LDOTFl1o5tbBUCbK7Q2KnbZlXhvA"
-  );
+ 
   // Get JWT token from sessionStorage (TODO: replace with secure method in production)
   const token = sessionStorage.getItem("jwt") || "YOUR_DEFAULT_TOKEN";
 
