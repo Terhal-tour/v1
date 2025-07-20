@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
-
-
 import { Link } from "react-router-dom";
-
 import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
 import { toast } from "react-toastify";
-
-
 const Profile = () => {
   const [user, setUser] = useState({
     name: "",

@@ -27,7 +27,7 @@ import EditPlace from "./pages/admin/EditPlace";
 import Settings from "./pages/Settings";
 import Profile from "./components/Profile";
 import AdminLogin from "./components/AdminLogin";
-
+import ReactiveAccount from "./components/ReactiveAccount"
 
 function App() {
   const location = useLocation();
@@ -53,7 +53,7 @@ function App() {
           <Route path="settings" element={<Settings />} />//context
           <Route path="profile" element={<Profile />} />//context
           <Route path="adminLogin" element={<AdminLogin />} />
-          
+          <Route path="reactive-account" element={<ReactiveAccount />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 
