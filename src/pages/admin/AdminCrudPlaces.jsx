@@ -195,7 +195,7 @@ function AdminCrudPlaces() {
         <button
          onClick={goToPrevious}
          disabled={currentPage === 1}
-         className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+         className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 hover:cursor-pointer"
         >
          Prev
         </button>
@@ -205,7 +205,7 @@ function AdminCrudPlaces() {
         <button
          onClick={goToNext}
          disabled={currentPage === totalPages}
-         className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+         className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 hover:cursor-pointer"
         >
          Next
         </button>

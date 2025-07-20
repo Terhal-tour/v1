@@ -8,7 +8,6 @@ export default function EditPlace() {
   const { id } = useParams();
   const [placeData, setPlaceData] = useState(null);
   const navigate = useNavigate();
-  // sessionStorage.setItem('jwt', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NmNiNGI5Y2IxYzM4ZmEyOTcxNmQ4ZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc1Mjg2NTExNywiZXhwIjoxNzUzNDY5OTE3fQ.mK_IB_vnpPCDul6TrBDXP6ilk4WSbpUWuFfwYyQ0Hpk');
   const token = sessionStorage.getItem('jwt');
 
 // fetch post 

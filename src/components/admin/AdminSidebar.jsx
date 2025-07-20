@@ -46,6 +46,16 @@ const AdminSidebar = () => {
         >
           Manage Categories
         </NavLink>
+        <NavLink
+          to="/admin/manageAdmins"
+          className={({ isActive }) =>
+            isActive
+              ? "font-bold text-indigo-600 bg-indigo-50 px-3 py-2 rounded-lg shadow-sm"
+              : "text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-lg"
+          }
+        >
+          Manage Admins
+        </NavLink>
       </nav>
     </aside>
   );

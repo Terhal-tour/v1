@@ -27,6 +27,9 @@ import EditPlace from "./pages/admin/EditPlace";
 import Settings from "./pages/Settings";
 import Profile from "./components/Profile";
 import AdminLogin from "./components/AdminLogin";
+import AdminsCRUD from "./pages/admin/AdminsCRUD";
+import AddNewAdmin from "./pages/admin/AddNewAdmin";
+import EditAdmin from "./pages/admin/EditAdmin";
 
 function App() {
   const location = useLocation();
@@ -64,6 +67,10 @@ function App() {
           <Route path="events" element={<AdminCrudEvents />} />
           <Route path="addNewPlace" element={<AddNewPlace />} />
           <Route path="/admin/editPlace/:id" element={<EditPlace />} />
+          <Route path="manageAdmins" element={<AdminsCRUD />} />
+          <Route path="addNewAdmin" element={<AddNewAdmin />} />
+          <Route path="/admin/editAdmin/:id" element={<EditAdmin />} />
+
           {/* Add more admin routes here */}
         </Route>
 
