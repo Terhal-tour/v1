@@ -27,6 +27,7 @@ import EditPlace from "./pages/admin/EditPlace";
 import Settings from "./pages/Settings";
 import Profile from "./components/Profile";
 import AdminLogin from "./components/AdminLogin";
+import EditForm from "./components/EditForm"
 
 function App() {
   const location = useLocation();
@@ -43,15 +44,16 @@ function App() {
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Home />} />
           <Route path="places" element={<Places />} />
-          <Route path="places/:_id" element={<PlaceInfo />} />
+          <Route path="places/:_id" element={<PlaceInfo />} />//context
           <Route path="signup" element={<SignUp />} />
           <Route path="login" element={<Login />} />
           <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
           <Route path="reset-password" element={<ResetPassword />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="profile" element={<Profile />} />
+          <Route path="settings" element={<Settings />} />//context
+          <Route path="profile" element={<Profile />} />//context
           <Route path="adminLogin" element={<AdminLogin />} />
+          <Route path="editProfile" element={<EditForm/>}/>
           <Route path="*" element={<NotFound />} />
         </Route>
 
