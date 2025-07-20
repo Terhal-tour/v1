@@ -27,7 +27,7 @@ import EditPlace from "./pages/admin/EditPlace";
 import Settings from "./pages/Settings";
 import Profile from "./components/Profile";
 import AdminLogin from "./components/AdminLogin";
-import EditForm from "./components/EditForm"
+
 
 function App() {
   const location = useLocation();
@@ -53,7 +53,7 @@ function App() {
           <Route path="settings" element={<Settings />} />//context
           <Route path="profile" element={<Profile />} />//context
           <Route path="adminLogin" element={<AdminLogin />} />
-          <Route path="editProfile" element={<EditForm/>}/>
+          
           <Route path="*" element={<NotFound />} />
         </Route>
 
