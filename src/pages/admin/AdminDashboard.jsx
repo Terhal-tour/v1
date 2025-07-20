@@ -20,7 +20,7 @@ const AdminDashboard = () => {
   
  
   // Get JWT token from sessionStorage (TODO: replace with secure method in production)
-  const token = sessionStorage.getItem("jwt") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Nzk1NmY4YjExMjk3YzI2MjFlOWYxZiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc1Mjk0Njk4OSwiZXhwIjoxNzUzNTUxNzg5fQ.s3OqRGGXD25n6a5CkVm7ZwtwjWtINUs1Mn4icCJHGE4";
+  const token = sessionStorage.getItem("jwt") ;
 
   // Define state variables
   const [overview, setOverview] = useState({});

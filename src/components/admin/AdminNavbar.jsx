@@ -6,7 +6,9 @@ const AdminNavbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    navigate("/admin/login");
+    //clear the session 
+    sessionStorage.removeItem('jwt');
+    navigate("/adminLogin");
   };
 
   return (
