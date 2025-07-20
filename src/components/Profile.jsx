@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
-import { MdEmail, MdPhone, MdLocationOn ,MdDelete } from "react-icons/md";
-
 import { Link } from "react-router-dom";
-
 import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
 import { toast } from "react-toastify";
-
-
 const Profile = () => {
   const [user, setUser] = useState({
     name: "",
@@ -57,7 +51,7 @@ const handleLikedPlaces = async () => {
   try {
     const res = await axios.get("https://terhal-backend-t42w.vercel.app/user/favorite", {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}` ,
       }
     });
 
@@ -86,7 +80,7 @@ if (Array.isArray(res.data.data)) {
         },
       });
       console.log(res)
-       setHistoryPlaces(res.data.history); // تأكد إن الريسبونس فيه data.data
+       setHistoryPlaces(res.data.history); 
        console.log("Places:", historyPlaces);
     } catch (err) {
       console.error("Error fetching history places:", err);
@@ -118,11 +112,12 @@ if (Array.isArray(res.data.data)) {
       toast.error("Failed to update profile");
     }
   };
-// delete image
+// delete image profile 
+
 const handleDeleteProfileImage = async () => {
   try {
     const formData = new FormData();
-    formData.append('image', ''); // امسحي الصورة
+    formData.append('image', ''); 
 
     formData.append('name', user.name);
     formData.append('email', user.email);
@@ -161,7 +156,7 @@ const totalPages = (activeTab === "liked" ? likedPlaces.length : historyPlaces.l
 return (
   <div
     className="min-h-screen flex flex-col items-center justify-start px-4  pt-7"
-    style={{ backgroundColor: "#f9fafb" }} 
+    style={{ backgroundColor: "#e5e7eb"  }} 
   >
     {/* Profile Header */}
    
@@ -339,9 +334,9 @@ return (
 
     {/* Edit Form */}
     {activeTab === "edit" && (
-      <div className="pb-6">
+     
          <form
-        className="max-w-xl w-full mt-10 space-y-5 bg-white p-7 rounded-xl shadow-md"
+        className="max-w-xl mb-7 w-full mt-10 space-y-5 bg-white p-7 rounded-xl shadow-md"
         onSubmit={handleUpdate}
         encType="multipart/form-data"
       >
@@ -404,7 +399,7 @@ return (
             Save Changes
           </button>
       </form>
-      </div>
+      
      
     )}
 

@@ -30,7 +30,7 @@ import AdminLogin from "./components/AdminLogin";
 import AdminsCRUD from "./pages/admin/AdminsCRUD";
 import AddNewAdmin from "./pages/admin/AddNewAdmin";
 import EditAdmin from "./pages/admin/EditAdmin";
-import EditForm from "./components/EditForm"
+// import EditForm from "./components/EditForm"
 
 function App() {
   const location = useLocation();
@@ -46,16 +46,16 @@ function App() {
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Home />} />
           <Route path="places" element={<Places />} />
-          <Route path="places/:_id" element={<PlaceInfo />} />//context
+          <Route path="places/:_id" element={<PlaceInfo />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="login" element={<Login />} />
           <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
           <Route path="reset-password" element={<ResetPassword />} />
-          <Route path="settings" element={<Settings />} />//context
-          <Route path="profile" element={<Profile />} />//context
+          <Route path="settings" element={<Settings />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="adminLogin" element={<AdminLogin />} />
-          <Route path="editProfile" element={<EditForm/>}/>
+          {/* <Route path="editProfile" element={<EditForm/>}/> */}
           <Route path="*" element={<NotFound />} />
         </Route>
 
