@@ -37,7 +37,6 @@ function App() {
   return (
     <>
       <Routes>
-        {/* [TODO CREATE LAYOUT TO REMOVE NAV , FOOTER EROM THE ASSISTANT PAGE ] */}
         <Route path="/" element={<NoNavFoter />}>
           <Route path="assistant" element={<Assestant />} />
           <Route path="review" element={<RecommendationReviews />} />
