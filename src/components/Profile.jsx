@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
 import { MdEmail, MdPhone, MdLocationOn ,MdDelete } from "react-icons/md";
 
 import { Link } from "react-router-dom";
+
+import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
+import { toast } from "react-toastify";
+
 
 const Profile = () => {
   const [user, setUser] = useState({
@@ -107,10 +112,10 @@ if (Array.isArray(res.data.data)) {
       });
 
       setUser(res.data.user);
-      alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
     } catch (err) {
       console.error("Update error:", err);
-      alert("Failed to update profile");
+      toast.error("Failed to update profile");
     }
   };
 // delete image

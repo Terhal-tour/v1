@@ -10,6 +10,7 @@ import "./../css/home.css";
 import NearbyNotifier from "./NearbyNotifier";
 import GeoLocation from "./GeoLocation";
 import NearbyPlaces from "./NearbyPlaces";
+import { useLocation } from "react-router-dom";
 
 export default function Home() {
   const [places, setPlaces] = useState([]);
@@ -18,7 +19,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [nearByPlaces, setNearByPlaces] = useState([]);
   // [TODO WILL BE ADDED FROM LOGIN]
-  // sessionStorage.setItem('jwt',"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NmUxZDg4MWZiMmMwNTdkNGRmZDNmZCIsImlhdCI6MTc1MjU2NDYzNiwiZXhwIjoxNzUzMTY5NDM2fQ.Q3aehdOSEDzWM11CYDz2CSwvoDI_gn14klCQzSWreGo")
   useEffect(() => {
     let isMounted = true;
     const token = sessionStorage.getItem("jwt");
@@ -50,6 +50,17 @@ export default function Home() {
       isMounted = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (location.state && location.state.scrollTo) {
+      const el = document.getElementById(location.state.scrollTo);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth" });
+        }, 100); // wait for DOM render
+      }
+    }
+  }, [location.state]);
 
   if (loading) {
     return <Spinner />;

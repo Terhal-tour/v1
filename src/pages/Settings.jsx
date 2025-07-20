@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import i18n from "../i18n";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const SUPPORT_EMAIL = "tourterhal@gmail.com";
 
@@ -21,13 +22,13 @@ async function handleDeleteAccount() {
       data: { password }
     });
     sessionStorage.removeItem("jwt");
-    alert(i18n.t("delete_success"));
+    toast.success(i18n.t("delete_success"));
     window.location.href = "/signup";
   } catch (err) {
     if (err.response && err.response.data && err.response.data.message) {
-      alert(i18n.t("delete_failed") + "\n" + err.response.data.message);
+      toast.error(i18n.t("delete_failed") + "\n" + err.response.data.message);
     } else {
-      alert(i18n.t("delete_failed") + "\n" + (err.message || err));
+      toast.error(i18n.t("delete_failed") + "\n" + (err.message || err));
     }
     console.error('Delete account error:', err);
   }
