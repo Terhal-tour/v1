@@ -109,21 +109,69 @@ function PlaceInfo() {
     }
   };
 
+  // useEffect(() => {
+  //   axios
+  //     .get(`https://backend-mu-ten-26.vercel.app/places/${_id}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data.data);
+  //       setPlace(res.data.data);
+  //       setSuggestions(res.data.suggestions.places);
+  //     })
+  //     .catch((err) => console.error("Error fetching place details:", err));
+  // }, [_id]);
+
   useEffect(() => {
-    axios
-      .get(`https://backend-mu-ten-26.vercel.app/places/${_id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        console.log(res.data.data);
-        setPlace(res.data.data);
-        setSuggestions(res.data.suggestions.places);
-      })
-      .catch((err) => console.error("Error fetching place details:", err));
-  }, [_id]);
+  const fetchData = async () => {
+    try {
+      // 1️⃣ Get the full place info (includes average rating)
+      const placeRes = await axios.get(
+        `https://backend-mu-ten-26.vercel.app/places/${_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setPlace(placeRes.data.data);
+      setSuggestions(placeRes.data.suggestions.places);
+
+      // 2️⃣ Get the current user’s personal rating for this place
+      const userRatingRes = await axios.get(
+        `https://backend-mu-ten-26.vercel.app/places/${_id}/user-rating`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // If no rating yet, default to 0
+      setRating(userRatingRes.data.rating || 0);
+
+      // 3️⃣ Get whether the user has favourited this place
+      const favRes = await axios.get(
+        `https://backend-mu-ten-26.vercel.app/places/${_id}/is-favourited`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setIsFavourite(favRes.data.isFavourited);
+
+    } catch (err) {
+      console.error("Error loading place details:", err);
+    }
+  };
+
+  fetchData();
+}, [_id]);
+
   console.log("place", place);
   if (!place) {
     return (
@@ -353,14 +401,6 @@ function PlaceInfo() {
                 </div>
               </section>
             </div>
-            {/* <div className="flex justify-center pt-4">
-                            <NavLink to={'/assistant'} className="flex items-center gap-3 bg-[var(--sunset-coral)] text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-opacity-90 transform hover:-translate-y-1 transition-all duration-300">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM18 13.5l.375 1.405a1.875 1.875 0 01-2.25 2.25L15 16.5l-1.405.375a1.875 1.875 0 01-2.25-2.25L12 13.5l.375-1.405a1.875 1.875 0 012.25-2.25L15 10.5l1.405-.375a1.875 1.875 0 012.25 2.25L18 13.5z" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                                <span>Plan Visit with AI Assistant</span>
-                            </NavLink>
-                        </div> */}
           </div>
           {/* suggestions */}
           <section>
@@ -399,3 +439,4 @@ function PlaceInfo() {
 }
 
 export default PlaceInfo;
+
