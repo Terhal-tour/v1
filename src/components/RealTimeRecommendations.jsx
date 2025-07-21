@@ -59,7 +59,7 @@ export default function RealTimeRecommendations() {
     try {
       setRefreshing(true);
       const response = await fetch(
-        "http://localhost:3000/realTimeRecomendation",
+        "https://backend-mu-ten-26.vercel.app/realTimeRecomendation",
         {
           method: "POST",
           headers: {
