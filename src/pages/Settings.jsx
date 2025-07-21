@@ -94,6 +94,12 @@ export default function Settings() {
                 >
                   {t('make_complaint')}
                 </a>
+                <a  href="/recommendations/saved"
+                  className="flex w-full sm:w-auto items-center justify-center rounded-lg h-10 px-6 bg-transparent text-green-600 border border-green-600 hover:bg-green-600 hover:text-white transition-colors font-bold dark:bg-transparent dark:text-green-400 dark:border-green-400 dark:hover:bg-green-400 dark:hover:text-black"
+                >
+                  {/* {t('delete_profile')} */}
+                  Saved recommendations
+                </a>
               </div>
             </section>
             <section className="p-6 bg-[#22375a] dark:bg-white/50 rounded-xl shadow-lg" id="preferences">
