@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ChildPlace from "./ChildPlace";
-
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 export default function NearbyPlaces() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === "rtl";
   const [places, setPlaces] = useState([]);
   const [error, setError] = useState(null);
 
@@ -46,9 +50,27 @@ export default function NearbyPlaces() {
 
         {error && <p className="text-red-600 text-center mb-6">{error}</p>}
 
-        <div className="flex flex-wrap justify-center gap-8">
+        <div className="flex flex-wrap justify-center gap-8 w-full">
           {places.length > 0 ? (
-            places.map((p) => <ChildPlace key={p.id} place={p} />)
+            <Swiper
+              modules={[Navigation, Pagination]}
+              spaceBetween={20}
+              slidesPerView={1}
+              navigation
+              pagination={{ clickable: true }}
+              dir={isRTL ? "rtl" : "ltr"}
+              breakpoints={{
+                640: { slidesPerView: 1 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+              }}
+            >
+              {places.map((place) => (
+                <SwiperSlide key={place._id}>
+                  <ChildPlace place={place} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
           ) : (
             <p className="text-center text-gray-600 w-full">{t("no_places_found")}</p>
           )}

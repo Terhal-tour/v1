@@ -58,7 +58,7 @@ const Navbar = () => {
           onClick={() => setMenuOpen(false)}
         >
           {/* Orange logo */}
-          <svg
+          {/* <svg
             width="32"
             height="32"
             viewBox="0 0 32 32"
@@ -67,7 +67,8 @@ const Navbar = () => {
           >
             <rect width="32" height="32" rx="8" fill="#ed7b2a" />
             <ellipse cx="16" cy="16" rx="7" ry="12" fill="white" />
-          </svg>
+          </svg> */}
+          <img src="/favicon.png" alt="" width={50} height={50} />
           <span className="text-2xl font-bold text-black">{t("brand")}</span>
         </NavLink>
         {/* Hamburger for mobile */}
