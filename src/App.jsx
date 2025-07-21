@@ -54,12 +54,13 @@ function App() {
           <Route path="reset-password" element={<ResetPassword />} />
           <Route path="settings" element={<Settings />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="adminLogin" element={<AdminLogin />} />
+
           {/* <Route path="editProfile" element={<EditForm/>}/> */}
           <Route path="*" element={<NotFound />} />
         </Route>
 
         {/* Admin layout routes */}
+        <Route path="adminLogin" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="places" element={<AdminCrudPlaces />} />

@@ -59,6 +59,9 @@ export default function Register() {
       console.log(user)
       setErrors({});
         sessionStorage.setItem("jwt", res.data.token); 
+        // new
+        sessionStorage.setItem("admin", JSON.stringify(user));
+        //
         navigate("/admin/dashboard")
     } catch (err) {
       console.log(err)

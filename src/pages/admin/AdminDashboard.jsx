@@ -19,7 +19,6 @@ import "../../css/admin-theme.css";
 const AdminDashboard = () => {
   
  
-  // Get JWT token from sessionStorage (TODO: replace with secure method in production)
   const token = sessionStorage.getItem("jwt") ;
 
   // Define state variables

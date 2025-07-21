@@ -1,8 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 
 const SupportUsButton = () => {
+
+  //new
+  const location = useLocation();
+
+  // إخفاء الزر إذا كنا داخل صفحات /admin
+  if (location.pathname.startsWith("/admin")) {
+    return null;
+  }
+  //
+
   const [isOpen, setIsOpen] = useState(false);
   const [amount, setAmount] = useState(5);
 

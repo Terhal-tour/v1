@@ -2,11 +2,22 @@
 
 // src/layouts/AdminLayout.jsx
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet , Navigate } from 'react-router-dom';
 import AdminNavbar from '../components/admin/AdminNavbar';
 import AdminSidebar from '../components/admin/AdminSidebar';
 
+ 
+
 export default function AdminLayout() {
+
+  // new
+  const token = sessionStorage.getItem("jwt");
+
+  if (!token) {
+    return <Navigate to="/adminLogin" replace />;
+  }
+  // 
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       <AdminSidebar />
