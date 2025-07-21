@@ -39,9 +39,15 @@ function PlaceInfo() {
     return words.slice(0, limit).join(" ") + "...";
   };
   const handleRate = async (value) => {
+    console.log("cccccccc");
+    
+    console.log(
+      `Submitting rating ${value} for place with ID ${place._id}...`
+    );
+    
     try {
       await axios.post(
-        `https://backend-mu-ten-26.vercel.app/places/${place._id}/rate`,
+        `http://backend-mu-ten-26.vercel.app/places/${place._id}/rate`,
         {
           rating: value,
         },
@@ -52,6 +58,7 @@ function PlaceInfo() {
           },
         }
       );
+      console.log("Rating submitted:", value);
       setRating(value);
       ratingAdded();
     } catch (err) {
@@ -267,7 +274,7 @@ function PlaceInfo() {
                       </svg>
                     ))}
                   </div>
-                  <ToastContainer />
+                  {/* <ToastContainer /> */}
 
                   {/*  Add to favourites */}
                   <button

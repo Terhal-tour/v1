@@ -41,6 +41,7 @@ function App() {
         <Route path="/" element={<NoNavFoter />}>
           <Route path="assistant" element={<Assestant />} />
           <Route path="review" element={<RecommendationReviews />} />
+          <Route path="adminLogin" element={<AdminLogin />} />
         </Route>
         {/* User layout routes */}
         <Route path="/" element={<UserLayout />}>
@@ -54,7 +55,6 @@ function App() {
           <Route path="reset-password" element={<ResetPassword />} />
           <Route path="settings" element={<Settings />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="adminLogin" element={<AdminLogin />} />
           {/* <Route path="editProfile" element={<EditForm/>}/> */}
           <Route path="*" element={<NotFound />} />
         </Route>
