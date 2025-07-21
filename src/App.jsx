@@ -30,7 +30,7 @@ import AdminLogin from "./components/AdminLogin";
 import AdminsCRUD from "./pages/admin/AdminsCRUD";
 import AddNewAdmin from "./pages/admin/AddNewAdmin";
 import EditAdmin from "./pages/admin/EditAdmin";
-// import ReactiveAccount from "./components/ReactiveAccount"
+import ReactiveAccount from "./components/ReactiveAccount"
 
 function App() {
   const location = useLocation();
