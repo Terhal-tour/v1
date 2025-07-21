@@ -126,7 +126,12 @@ return (
       Forgot your password?
     </Link>
   </div>
-         
+        <Link
+      to="/reactive-account"
+      className="text-sm text-orange-500 font-medium hover:underline"
+    >
+     Reactive your account?
+    </Link> 
         <button
   type="submit"
   disabled={loading}

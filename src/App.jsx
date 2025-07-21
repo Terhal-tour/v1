@@ -30,7 +30,7 @@ import AdminLogin from "./components/AdminLogin";
 import AdminsCRUD from "./pages/admin/AdminsCRUD";
 import AddNewAdmin from "./pages/admin/AddNewAdmin";
 import EditAdmin from "./pages/admin/EditAdmin";
-// import EditForm from "./components/EditForm"
+// import ReactiveAccount from "./components/ReactiveAccount"
 
 function App() {
   const location = useLocation();
@@ -53,9 +53,10 @@ function App() {
           <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
           <Route path="reset-password" element={<ResetPassword />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="profile" element={<Profile />} />
-          {/* <Route path="editProfile" element={<EditForm/>}/> */}
+          <Route path="settings" element={<Settings />} />//context
+          <Route path="profile" element={<Profile />} />//context
+          <Route path="adminLogin" element={<AdminLogin />} />
+          <Route path="reactive-account" element={<ReactiveAccount />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 
