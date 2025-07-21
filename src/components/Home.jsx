@@ -11,6 +11,7 @@ import NearbyNotifier from "./NearbyNotifier";
 import GeoLocation from "./GeoLocation";
 import NearbyPlaces from "./NearbyPlaces";
 import { useLocation } from "react-router-dom";
+import RealTimeRecommendations from "./RealTimeRecommendations";
 
 export default function Home() {
   const [places, setPlaces] = useState([]);

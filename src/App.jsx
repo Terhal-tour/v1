@@ -31,6 +31,8 @@ import AdminsCRUD from "./pages/admin/AdminsCRUD";
 import AddNewAdmin from "./pages/admin/AddNewAdmin";
 import EditAdmin from "./pages/admin/EditAdmin";
 import ReactiveAccount from "./components/ReactiveAccount"
+import RealTimeRecommendations from "./components/RealTimeRecommendations";
+import SavedRecommendations from "./components/SavedRecommendations";
 
 function App() {
   const location = useLocation();
@@ -53,10 +55,12 @@ function App() {
           <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
           <Route path="reset-password" element={<ResetPassword />} />
-          <Route path="settings" element={<Settings />} />//context
-          <Route path="profile" element={<Profile />} />//context
+          <Route path="settings" element={<Settings />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="adminLogin" element={<AdminLogin />} />
           <Route path="reactive-account" element={<ReactiveAccount />} />
+          <Route path="smartRecommendation" element={<RealTimeRecommendations />} />
+          <Route path="recommendations/saved" element={<SavedRecommendations />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 
