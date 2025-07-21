@@ -47,7 +47,7 @@ function PlaceInfo() {
     
     try {
       await axios.post(
-        `http://backend-mu-ten-26.vercel.app/places/${place._id}/rate`,
+        `https://backend-mu-ten-26.vercel.app/places/${place._id}/rate`,
         {
           rating: value,
         },
