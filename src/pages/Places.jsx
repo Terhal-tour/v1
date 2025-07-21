@@ -72,14 +72,22 @@ function Places() {
         {/* breadcrump */}
         <div className="breadcrumbs text-sm text-support mb-4">
           <ul>
-            <li><Link to='/' className="hover:text-primary-action">{t('home')}</Link></li>
-            <li className="text-primary-action font-medium">{t('places')}</li>
+            <li>
+              <Link to="/" className="hover:text-primary-action">
+                {t("home")}
+              </Link>
+            </li>
+            <li className="text-primary-action font-medium">{t("places")}</li>
           </ul>
         </div>
         {/* heading section */}
         <div className="text-center mb-12">
-          <h2 className="text-5xl font-bold text-primary-action font-display">{t('discover_places_title')}</h2>
-          <p className="text-lg text-support mt-2">{t('discover_places_subtitle', { count: places.length })}</p>
+          <h2 className="text-5xl font-bold text-primary-action font-display">
+            {t("discover_places_title")}
+          </h2>
+          <p className="text-lg text-support mt-2">
+            {t("discover_places_subtitle", { count: places.length })}
+          </p>
         </div>
         {/* Search, Filters, Sort */}
         <div className="backdrop-blur-md py-6 rounded-xl shadow-lg mb-8">
@@ -94,7 +102,7 @@ function Places() {
                 }}
                 className="form-input w-full pl-10 pr-4 py-3 rounded-lg border-2 border-muted-brown/30 
                 bg-warm-white focus:ring-2 focus:ring-highlight focus:border-highlight transition-shadow"
-                placeholder={t('search_by_name')}
+                placeholder={t("search_by_name")}
               />
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-support">
                 <svg
@@ -114,25 +122,45 @@ function Places() {
               </div>
             </div>
             {/* Categories */}
-            <div className="md:col-span-9 flex justify-evenly items-center gap-4">
-              <button
-                onClick={() => setActiveCategory("All")}
-                className={`px-4 py-2 text-l font-medium rounded-full bg-warm-white
-                text-primary-action hover:bg-soft-cream transition-colors cursor-pointer 
-                ${activeCategory === "All" ? "active-link" : ""}`}
-              >
-                {t('all')}
-              </button>
-              {categories?.map((category) => (
-                <button
-                  key={category._id}
-                  onClick={() => setActiveCategory(category.title)}
-                  className={`px-4 py-2 text-l font-medium rounded-full bg-warm-white text-primary-action hover:bg-soft-cream transition-colors cursor-pointer ${activeCategory === category.title ? "active-link" : ""}`}
-                >
-                  {category.title}
-                </button>
-              ))}
-            </div>
+            <div className="md:col-span-9 flex flex-col md:flex-row md:justify-evenly md:items-center gap-4">
+  {/* Dropdown for small screens */}
+  <select
+    value={activeCategory}
+    onChange={(e) => setActiveCategory(e.target.value)}
+    className="block md:hidden w-full px-4 py-2 text-sm rounded-md border border-gray-300 text-primary-action bg-warm-white focus:outline-none focus:ring-2 focus:ring-primary-action"
+  >
+    <option value="All">{t('all')}</option>
+    {categories?.map((category) => (
+      <option key={category._id} value={category.title}>
+        {category.title}
+      </option>
+    ))}
+  </select>
+
+  {/* Buttons for medium and larger screens */}
+  <div className="hidden md:flex flex-wrap justify-evenly items-center gap-4">
+    <button
+      onClick={() => setActiveCategory("All")}
+      className={`px-4 py-2 text-sm md:text-base font-medium rounded-full bg-warm-white text-primary-action hover:bg-soft-cream transition-colors cursor-pointer ${
+        activeCategory === "All" ? "active-link" : ""
+      }`}
+    >
+      {t('all')}
+    </button>
+    {categories?.map((category) => (
+      <button
+        key={category._id}
+        onClick={() => setActiveCategory(category.title)}
+        className={`px-4 py-2 text-sm md:text-base font-medium rounded-full bg-warm-white text-primary-action hover:bg-soft-cream transition-colors cursor-pointer ${
+          activeCategory === category.title ? "active-link" : ""
+        }`}
+      >
+        {category.title}
+      </button>
+    ))}
+  </div>
+</div>
+
             {/* Sort */}
             <div className="md:col-span-1 flex justify-center items-center gap-4">
               <select
@@ -140,9 +168,9 @@ function Places() {
                 onChange={(e) => setSortBy(e.target.value)}
                 className="form-select rounded-lg border-2 border-muted-brown/30 bg-warm-white focus:ring-2 focus:ring-highlight focus:border-highlight transition-shadow py-3"
               >
-                <option value="">{t('sort_by')}</option>
-                <option value="rating">{t('sort_by_rating')}</option>
-                <option value="name">{t('sort_by_name')}</option>
+                <option value="">{t("sort_by")}</option>
+                <option value="rating">{t("sort_by_rating")}</option>
+                <option value="name">{t("sort_by_name")}</option>
               </select>
             </div>
           </div>
@@ -154,7 +182,7 @@ function Places() {
               <ChildPlace place={place} key={place._id} />
             ))
           ) : (
-            <p className="text-center">{t('no_places_found')}</p>
+            <p className="text-center">{t("no_places_found")}</p>
           )}
         </div>
 
@@ -188,7 +216,3 @@ function Places() {
 }
 
 export default Places;
-
-
-
-

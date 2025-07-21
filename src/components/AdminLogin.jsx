@@ -55,10 +55,11 @@ export default function Register() {
 
       const res = await axios.post("https://backend-mu-ten-26.vercel.app/auth/admin/login", formData);
       setMessage(res.data.message);
-      const user = res.data.user;
-      console.log(user)
+      const admin = res.data.admin;
+      console.log(res.data.admin)
       setErrors({});
         sessionStorage.setItem("jwt", res.data.token); 
+sessionStorage.setItem("admin", JSON.stringify(admin));
         navigate("/admin/dashboard")
     } catch (err) {
       console.log(err)
