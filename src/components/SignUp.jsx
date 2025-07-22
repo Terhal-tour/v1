@@ -45,7 +45,7 @@ export default function Register() {
   }, []);
 
   const [showPassword, setShowPassword] = useState(false);
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -53,6 +53,7 @@ const [loading, setLoading] = useState(false);
     mobile: "",
     nationality: "",
     language: "AR",
+    role: "traveler",
   });
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
@@ -93,11 +94,10 @@ const [loading, setLoading] = useState(false);
     }
 
     if (!formData.mobile) {
-  newErrors.mobile = "Mobile is required";
-} else if (!isValidPhoneNumber(formData.mobile)) {
-  newErrors.mobile = "Enter a valid international phone number";
-}
-
+      newErrors.mobile = "Mobile is required";
+    } else if (!isValidPhoneNumber(formData.mobile)) {
+      newErrors.mobile = "Enter a valid international phone number";
+    }
 
     if (!formData.nationality.trim()) {
       newErrors.nationality = "Nationality is required";
@@ -114,7 +114,7 @@ const [loading, setLoading] = useState(false);
       return;
     }
     try {
-      setLoading(true)
+      setLoading(true);
       console.log(formData);
 
       const res = await axios.post(
@@ -126,9 +126,8 @@ const [loading, setLoading] = useState(false);
       console.log(res.data.message);
     } catch (err) {
       setMessage(err.response?.data?.error || "Registration failed");
-    }
-    finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -206,22 +205,21 @@ const [loading, setLoading] = useState(false);
               <p className="text-red-500 text-sm">{errors.password}</p>
             )}
 
-           
-<label className="block text-base font-semibold text-gray-900 tracking-wide mb-1">
-  Phone Number
-</label>
+            <label className="block text-base font-semibold text-gray-900 tracking-wide mb-1">
+              Phone Number
+            </label>
 
-<PhoneInput
-  international
-  defaultCountry="EG"
-  placeholder="e.g. +20 100 123 4567"
-  value={formData.mobile}
-  onChange={(phone) => {
-    setFormData((prev) => ({ ...prev, mobile: phone }));
-    setErrors((prev) => ({ ...prev, mobile: "" }));
-  }}
-  className="w-full rounded-md border border-orange-400 px-3 py-2 pr-10 bg-white text-gray-800 shadow-sm focus:border-[var(--sunset-orange)] focus:ring-[var(--sunset-orange)] focus:outline-none"
-/>
+            <PhoneInput
+              international
+              defaultCountry="EG"
+              placeholder="e.g. +20 100 123 4567"
+              value={formData.mobile}
+              onChange={(phone) => {
+                setFormData((prev) => ({ ...prev, mobile: phone }));
+                setErrors((prev) => ({ ...prev, mobile: "" }));
+              }}
+              className="w-full rounded-md border border-orange-400 px-3 py-2 pr-10 bg-white text-gray-800 shadow-sm focus:border-[var(--sunset-orange)] focus:ring-[var(--sunset-orange)] focus:outline-none"
+            />
 
             {errors.mobile && (
               <p className="text-red-500 text-sm">{errors.mobile}</p>
@@ -264,23 +262,47 @@ const [loading, setLoading] = useState(false);
                 <option value="EN">🇬🇧 English</option>
               </select>
             </div>
+            <div className="space-y-2">
+              <label
+                htmlFor="role"
+                className="block text-base font-semibold text-gray-900 tracking-wide"
+              >
+                Register as
+              </label>
+
+              <select
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="w-full rounded-md border border-orange-400 px-3 py-2 bg-white text-gray-800 shadow-sm focus:border-[var(--sunset-orange)] focus:ring-[var(--sunset-orange)] focus:outline-none"
+              >
+                <option value="">Select Role</option>
+                <option value="traveler">Traveler</option>
+                <option value="guide">Guide</option>
+              </select>
+
+              {errors.role && (
+                <p className="text-red-500 text-sm">{errors.role}</p>
+              )}
+            </div>
 
             <button
-  type="submit"
-  disabled={loading}
-  className={`group relative w-full flex justify-center rounded-md py-3 px-4 text-base font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[var(--sunset-orange)] focus:ring-offset-2 ${
-    loading ? 'bg-orange-300 cursor-not-allowed' : 'bg-orange-500 hover:bg-opacity-90'
-  }`}
->
-  {loading ? (
-    <span className="flex items-center gap-2">
-      <i className="fa fa-spinner fa-spin"></i> Loading...
-    </span>
-  ) : (
-    "Sign Up"
-  )}
-</button>
-
+              type="submit"
+              disabled={loading}
+              className={`group relative w-full flex justify-center rounded-md py-3 px-4 text-base font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[var(--sunset-orange)] focus:ring-offset-2 ${
+                loading
+                  ? "bg-orange-300 cursor-not-allowed"
+                  : "bg-orange-500 hover:bg-opacity-90"
+              }`}
+            >
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <i className="fa fa-spinner fa-spin"></i> Loading...
+                </span>
+              ) : (
+                "Sign Up"
+              )}
+            </button>
 
             {message && (
               <p

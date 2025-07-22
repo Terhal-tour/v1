@@ -18,7 +18,7 @@ import {
   Snowflake,
   Zap,
   TrendingUp,
-  Award
+  Award,
 } from "lucide-react";
 import { toast } from "react-toastify";
 
@@ -36,12 +36,14 @@ const Spinner = () => (
 );
 const handleShare = () => {
   if (navigator.share && data?.recommendation) {
-    navigator.share({
-      title: "Travel Recommendation",
-      text: data.recommendation,
-    }).catch((err) => {
-      console.error("Share failed:", err.message);
-    });
+    navigator
+      .share({
+        title: "Travel Recommendation",
+        text: data.recommendation,
+      })
+      .catch((err) => {
+        console.error("Share failed:", err.message);
+      });
   } else {
     navigator.clipboard.writeText(data?.recommendation || "").then(() => {
       toast.success("Copied to clipboard!");
@@ -54,6 +56,20 @@ export default function RealTimeRecommendations() {
   const [error, setError] = useState(null);
   const [favoritePlace, setFavoritePlace] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+  const parsedRecommendations = (() => {
+    try {
+      if (
+        typeof data?.recommendation === "string" &&
+        data.recommendation.includes("recommendations")
+      ) {
+        const cleaned = data.recommendation.replace(/```json|```/g, "").trim();
+        return JSON.parse(cleaned).recommendations;
+      }
+    } catch (err) {
+      console.error("Failed to parse recommendations JSON", err);
+    }
+    return [];
+  })();
 
   const fetchRecommendations = async (lat, lng) => {
     try {
@@ -100,10 +116,14 @@ export default function RealTimeRecommendations() {
   const getWeatherIcon = (weather) => {
     if (!weather) return <Sun className="w-7 h-7 text-yellow-500" />;
     const w = weather.toLowerCase();
-    if (w.includes("sunny") || w.includes("clear")) return <Sun className="w-7 h-7 text-yellow-500" />;
-    if (w.includes("cloudy")) return <Cloud className="w-7 h-7 text-gray-500" />;
-    if (w.includes("rain")) return <CloudRain className="w-7 h-7 text-blue-500" />;
-    if (w.includes("snow")) return <Snowflake className="w-7 h-7 text-blue-300" />;
+    if (w.includes("sunny") || w.includes("clear"))
+      return <Sun className="w-7 h-7 text-yellow-500" />;
+    if (w.includes("cloudy"))
+      return <Cloud className="w-7 h-7 text-gray-500" />;
+    if (w.includes("rain"))
+      return <CloudRain className="w-7 h-7 text-blue-500" />;
+    if (w.includes("snow"))
+      return <Snowflake className="w-7 h-7 text-blue-300" />;
     if (w.includes("storm")) return <Zap className="w-7 h-7 text-purple-500" />;
     return <Sun className="w-7 h-7 text-yellow-500" />;
   };
@@ -139,12 +159,22 @@ export default function RealTimeRecommendations() {
             <Spinner />
           </div>
           <div className="space-y-3">
-            <h3 className="text-2xl font-bold text-gray-800">Discovering Amazing Places</h3>
-            <p className="text-gray-600">Analyzing your location for personalized recommendations...</p>
+            <h3 className="text-2xl font-bold text-gray-800">
+              Discovering Amazing Places
+            </h3>
+            <p className="text-gray-600">
+              Analyzing your location for personalized recommendations...
+            </p>
             <div className="flex items-center justify-center space-x-2">
               <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-              <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+              <div
+                className="w-2 h-2 bg-purple-500 rounded-full animate-bounce"
+                style={{ animationDelay: "0.1s" }}
+              ></div>
+              <div
+                className="w-2 h-2 bg-pink-500 rounded-full animate-bounce"
+                style={{ animationDelay: "0.2s" }}
+              ></div>
             </div>
           </div>
         </div>
@@ -174,17 +204,19 @@ export default function RealTimeRecommendations() {
     );
   }
   const handleSave = () => {
-  if (data?.recommendation) {
-    const saved = {
-      recommendation: data.recommendation,
-      time: new Date().toISOString()
-    };
-    const existing = JSON.parse(localStorage.getItem("savedRecommendations") || "[]");
-    existing.push(saved);
-    localStorage.setItem("savedRecommendations", JSON.stringify(existing));
-    toast.success("Recommendation saved successfully!");
-  }
-};
+    if (data?.recommendation) {
+      const saved = {
+        recommendation: data.recommendation,
+        time: new Date().toISOString(),
+      };
+      const existing = JSON.parse(
+        localStorage.getItem("savedRecommendations") || "[]"
+      );
+      existing.push(saved);
+      localStorage.setItem("savedRecommendations", JSON.stringify(existing));
+      toast.success("Recommendation saved successfully!");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
@@ -193,10 +225,16 @@ export default function RealTimeRecommendations() {
         {/* Animated background elements */}
         <div className="absolute inset-0">
           <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full animate-float"></div>
-          <div className="absolute top-32 right-16 w-16 h-16 bg-white/5 rounded-full animate-float" style={{animationDelay: '2s'}}></div>
-          <div className="absolute bottom-10 left-1/3 w-12 h-12 bg-white/10 rounded-full animate-float" style={{animationDelay: '4s'}}></div>
+          <div
+            className="absolute top-32 right-16 w-16 h-16 bg-white/5 rounded-full animate-float"
+            style={{ animationDelay: "2s" }}
+          ></div>
+          <div
+            className="absolute bottom-10 left-1/3 w-12 h-12 bg-white/10 rounded-full animate-float"
+            style={{ animationDelay: "4s" }}
+          ></div>
         </div>
-        
+
         <div className="relative max-w-6xl mx-auto px-6 py-12">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-4">
@@ -204,8 +242,12 @@ export default function RealTimeRecommendations() {
                 <Sparkles className="w-8 h-8 text-white animate-pulse" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-white mb-2">Smart Travel Recommendations</h1>
-                <p className="text-blue-100 text-lg">Discover personalized places just for you</p>
+                <h1 className="text-4xl font-bold text-white mb-2">
+                  Smart Travel Recommendations
+                </h1>
+                <p className="text-blue-100 text-lg">
+                  Discover personalized places just for you
+                </p>
               </div>
             </div>
             <div className="hidden lg:flex items-center space-x-4">
@@ -229,7 +271,9 @@ export default function RealTimeRecommendations() {
                 <Compass className="w-10 h-10 text-white" />
               </div>
               <div>
-                <p className="text-sm text-gray-500 font-semibold mb-1">Current Location</p>
+                <p className="text-sm text-gray-500 font-semibold mb-1">
+                  Current Location
+                </p>
                 <p className="text-gray-800 font-bold text-xl mb-1">
                   {data?.lat?.toFixed(6)}, {data?.lng?.toFixed(6)}
                 </p>
@@ -245,7 +289,9 @@ export default function RealTimeRecommendations() {
                   {getWeatherIcon(data?.weather)}
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 font-semibold">Current Weather</p>
+                  <p className="text-sm text-gray-500 font-semibold">
+                    Current Weather
+                  </p>
                   <p className="text-gray-800 font-bold text-lg">
                     {data?.weather || "Unknown"} • {data?.temperature || "--"}°C
                   </p>
@@ -271,7 +317,9 @@ export default function RealTimeRecommendations() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold">Nearby Gems</h3>
-                    <p className="text-emerald-100 text-sm">Handpicked for you</p>
+                    <p className="text-emerald-100 text-sm">
+                      Handpicked for you
+                    </p>
                   </div>
                 </div>
                 <div className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
@@ -283,18 +331,23 @@ export default function RealTimeRecommendations() {
             </div>
 
             <div className="p-8">
-              {Array.isArray(data?.nearby_places) && data.nearby_places.length > 0 ? (
+              {Array.isArray(data?.nearby_places) &&
+              data.nearby_places.length > 0 ? (
                 <div className="space-y-4">
                   {data.nearby_places.map((place, idx) => (
                     <div
                       key={idx}
                       className="group relative flex items-center space-x-4 p-6 rounded-2xl bg-gradient-to-r from-gray-50 to-blue-50 hover:from-emerald-50 hover:to-teal-50 transition-all duration-500 cursor-pointer border border-gray-200 hover:border-emerald-300 hover:shadow-lg transform hover:scale-[1.02]"
-                      onClick={() => setFavoritePlace(idx === favoritePlace ? null : idx)}
+                      onClick={() =>
+                        setFavoritePlace(idx === favoritePlace ? null : idx)
+                      }
                     >
                       <div className="flex-shrink-0 w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow border border-gray-100">
-                        <span className="text-2xl">{getPlaceIcon(place.type)}</span>
+                        <span className="text-2xl">
+                          {getPlaceIcon(place.type)}
+                        </span>
                       </div>
-                      
+
                       <div className="flex-grow">
                         <h4 className="font-bold text-gray-800 group-hover:text-emerald-700 transition-colors text-lg mb-1">
                           {place.name}
@@ -313,16 +366,20 @@ export default function RealTimeRecommendations() {
                           )}
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center space-x-3">
-                        <button 
+                        <button
                           className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 ${
-                            favoritePlace === idx 
-                              ? 'bg-red-500 text-white shadow-lg scale-110' 
-                              : 'bg-gray-100 text-gray-400 hover:bg-red-100 hover:text-red-500'
+                            favoritePlace === idx
+                              ? "bg-red-500 text-white shadow-lg scale-110"
+                              : "bg-gray-100 text-gray-400 hover:bg-red-100 hover:text-red-500"
                           }`}
                         >
-                          <Heart className={`w-5 h-5 ${favoritePlace === idx ? 'fill-current' : ''}`} />
+                          <Heart
+                            className={`w-5 h-5 ${
+                              favoritePlace === idx ? "fill-current" : ""
+                            }`}
+                          />
                         </button>
                         <ChevronRight className="w-6 h-6 text-gray-400 group-hover:text-emerald-600 transition-colors" />
                       </div>
@@ -334,8 +391,12 @@ export default function RealTimeRecommendations() {
                   <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <MapPin className="w-12 h-12 text-gray-400" />
                   </div>
-                  <h4 className="text-xl font-semibold text-gray-600 mb-2">No nearby places found</h4>
-                  <p className="text-sm text-gray-400">Try refreshing or check your location settings</p>
+                  <h4 className="text-xl font-semibold text-gray-600 mb-2">
+                    No nearby places found
+                  </h4>
+                  <p className="text-sm text-gray-400">
+                    Try refreshing or check your location settings
+                  </p>
                 </div>
               )}
             </div>
@@ -350,7 +411,9 @@ export default function RealTimeRecommendations() {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold">AI Travel Guide</h3>
-                  <p className="text-purple-100 text-sm">Powered by intelligence</p>
+                  <p className="text-purple-100 text-sm">
+                    Powered by intelligence
+                  </p>
                 </div>
               </div>
             </div>
@@ -360,11 +423,23 @@ export default function RealTimeRecommendations() {
                 <div className="space-y-6">
                   <div className="bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 rounded-2xl p-6 border-2 border-purple-100 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full -mr-10 -mt-10 opacity-50"></div>
-                    <p className="text-gray-700 leading-relaxed font-medium whitespace-pre-line relative z-10">
-                      {data.recommendation}
-                    </p>
+                    <div className="space-y-4">
+                      {parsedRecommendations.map((item, idx) => (
+                        <div
+                          key={idx}
+                          className="bg-white border border-purple-100 rounded-xl p-4 shadow-sm"
+                        >
+                          <h4 className="font-semibold text-purple-800">
+                            {item.place}
+                          </h4>
+                          <p className="text-gray-600 text-sm mt-1">
+                            {item.reason}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                     <div className="flex items-center space-x-2 text-xs text-gray-500">
                       <Clock className="w-4 h-4" />
@@ -372,11 +447,17 @@ export default function RealTimeRecommendations() {
                       <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse ml-2"></div>
                     </div>
                     <div className="flex space-x-2">
-                      <button onClick={()=>handleSave()} className="flex items-center space-x-1 text-xs text-purple-600 hover:text-purple-700 transition-colors bg-purple-50 hover:bg-purple-100 px-3 py-2 rounded-lg font-medium">
+                      <button
+                        onClick={() => handleSave()}
+                        className="flex items-center space-x-1 text-xs text-purple-600 hover:text-purple-700 transition-colors bg-purple-50 hover:bg-purple-100 px-3 py-2 rounded-lg font-medium"
+                      >
                         <Camera className="w-4 h-4" />
                         <span>Save</span>
                       </button>
-                      <button onClick={()=>handleShare()} className="flex items-center space-x-1 text-xs text-pink-600 hover:text-pink-700 transition-colors bg-pink-50 hover:bg-pink-100 px-3 py-2 rounded-lg font-medium">
+                      <button
+                        onClick={() => handleShare()}
+                        className="flex items-center space-x-1 text-xs text-pink-600 hover:text-pink-700 transition-colors bg-pink-50 hover:bg-pink-100 px-3 py-2 rounded-lg font-medium"
+                      >
                         <Share2 className="w-4 h-4" />
                         <span>Share</span>
                       </button>
@@ -388,8 +469,12 @@ export default function RealTimeRecommendations() {
                   <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Sparkles className="w-10 h-10 text-purple-400 animate-spin" />
                   </div>
-                  <h4 className="text-lg font-semibold text-gray-600 mb-2">Generating recommendations...</h4>
-                  <p className="text-sm text-gray-400">Our AI is crafting your perfect day</p>
+                  <h4 className="text-lg font-semibold text-gray-600 mb-2">
+                    Generating recommendations...
+                  </h4>
+                  <p className="text-sm text-gray-400">
+                    Our AI is crafting your perfect day
+                  </p>
                 </div>
               )}
             </div>
@@ -401,27 +486,40 @@ export default function RealTimeRecommendations() {
           <button
             onClick={handleRefresh}
             disabled={refreshing}
-            className={`group relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-6 px-8 rounded-3xl font-bold hover:from-blue-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-[1.02] shadow-xl hover:shadow-2xl flex items-center justify-center space-x-3 ${refreshing ? 'animate-pulse' : ''}`}
+            className={`group relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-6 px-8 rounded-3xl font-bold hover:from-blue-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-[1.02] shadow-xl hover:shadow-2xl flex items-center justify-center space-x-3 ${
+              refreshing ? "animate-pulse" : ""
+            }`}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-            <RefreshCw className={`w-6 h-6 relative z-10 ${refreshing ? 'animate-spin' : 'group-hover:rotate-180'} transition-transform duration-500`} />
+            <RefreshCw
+              className={`w-6 h-6 relative z-10 ${
+                refreshing ? "animate-spin" : "group-hover:rotate-180"
+              } transition-transform duration-500`}
+            />
             <span className="relative z-10">
-              {refreshing ? 'Refreshing...' : 'Refresh Recommendations'}
+              {refreshing ? "Refreshing..." : "Refresh Recommendations"}
             </span>
           </button>
-          
+
           <button className="group relative overflow-hidden bg-white text-gray-700 py-6 px-8 rounded-3xl font-bold border-2 border-gray-200 hover:border-indigo-300 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 transition-all duration-300 transform hover:scale-[1.02] shadow-xl hover:shadow-2xl flex items-center justify-center space-x-3">
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/10 to-indigo-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
             <MapPin className="w-6 h-6 group-hover:text-indigo-600 transition-colors relative z-10" />
-            <span className="group-hover:text-indigo-700 transition-colors relative z-10">Explore on Map</span>
+            <span className="group-hover:text-indigo-700 transition-colors relative z-10">
+              Explore on Map
+            </span>
           </button>
         </div>
       </div>
 
       <style jsx>{`
         @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
         }
         .animate-float {
           animation: float 6s ease-in-out infinite;
