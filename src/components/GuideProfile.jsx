@@ -10,16 +10,23 @@ import {
   Star,
   Clock,
   Bell,
+  LogOut,
 } from "lucide-react";
+
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function GuideProfile() {
   // Mock data for demonstration - in real app this would come from sessionStorage or API
   const guide = JSON.parse(sessionStorage.getItem("user"));
   console.log(guide);
-
+const navigator=useNavigate();
   const [requests, setRequests] = useState([]);
-
+const handleLogout=()=>{
+    sessionStorage.removeItem("jwt");
+    sessionStorage.removeItem("user");
+    navigator('/login');
+}
   const handleConfirm = async (requestId) => {
     try {
       const token = sessionStorage.getItem("jwt");
@@ -48,7 +55,7 @@ export default function GuideProfile() {
       );
       toast.success("this request was confirmed successfully");
     } catch (error) {
-    //   toast.error("some thing went wrong try later");
+      //   toast.error("some thing went wrong try later");
 
       console.error("Error confirming request:", error.message);
     }
@@ -78,7 +85,7 @@ export default function GuideProfile() {
       setRequests((prev) => prev.filter((r) => r._id !== requestId));
       toast.success("this request was rejected successfully");
     } catch (error) {
-    //   toast.error("some thing went wrong try later");
+      //   toast.error("some thing went wrong try later");
 
       console.error("Error rejecting request:", error.message);
     }
@@ -159,6 +166,7 @@ export default function GuideProfile() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Professional Header with Gradient */}
+
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
@@ -184,6 +192,14 @@ export default function GuideProfile() {
                   {guide.name.charAt(0)}
                 </span>
               </div>
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+                title="Logout"
+              >
+                <LogOut className="h-4 w-4" />
+                <span>Logout</span>
+              </button>
             </div>
           </div>
         </div>
@@ -257,7 +273,6 @@ export default function GuideProfile() {
 
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                 <div className="flex items-center justify-between">
-                  
                   <div className="bg-purple-100 rounded-full p-3">
                     <Clock className="h-6 w-6 text-purple-600" />
                   </div>
@@ -375,97 +390,100 @@ export default function GuideProfile() {
                     </div>
                   ))
                 )} */}
-                {requests.filter(req => req.status !== "rejected").length === 0 ? (
-  <div className="p-12 text-center">
-    <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-    <h3 className="text-lg font-medium text-gray-900 mb-2">
-      No requests yet
-    </h3>
-    <p className="text-gray-600">
-      Tour requests will appear here when clients book your services.
-    </p>
-  </div>
-) : (
-  requests
-    .filter((req) => req.status !== "rejected")
-    .map((req) => (
-                    <div
-                      key={req._id}
-                      className="p-6 hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex-1">
-                          <div className="flex items-center mb-2">
-                            <h4 className="text-lg font-semibold text-gray-900 mr-3">
-                              {req.userName}
-                            </h4>
-                            <span
-                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                req.status === "confirmed"
-                                  ? "bg-green-100 text-green-800"
-                                  : "bg-yellow-100 text-yellow-800"
-                              }`}
-                            >
-                              {req.status === "confirmed"
-                                ? "Confirmed"
-                                : "Pending Review"}
-                            </span>
+                {requests.filter((req) => req.status !== "rejected").length ===
+                0 ? (
+                  <div className="p-12 text-center">
+                    <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">
+                      No requests yet
+                    </h3>
+                    <p className="text-gray-600">
+                      Tour requests will appear here when clients book your
+                      services.
+                    </p>
+                  </div>
+                ) : (
+                  requests
+                    .filter((req) => req.status !== "rejected")
+                    .map((req) => (
+                      <div
+                        key={req._id}
+                        className="p-6 hover:bg-gray-50 transition-colors"
+                      >
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex-1">
+                            <div className="flex items-center mb-2">
+                              <h4 className="text-lg font-semibold text-gray-900 mr-3">
+                                {req.userName}
+                              </h4>
+                              <span
+                                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                  req.status === "confirmed"
+                                    ? "bg-green-100 text-green-800"
+                                    : "bg-yellow-100 text-yellow-800"
+                                }`}
+                              >
+                                {req.status === "confirmed"
+                                  ? "Confirmed"
+                                  : "Pending Review"}
+                              </span>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-1">
+                              {req.userEmail}
+                            </p>
                           </div>
-                          <p className="text-sm text-gray-600 mb-1">
-                            {req.userEmail}
+                        </div>
+
+                        <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                          <p className="text-gray-700 text-sm leading-relaxed">
+                            {req.message}
                           </p>
                         </div>
-                      </div>
 
-                      <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                        <p className="text-gray-700 text-sm leading-relaxed">
-                          {req.message}
-                        </p>
-                      </div>
+                        <div className="grid grid-cols-3 gap-4 mb-4 text-sm">
+                          <div className="flex items-center text-gray-600">
+                            <Calendar className="h-4 w-4 mr-2" />
+                            <span>
+                              {new Date(req.date).toLocaleDateString()}
+                            </span>
+                          </div>
+                          <div className="flex items-center text-gray-600">
+                            <Clock className="h-4 w-4 mr-2" />
+                            <span>{req.duration}</span>
+                          </div>
+                          <div className="flex items-center text-gray-600">
+                            <User className="h-4 w-4 mr-2" />
+                            <span>{req.groupSize} guests</span>
+                          </div>
+                        </div>
 
-                      <div className="grid grid-cols-3 gap-4 mb-4 text-sm">
-                        <div className="flex items-center text-gray-600">
-                          <Calendar className="h-4 w-4 mr-2" />
-                          <span>{new Date(req.date).toLocaleDateString()}</span>
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <Clock className="h-4 w-4 mr-2" />
-                          <span>{req.duration}</span>
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <User className="h-4 w-4 mr-2" />
-                          <span>{req.groupSize} guests</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <p className="text-xs text-gray-500">
-                          Submitted{" "}
-                          {new Date(req.createdAt).toLocaleDateString()}
-                        </p>
-                        <div className="flex space-x-2">
-                          {req.status !== "confirmed" && (
+                        <div className="flex items-center justify-between">
+                          <p className="text-xs text-gray-500">
+                            Submitted{" "}
+                            {new Date(req.createdAt).toLocaleDateString()}
+                          </p>
+                          <div className="flex space-x-2">
+                            {req.status !== "confirmed" && (
+                              <button
+                                onClick={() => handleConfirm(req._id)}
+                                className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                              >
+                                <CheckCircle className="h-4 w-4 mr-2" />
+                                Confirm Tour
+                              </button>
+                            )}
                             <button
-                              onClick={() => handleConfirm(req._id)}
-                              className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                              onClick={() => handleDelete(req._id)}
+                              className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                             >
-                              <CheckCircle className="h-4 w-4 mr-2" />
-                              Confirm Tour
+                              <Trash2 className="h-4 w-4 mr-2" />
+                              Delete
                             </button>
-                          )}
-                          <button
-                            onClick={() => handleDelete(req._id)}
-                            className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                          >
-                            <Trash2 className="h-4 w-4 mr-2" />
-                            Delete
-                          </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))    
-)}
-
+                    ))
+                )}
               </div>
             </div>
           </div>
