@@ -30,9 +30,11 @@ import AdminLogin from "./components/AdminLogin";
 import AdminsCRUD from "./pages/admin/AdminsCRUD";
 import AddNewAdmin from "./pages/admin/AddNewAdmin";
 import EditAdmin from "./pages/admin/EditAdmin";
-import ReactiveAccount from "./components/ReactiveAccount"
+import ReactiveAccount from "./components/ReactiveAccount";
 import RealTimeRecommendations from "./components/RealTimeRecommendations";
 import SavedRecommendations from "./components/SavedRecommendations";
+import GuideLayout from "./layouts/GuideLayout";
+import GuideProfile from "./components/GuideProfile";
 
 function App() {
   const location = useLocation();
@@ -44,6 +46,8 @@ function App() {
           <Route path="assistant" element={<Assestant />} />
           <Route path="review" element={<RecommendationReviews />} />
           <Route path="adminLogin" element={<AdminLogin />} />
+          {/* payment */}
+          <Route path="/payment-success" element={<PaymentSuccess />} />
         </Route>
         {/* User layout routes */}
         <Route path="/" element={<UserLayout />}>
@@ -59,8 +63,14 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="adminLogin" element={<AdminLogin />} />
           <Route path="reactive-account" element={<ReactiveAccount />} />
-          <Route path="smartRecommendation" element={<RealTimeRecommendations />} />
-          <Route path="recommendations/saved" element={<SavedRecommendations />} />
+          <Route
+            path="smartRecommendation"
+            element={<RealTimeRecommendations />}
+          />
+          <Route
+            path="recommendations/saved"
+            element={<SavedRecommendations />}
+          />
           <Route path="*" element={<NotFound />} />
         </Route>
 
@@ -79,11 +89,10 @@ function App() {
 
           {/* Add more admin routes here */}
         </Route>
-
-        {/* payment */}
-        <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/guide" element={<GuideLayout />}>
+          <Route path="profile" element={<GuideProfile />} />
+        </Route>
       </Routes>
-      <SupportUsButton />
     </>
   );
 }

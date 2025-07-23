@@ -32,6 +32,10 @@ const DayPlanner = () => {
   const [unsaved, setUnsaved] = useState(false);
   const [saveMsg, setSaveMsg] = useState("");
 
+  // Custom tasks state for input
+  const [customTaskInput, setCustomTaskInput] = useState("");
+  const [customTaskTime, setCustomTaskTime] = useState("");
+
   // Helper: clear places cache (for dev)
   const clearPlacesCache = () => {
     localStorage.removeItem(PLACES_CACHE_KEY);
@@ -171,7 +175,44 @@ const DayPlanner = () => {
     setShowForm(false);
   };
 
-  // Save plans to localStorage
+  // Add custom task to current plan
+  const handleAddCustomTask = (e) => {
+    e.preventDefault();
+    if (!customTaskInput.trim() || plans.length === 0) return;
+    const updatedPlans = plans.map((plan, idx) =>
+      idx === currentPlanIdx
+        ? {
+            ...plan,
+            customTasks: [
+              ...(plan.customTasks || []),
+              {
+                text: customTaskInput.trim(),
+                time: customTaskTime,
+                id: Date.now() + Math.random(),
+              },
+            ],
+          }
+        : plan
+    );
+    setPlans(updatedPlans);
+    setCustomTaskInput("");
+    setCustomTaskTime("");
+  };
+
+  // Remove custom task from current plan
+  const handleRemoveCustomTask = (taskId) => {
+    const updatedPlans = plans.map((plan, idx) =>
+      idx === currentPlanIdx
+        ? {
+            ...plan,
+            customTasks: (plan.customTasks || []).filter((t) => t.id !== taskId),
+          }
+        : plan
+    );
+    setPlans(updatedPlans);
+  };
+
+  // Save plans to localStorage (include customTasks)
   const handleSavePlans = () => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(plans));
     setUnsaved(false);
@@ -298,15 +339,45 @@ const DayPlanner = () => {
           <span className="ml-3 text-orange-500 font-semibold">Loading places...</span>
         </div>
       )}
-      {/* Add Place Button or Form */}
       {plans.length > 0 && !showForm && !loadingPlaces && (
-        <div className="flex justify-center mb-8">
+        <div className="flex flex-col items-center mb-8 gap-8 w-full">
           <button
             className="flex items-center gap-2 bg-orange-500 text-white px-8 py-3 rounded-xl shadow-lg hover:bg-orange-600 font-bold text-lg transition-all animate-fade-in"
             onClick={() => setShowForm(true)}
           >
             <FaPlus className="text-xl" /> Add Place
           </button>
+          {/* Custom Task Input */}
+          <form
+            className="flex flex-col sm:flex-row gap-2 items-center w-full max-w-2xl bg-white p-5 rounded-2xl shadow-lg border border-orange-100"
+            onSubmit={handleAddCustomTask}
+            style={{ boxShadow: '0 4px 24px 0 rgba(255, 140, 0, 0.07)' }}
+          >
+            <input
+              type="text"
+              className="border border-orange-200 p-3 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-orange-300 text-base transition-all shadow-sm"
+              placeholder="Add a custom to-do (e.g., Go to restaurant)"
+              value={customTaskInput}
+              onChange={(e) => setCustomTaskInput(e.target.value)}
+              required
+            />
+            <input
+              type="time"
+              className="border border-orange-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300 text-base transition-all shadow-sm"
+              value={customTaskTime}
+              onChange={(e) => setCustomTaskTime(e.target.value)}
+              required
+            />
+            <button
+              type="submit"
+              className="flex items-center gap-2 bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 font-bold text-base shadow-lg transition-all"
+              style={{ minWidth: '100px' }}
+            >
+              <FaPlus /> Add
+            </button>
+          </form>
+          {/* Divider */}
+          <div className="w-full max-w-2xl border-t border-orange-100 mt-2"></div>
         </div>
       )}
       {plans.length > 0 && showForm && !loadingPlaces && (
@@ -394,12 +465,13 @@ const DayPlanner = () => {
         </form>
       )}
       {/* Plan Preview */}
-      {plans.length > 0 && plans[currentPlanIdx] && plans[currentPlanIdx].places.length > 0 && (
+      {plans.length > 0 && plans[currentPlanIdx] && (plans[currentPlanIdx].places.length > 0 || (plans[currentPlanIdx].customTasks && plans[currentPlanIdx].customTasks.length > 0)) && (
         <div className="mb-6 animate-fade-in">
           <h3 className="text-2xl font-bold mb-4 text-orange-600 flex items-center gap-2">
-            <FaMapMarkerAlt /> {plans[currentPlanIdx].name} - Places
+            <FaMapMarkerAlt /> {plans[currentPlanIdx].name} - Plan
           </h3>
           <div className="grid gap-6 sm:grid-cols-2">
+            {/* Places */}
             {plans[currentPlanIdx].places.map((item, idx) => (
               <div
                 key={item.planId}
@@ -435,7 +507,39 @@ const DayPlanner = () => {
                 </button>
               </div>
             ))}
+            {/* Custom Tasks */}
+            {plans[currentPlanIdx].customTasks && plans[currentPlanIdx].customTasks.map((task, idx) => (
+              <div
+                key={task.id}
+                className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-lg flex gap-4 p-5 items-center hover:shadow-xl transition-all group relative border-t-4 border-blue-200"
+                style={{ minHeight: '80px' }}
+              >
+                <div className="flex flex-col flex-1 min-w-0">
+                  <div className="font-bold text-base sm:text-lg text-blue-900 truncate flex items-center gap-2" title={task.text}>
+                    <span className="mr-2 text-2xl">🗒️</span>{task.text}
+                  </div>
+                  {task.time && (
+                    <div className="text-xs mt-2 flex items-center gap-2 text-blue-700 font-semibold">
+                      <FaRegClock className="inline" />
+                      <span>Time:</span> {task.time}
+                    </div>
+                  )}
+                </div>
+                <button
+                  className="absolute top-2 right-2 text-red-500 hover:text-white hover:bg-red-500 bg-white rounded-full p-2 shadow-sm transition-all border border-red-100"
+                  title="Remove task"
+                  onClick={() => handleRemoveCustomTask(task.id)}
+                  style={{ transition: 'all 0.2s' }}
+                >
+                  <FaTrash />
+                </button>
+              </div>
+            ))}
           </div>
+          {/* Empty state if no items */}
+          {plans[currentPlanIdx].places.length === 0 && (!plans[currentPlanIdx].customTasks || plans[currentPlanIdx].customTasks.length === 0) && (
+            <div className="text-center text-gray-400 py-8">No places or custom tasks added yet. Start planning your day!</div>
+          )}
           {/* Save Plan Button */}
           <div className="flex items-center gap-4 mt-6">
             <button
