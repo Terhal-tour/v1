@@ -33,6 +33,8 @@ import EditAdmin from "./pages/admin/EditAdmin";
 import ReactiveAccount from "./components/ReactiveAccount"
 import RealTimeRecommendations from "./components/RealTimeRecommendations";
 import SavedRecommendations from "./components/SavedRecommendations";
+import FeedPage from "./pages/FeedPage";
+import CreatePost from "./components/CreatePost";
 
 function App() {
   const location = useLocation();
@@ -61,6 +63,9 @@ function App() {
           <Route path="reactive-account" element={<ReactiveAccount />} />
           <Route path="smartRecommendation" element={<RealTimeRecommendations />} />
           <Route path="recommendations/saved" element={<SavedRecommendations />} />
+          <Route path="feedPage" element={<FeedPage />} />
+          <Route path="createPost" element={<CreatePost />} />
+
           <Route path="*" element={<NotFound />} />
         </Route>
 
