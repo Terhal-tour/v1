@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
 import { toast } from "react-toastify";
+import DayPlanner from "./DayPlanner";
 const Profile = () => {
   const [user, setUser] = useState({
     name: "",
@@ -234,6 +235,16 @@ return (
       </button>
       <button
         className={`pb-2 ${
+          activeTab === "planner"
+            ? "border-b-2 border-orange-500 text-orange-600"
+            : ""
+        }`}
+        onClick={() => setActiveTab("planner")}
+      >
+        Trip Planner
+      </button>
+      <button
+        className={`pb-2 ${
           activeTab === "edit"
             ? "border-b-2 border-orange-500 text-orange-600"
             : ""
@@ -331,6 +342,12 @@ return (
   )
 )}
 
+{activeTab === "planner" && (
+  <div className="mt-8">
+    {/* DayPlanner component will be rendered here */}
+    <DayPlanner />
+  </div>
+)}
 
     {/* Edit Form */}
     {activeTab === "edit" && (
