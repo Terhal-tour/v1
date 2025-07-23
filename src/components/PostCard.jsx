@@ -1,0 +1,70 @@
+import React from "react";
+import PostActions from "./PostActions";
+
+const PostCard = ({ post, comments, onLike, onAddComment }) => {
+  // ✅ Safe fallback for user name and image
+  const user = post.userId || {};
+  const userImage = user.image
+    ? `http://localhost:3000/uploads/${user.image}` // adjust if your user images are served from /uploads
+    : null;
+
+  return (
+    <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transition-all duration-500 hover:shadow">
+      {/* Post header */}
+      <div className="p-6 pb-4 flex items-center space-x-3">
+        {userImage ? (
+          <img
+            src={userImage}
+            alt={user.name || "User"}
+            className="w-12 h-12 rounded-full object-cover ring-2 ring-gray-100"
+          />
+        ) : (
+          <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center ring-2 ring-gray-100">
+            <span className="text-white font-semibold text-lg">
+              {user.name?.charAt(0).toUpperCase() || "U"}
+            </span>
+          </div>
+        )}
+
+        <div>
+          <h3 className="font-semibold text-gray-800">
+            {user.name || "Anonymous"}
+          </h3>
+          <p className="text-gray-500 text-sm">
+            {new Date(post.createdAt).toLocaleString()}
+          </p>
+        </div>
+      </div>
+
+      {/* Post content */}
+      <div className="px-6 pb-4">
+        <p className="text-gray-800">{post.description}</p>
+      </div>
+
+      {/* Post images */}
+      {post.images?.length > 0 && (
+        <div className="relative overflow-hidden">
+          {post.images.map((img, index) => (
+            <img
+              key={index}
+              src={`http://localhost:3000/uploads/${img}`}
+              alt={`Post image ${index + 1}`}
+              className="w-full h-80 object-cover transition-transform duration-700 hover:scale-105"
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Post actions */}
+      <PostActions
+        post={post}
+        likes={post.likes} // ✅ always use the updated post.likes
+        comments={comments}
+        onLike={onLike}
+        onAddComment={onAddComment}
+      />
+    </div>
+  );
+};
+
+export default PostCard;

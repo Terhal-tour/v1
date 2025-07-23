@@ -35,6 +35,8 @@ import RealTimeRecommendations from "./components/RealTimeRecommendations";
 import SavedRecommendations from "./components/SavedRecommendations";
 import GuideLayout from "./layouts/GuideLayout";
 import GuideProfile from "./components/GuideProfile";
+import FeedPage from "./pages/FeedPage";
+import CreatePost from "./components/CreatePost";
 
 function App() {
   const location = useLocation();
@@ -71,6 +73,9 @@ function App() {
             path="recommendations/saved"
             element={<SavedRecommendations />}
           />
+          <Route path="feedPage" element={<FeedPage />} />
+          <Route path="createPost" element={<CreatePost />} />
+
           <Route path="*" element={<NotFound />} />
         </Route>
 
