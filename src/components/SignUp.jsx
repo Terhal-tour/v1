@@ -262,7 +262,7 @@ export default function Register() {
                 <option value="EN">🇬🇧 English</option>
               </select>
             </div>
-            {/* <div className="space-y-2">
+            <div className="space-y-2">
               <label
                 htmlFor="role"
                 className="block text-base font-semibold text-gray-900 tracking-wide"
@@ -284,7 +284,7 @@ export default function Register() {
               {errors.role && (
                 <p className="text-red-500 text-sm">{errors.role}</p>
               )}
-            </div> */}
+            </div>
 
             <button
               type="submit"
