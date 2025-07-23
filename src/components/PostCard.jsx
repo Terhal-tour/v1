@@ -5,7 +5,7 @@ const PostCard = ({ post, comments, onLike, onAddComment }) => {
   // ✅ Safe fallback for user name and image
   const user = post.userId || {};
   const userImage = user.image
-    ? `http://localhost:3000/uploads/${user.image}` // adjust if your user images are served from /uploads
+    ? `https://backend-mu-ten-26.vercel.app/uploads/${user.image}` // adjust if your user images are served from /uploads
     : null;
 
   return (
@@ -47,7 +47,7 @@ const PostCard = ({ post, comments, onLike, onAddComment }) => {
           {post.images.map((img, index) => (
             <img
               key={index}
-              src={`http://localhost:3000/uploads/${img}`}
+              src={`https://backend-mu-ten-26.vercel.app/uploads/${img}`}
               alt={`Post image ${index + 1}`}
               className="w-full h-80 object-cover transition-transform duration-700 hover:scale-105"
             />

@@ -15,11 +15,11 @@ const FeedPage = () => {
         setLoading(true);
         const token = sessionStorage.getItem("jwt");
 
-        const postsRes = await axios.get("http://localhost:3000/posts", {
+        const postsRes = await axios.get("https://backend-mu-ten-26.vercel.app/posts", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const commentsRes = await axios.get("http://localhost:3000/comments", {
+        const commentsRes = await axios.get("https://backend-mu-ten-26.vercel.app/comments", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -47,7 +47,7 @@ const FeedPage = () => {
     try {
       const token = sessionStorage.getItem("jwt");
       await axios.put(
-        `http://localhost:3000/posts/${postId}/like`,
+        `https://backend-mu-ten-26.vercel.app/posts/${postId}/like`,
         {},
         {
           headers: {

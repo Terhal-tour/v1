@@ -15,6 +15,7 @@ import {
 
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import GeoLocation from "./GeoLocation";
 
 export default function GuideProfile() {
   // Mock data for demonstration - in real app this would come from sessionStorage or API
@@ -165,6 +166,8 @@ const handleLogout=()=>{
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+                <GeoLocation />
+      
       {/* Professional Header with Gradient */}
 
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">

@@ -14,7 +14,7 @@ const CreatePost = ({ onPostCreated }) => {
     if (!token) return;
 
     axios
-      .get("http://localhost:3000/profile/me", {
+      .get("https://backend-mu-ten-26.vercel.app/profile/me", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setProfile(res.data.user))
@@ -58,7 +58,7 @@ const CreatePost = ({ onPostCreated }) => {
     try {
       setLoading(true);
 
-      await axios.post("http://localhost:3000/posts", formData, {
+      await axios.post("https://backend-mu-ten-26.vercel.app/posts", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
