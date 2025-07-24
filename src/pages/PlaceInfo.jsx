@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import Spinner from "./../components/Spinner";
+import NearbyGuides from "../components/guide/NearbyGuides";
 
 function PlaceInfo() {
   const token = sessionStorage.getItem("jwt");
@@ -40,11 +41,9 @@ function PlaceInfo() {
   };
   const handleRate = async (value) => {
     console.log("cccccccc");
-    
-    console.log(
-      `Submitting rating ${value} for place with ID ${place._id}...`
-    );
-    
+
+    console.log(`Submitting rating ${value} for place with ID ${place._id}...`);
+
     try {
       await axios.post(
         `https://backend-mu-ten-26.vercel.app/places/${place._id}/rate`,
@@ -133,51 +132,50 @@ function PlaceInfo() {
   // }, [_id]);
 
   useEffect(() => {
-  const fetchData = async () => {
-    try {
-      // 1️⃣ Get the full place info (includes average rating)
-      const placeRes = await axios.get(
-        `https://backend-mu-ten-26.vercel.app/places/${_id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      setPlace(placeRes.data.data);
-      setSuggestions(placeRes.data.suggestions.places);
+    const fetchData = async () => {
+      try {
+        // 1️⃣ Get the full place info (includes average rating)
+        const placeRes = await axios.get(
+          `https://backend-mu-ten-26.vercel.app/places/${_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setPlace(placeRes.data.data);
+        setSuggestions(placeRes.data.suggestions.places);
 
-      // 2️⃣ Get the current user’s personal rating for this place
-      const userRatingRes = await axios.get(
-        `https://backend-mu-ten-26.vercel.app/places/${_id}/user-rating`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      // If no rating yet, default to 0
-      setRating(userRatingRes.data.rating || 0);
+        // 2️⃣ Get the current user’s personal rating for this place
+        const userRatingRes = await axios.get(
+          `https://backend-mu-ten-26.vercel.app/places/${_id}/user-rating`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        // If no rating yet, default to 0
+        setRating(userRatingRes.data.rating || 0);
 
-      // 3️⃣ Get whether the user has favourited this place
-      const favRes = await axios.get(
-        `https://backend-mu-ten-26.vercel.app/places/${_id}/is-favourited`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setIsFavourite(favRes.data.isFavourited);
+        // 3️⃣ Get whether the user has favourited this place
+        const favRes = await axios.get(
+          `https://backend-mu-ten-26.vercel.app/places/${_id}/is-favourited`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setIsFavourite(favRes.data.isFavourited);
+      } catch (err) {
+        console.error("Error loading place details:", err);
+      }
+    };
 
-    } catch (err) {
-      console.error("Error loading place details:", err);
-    }
-  };
-
-  fetchData();
-}, [_id]);
+    fetchData();
+  }, [_id]);
 
   console.log("place", place);
   if (!place) {
@@ -409,6 +407,9 @@ function PlaceInfo() {
               </section>
             </div>
           </div>
+          {/* Nearby Tour Guides Section */}
+          <NearbyGuides placeId={place._id} />
+
           {/* suggestions */}
           <section>
             <h3 className="text-3xl font-bold mb-6">Similar Places</h3>
@@ -446,4 +447,3 @@ function PlaceInfo() {
 }
 
 export default PlaceInfo;
-
