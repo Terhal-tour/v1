@@ -46,7 +46,7 @@ export default function NearbyGuides({ placeId }) {
         );
         setGuides(res.data || []);
       } catch (err) {
-        console.error("Failed to load nearby guides:", err);
+        console.info("This place has no guides nearby");
         toast.error("Failed to load nearby guides");
       } finally {
         setLoading(false);

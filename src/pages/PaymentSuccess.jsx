@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 // src/pages/PaymentSuccess.jsx
 const PaymentSuccess = () => {
   return (
@@ -5,6 +7,7 @@ const PaymentSuccess = () => {
       <div className="p-6 bg-green-100 rounded-xl shadow-md">
         <h2 className="text-2xl font-bold text-green-700 mb-2">Payment Successful! ✅</h2>
         <p className="text-green-800">Your payment has been processed successfully.</p>
+        <NavLink to="/" className="text-blue-500 hover:underline">Back To Home</NavLink>
       </div>
     </div>
   );
