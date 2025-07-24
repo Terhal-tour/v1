@@ -18,7 +18,7 @@ export default function NearbyGuides({ placeId }) {
     const fetchGuides = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/guide/${placeId}/place`,
+          `https://backend-mu-ten-26.vercel.app/guide/${placeId}/place`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

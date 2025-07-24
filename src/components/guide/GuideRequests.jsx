@@ -11,7 +11,7 @@ export default function GuideRequests({ token }) {
   // Fetch all requests made by the logged-in traveler
   const fetchRequests = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/guide/request/traveller", {
+      const res = await axios.get("https://backend-mu-ten-26.vercel.app/guide/request/traveller", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setRequests(res.data.requests);
@@ -23,7 +23,7 @@ export default function GuideRequests({ token }) {
   // Cancel a pending request by ID
   const cancelRequest = async (requestId) => {
     try {
-      await axios.delete(`http://localhost:3000/guide/request/${requestId}`, {
+      await axios.delete(`https://backend-mu-ten-26.vercel.app/guide/request/${requestId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Request canceled successfully");
@@ -54,7 +54,7 @@ export default function GuideRequests({ token }) {
   const handleUpdateSubmit = async (values) => {
     try {
       await axios.put(
-        `http://localhost:3000/guide/request/${selectedRequest._id}`,
+        `https://backend-mu-ten-26.vercel.app/guide/request/${selectedRequest._id}`,
         {
           message: values.message,
           date: new Date(`${values.date}T${values.time}`),

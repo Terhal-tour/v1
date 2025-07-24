@@ -18,18 +18,7 @@ import { useNavigate } from "react-router-dom";
 import GeoLocation from "./GeoLocation";
 
 export default function GuideProfile() {
-  // Mock data for demonstration - in real app this would come from sessionStorage or API
-  const mockGuide = {
-    name: "Ahmed Hassan",
-    email: "ahmed@example.com",
-    nationality: "Egyptian",
-    role: "guide",
-    rating: 4.8,
-  };
-
-  const guide = JSON.parse(sessionStorage.getItem("user")) || mockGuide;
-
-  // const guide = JSON.parse(sessionStorage.getItem("user"));
+  const guide = JSON.parse(sessionStorage.getItem("user"));
   console.log(guide);
   const navigator = useNavigate();
   const [requests, setRequests] = useState([]);
@@ -123,25 +112,25 @@ export default function GuideProfile() {
     );
   }
 
-  // if (guide.role !== "guide") {
-  //   return (
-  //     <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-100 flex items-center justify-center">
-  //       <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full mx-4">
-  //         <div className="text-center">
-  //           <div className="bg-red-100 rounded-full p-3 w-fit mx-auto mb-4">
-  //             <User className="h-8 w-8 text-red-600" />
-  //           </div>
-  //           <h2 className="text-xl font-semibold text-gray-900 mb-2">
-  //             Access Denied
-  //           </h2>
-  //           <p className="text-gray-600">
-  //             You don't have permission to access the guide dashboard.
-  //           </p>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (guide.role !== "guide") {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-100 flex items-center justify-center">
+        <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full mx-4">
+          <div className="text-center">
+            <div className="bg-red-100 rounded-full p-3 w-fit mx-auto mb-4">
+              <User className="h-8 w-8 text-red-600" />
+            </div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              Access Denied
+            </h2>
+            <p className="text-gray-600">
+              You don't have permission to access the guide dashboard.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -176,8 +165,8 @@ export default function GuideProfile() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-                <GeoLocation />
-      
+      <GeoLocation />
+
       {/* Professional Header with Gradient */}
 
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
