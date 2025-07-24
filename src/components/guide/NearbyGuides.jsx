@@ -13,6 +13,25 @@ export default function NearbyGuides({ placeId }) {
   const [selectedGuideId, setSelectedGuideId] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  //  Submit handler for guide request modal
+  const handleSubmitRequest = async (formData) => {
+    try {
+      await axios.post(
+        `http://localhost:3000/guide/request/${selectedGuideId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success("Request sent successfully!");
+    } catch (error) {
+      console.error("Failed to send guide request:", error);
+      toast.error("Failed to send guide request");
+    }
+  };
+
   // Fetch nearby guides on mount
   useEffect(() => {
     const fetchGuides = async () => {
@@ -68,6 +87,7 @@ export default function NearbyGuides({ placeId }) {
         <GuideRequestModal
           guideId={selectedGuideId}
           onClose={() => setShowModal(false)}
+          onSubmit={handleSubmitRequest} // Pass the handler to fix error
         />
       )}
     </div>
