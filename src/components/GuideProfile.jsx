@@ -50,10 +50,10 @@ export default function GuideProfile() {
 
       setRequests((prev) =>
         prev.map((r) =>
-          r._id === requestId ? { ...r, status: "confirmed" } : r
+          r._id === requestId ? { ...r, status: "approved" } : r
         )
       );
-      toast.success("this request was confirmed successfully");
+      toast.success("this request was approved successfully");
     } catch (error) {
       //   toast.error("some thing went wrong try later");
 
@@ -92,7 +92,7 @@ export default function GuideProfile() {
   };
 
   const pendingRequests = requests.filter((r) => r.status === "pending");
-  const confirmedRequests = requests.filter((r) => r.status === "confirmed");
+  const approvedRequests = requests.filter((r) => r.status === "approved");
 
   if (!guide) {
     return (
@@ -264,7 +264,7 @@ export default function GuideProfile() {
                       Total Tours
                     </p>
                     <p className="text-2xl font-bold text-gray-900">
-                      {confirmedRequests.length + pendingRequests.length}
+                      {approvedRequests.length + pendingRequests.length}
                     </p>
                   </div>
                   <div className="bg-green-100 rounded-full p-3">
@@ -296,7 +296,7 @@ export default function GuideProfile() {
                       {pendingRequests.length} Pending
                     </span>
                     <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                      {confirmedRequests.length} Confirmed
+                      {approvedRequests.length} approved
                     </span>
                   </div>
                 </div>
@@ -331,13 +331,13 @@ export default function GuideProfile() {
                               </h4>
                               <span
                                 className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                  req.status === "confirmed"
+                                  req.status === "approved"
                                     ? "bg-green-100 text-green-800"
                                     : "bg-yellow-100 text-yellow-800"
                                 }`}
                               >
-                                {req.status === "confirmed"
-                                  ? "Confirmed"
+                                {req.status === "approved"
+                                  ? "approved"
                                   : "Pending Review"}
                               </span>
                             </div>
@@ -376,7 +376,7 @@ export default function GuideProfile() {
                             {new Date(req.createdAt).toLocaleDateString()}
                           </p>
                           <div className="flex space-x-2">
-                            {req.status !== "confirmed" && (
+                            {req.status !== "approved" && (
                               <button
                                 onClick={() => handleConfirm(req._id)}
                                 className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"

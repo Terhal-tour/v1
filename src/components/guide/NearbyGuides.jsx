@@ -17,7 +17,7 @@ export default function NearbyGuides({ placeId }) {
   const handleSubmitRequest = async (formData) => {
     try {
       await axios.post(
-        `http://localhost:3000/guide/request/${selectedGuideId}`,
+        `https://backend-mu-ten-26.vercel.app/guide/request/${selectedGuideId}`,
         formData,
         {
           headers: {
