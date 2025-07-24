@@ -28,9 +28,12 @@ export default function GuideRequests({ token }) {
   // Cancel a guide request by ID
   const cancelRequest = async (requestId) => {
     try {
-      await axios.delete(`https://backend-mu-ten-26.vercel.app/guide/request/${requestId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `https://backend-mu-ten-26.vercel.app/guide/request/${requestId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       toast.success("Request canceled successfully");
       fetchRequests();
     } catch (err) {
@@ -128,6 +131,7 @@ export default function GuideRequests({ token }) {
                 <p className="text-sm text-gray-600">
                   💬 Message: {req.message || "No message"}
                 </p>
+
                 <p className="text-sm text-gray-500">
                   📌 Status:{" "}
                   <span
@@ -172,6 +176,9 @@ export default function GuideRequests({ token }) {
                   <>
                     {!req.paid ? (
                       <>
+                        <p className="text-sm text-gray-600">
+                          💰 Price: {req.price || "No price"}
+                        </p>
                         <button
                           onClick={() => handlePayment(req._id)}
                           className="bg-orange-500 hover:bg-orange-600 text-white w-24 py-1 rounded-full text-sm shadow"
