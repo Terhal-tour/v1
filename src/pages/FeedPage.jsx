@@ -22,6 +22,7 @@ const FeedPage = () => {
         const commentsRes = await axios.get("https://backend-mu-ten-26.vercel.app/comments", {
           headers: { Authorization: `Bearer ${token}` },
         });
+console.log("postsRes.data",postsRes.data);
 
         setPosts(postsRes.data);
 
