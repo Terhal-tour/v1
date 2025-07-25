@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 //import axios from "axios";
 import Hero from "./Hero";
 import AboutUs from "./AboutUs";
+import Wheel from "./Wheel"
 import TopRatedPlacesHome from "./TopRatedPlacesHome";
-// import UpCommingEvents from "./UpCommingEvents"; ← تم التعليق عليها
+// import UpCommingEvents from "./UpCommingEvents"; 
 import Spinner from "./Spinner";
 import "./../css/home.css";
 import NearbyNotifier from "./NearbyNotifier";
@@ -14,7 +15,7 @@ import RealTimeRecommendations from "./RealTimeRecommendations";
 
 export default function Home() {
   const [places, setPlaces] = useState([]);
-  // const [events, setEvents] = useState([]); ← تم التعليق عليها
+  // const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [nearByPlaces, setNearByPlaces] = useState([]);
 
@@ -73,6 +74,7 @@ export default function Home() {
       {places.length > 0 && <TopRatedPlacesHome places={places} />}
       {/* {events.length > 0 && <UpCommingEvents events={events} />} */}
       {sessionStorage.getItem("jwt") && <NearbyPlaces />}
+      <Wheel/>
       <AboutUs />
     </>
   );

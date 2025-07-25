@@ -46,9 +46,9 @@ export default function NearbyPlaces() {
   }, []);
 
   return (
-    <section className="py-20 sm:py-28 bg-[var(--color-desert-sand)]" id="nearby">
+    <section className="py-20 sm:py-28 bg-gray-800" id="nearby">
       <div className="container mx-auto px-6 max-w-7xl">
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-center text-[var(--color-nile-blue)] mb-12">
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-center text-yellow-600 mb-12">
           {t("near_by_title")}
         </h2>
 
