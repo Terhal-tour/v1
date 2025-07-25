@@ -12,7 +12,7 @@ export default function GuideRequests({ token }) {
   const fetchRequests = async () => {
     try {
       const res = await axios.get(
-        "https://backend-mu-ten-26.vercel.app/guide/request/traveller",
+        "http://localhost:3000/guide/request/traveller",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -62,7 +62,7 @@ export default function GuideRequests({ token }) {
   const handleUpdateSubmit = async (values) => {
     try {
       await axios.put(
-        `https://backend-mu-ten-26.vercel.app/guide/request/${selectedRequest._id}`,
+        `http://localhost:3000/guide/request/${selectedRequest._id}`,
         {
           message: values.message,
           date: new Date(`${values.date}T${values.time}`),
@@ -84,7 +84,7 @@ export default function GuideRequests({ token }) {
   const handlePayment = async (requestId) => {
     try {
       const res = await axios.post(
-        `https://backend-mu-ten-26.vercel.app/payments/create/${requestId}`,
+        `http://localhost:3000/payments/create/${requestId}`,
         {},
         {
           headers: {

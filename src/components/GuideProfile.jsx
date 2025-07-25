@@ -36,7 +36,7 @@ export default function GuideProfile() {
       if (!token) return;
 
       const response = await fetch(
-        `https://backend-mu-ten-26.vercel.app/guide/request/${requestId}/confirm`,
+        `http://localhost:3000/guide/request/${requestId}/confirm`,
         {
           method: "PUT",
           headers: {
@@ -72,7 +72,7 @@ export default function GuideProfile() {
       if (!token) return;
 
       const response = await fetch(
-        `https://backend-mu-ten-26.vercel.app/guide/request/${requestId}/reject`,
+        `http://localhost:3000/guide/request/${requestId}/reject`,
         {
           method: "PUT",
           headers: {
@@ -147,7 +147,7 @@ export default function GuideProfile() {
         if (!token) return;
 
         const response = await fetch(
-          "https://backend-mu-ten-26.vercel.app/guide/request/all",
+          "http://localhost:3000/guide/request/all",
           {
             method: "GET",
             headers: {
