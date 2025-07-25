@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Clock, Heart, Trash2 } from 'lucide-react';
+import { MapPin, Clock, Heart, Trash2, LogIn, Star } from 'lucide-react';
 
 export default function SavedRecommendations() {
   // Using React state instead of localStorage for demonstration
@@ -20,7 +20,22 @@ export default function SavedRecommendations() {
       minute: '2-digit'
     });
   };
-
+const parseRecommendations = (recommendationText) => {
+    try {
+      // Extract JSON from the text if it's wrapped in markdown code blocks
+      const jsonMatch = recommendationText.match(/```json\n([\s\S]*?)\n```/) || 
+                       recommendationText.match(/```\n([\s\S]*?)\n```/) ||
+                       [null, recommendationText];
+      
+      const cleanedText = jsonMatch[1] || recommendationText;
+      const parsed = JSON.parse(cleanedText);
+      
+      return parsed.recommendations || [];
+    } catch (error) {
+      // If parsing fails, return the original text as a single recommendation
+      return [{ place: "Recommendation", reason: recommendationText }];
+    }
+  };
   const getCategoryColor = (category) => {
     const colors = {
       'Historical Sites': 'bg-amber-100 text-amber-800 border-amber-200',
@@ -65,55 +80,70 @@ export default function SavedRecommendations() {
         </div>
 
         {/* Recommendations Grid */}
-        <div className="space-y-4">
-          {saved.map((item, index) => (
-            <div 
-              key={item.time} 
-              className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group"
-            >
-              {/* Card Header */}
-              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-4">
-                <div className="flex justify-between items-start">
-                  <div className="flex items-center gap-2 text-white">
-                    <MapPin size={16} />
-                    <span className="font-medium text-sm">{item.location}</span>
+        <div className="space-y-6">
+          {saved.map((item, index) => {
+            const recommendations = parseRecommendations(item.recommendation);
+            
+            return (
+              <div 
+                key={item.time} 
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group"
+              >
+                {/* Card Header */}
+                <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-4">
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center gap-2 text-white">
+                      <MapPin size={16} />
+                      <span className="font-medium text-sm">{item.location}</span>
+                    </div>
+                    <button
+                      onClick={() => removeRecommendation(item.time)}
+                      className="text-white/80 hover:text-white hover:bg-white/20 rounded-full p-1 transition-colors"
+                      title="Remove recommendation"
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </div>
-                  <button
-                    onClick={() => removeRecommendation(item.time)}
-                    className="text-white/80 hover:text-white hover:bg-white/20 rounded-full p-1 transition-colors"
-                    title="Remove recommendation"
-                  >
-                    <Trash2 size={16} />
-                  </button>
+                </div>
+
+                {/* Card Body */}
+                <div className="p-6">
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getCategoryColor(item.category)}`}>
+                      {item.category}
+                    </span>
+                  </div>
+
+                  {/* Recommendations List */}
+                  <div className="space-y-4 mb-4">
+                    {recommendations.map((rec, recIndex) => (
+                      <div key={recIndex} className="border-l-4 border-indigo-200 pl-4 py-2 bg-gray-50 rounded-r-lg">
+                        <div className="flex items-start gap-3">
+                          <Star className="text-indigo-500 mt-1 flex-shrink-0" size={16} />
+                          <div>
+                            <h3 className="font-semibold text-gray-800 mb-1">{rec.place}</h3>
+                            <p className="text-gray-600 text-sm leading-relaxed">{rec.reason}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Footer */}
+                  <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+                    <div className="flex items-center gap-2 text-gray-500 text-sm">
+                      <Clock size={14} />
+                      <span>Saved {formatDate(item.time)}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Heart className="text-red-500 fill-current" size={16} />
+                      <span className="text-sm text-gray-500">Saved</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              {/* Card Body */}
-              <div className="p-6">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getCategoryColor(item.category)}`}>
-                    {item.category}
-                  </span>
-                </div>
-
-                <p className="text-gray-700 leading-relaxed mb-4 text-lg">
-                  {item.recommendation}
-                </p>
-
-                {/* Footer */}
-                <div className="flex justify-between items-center pt-4 border-t border-gray-100">
-                  <div className="flex items-center gap-2 text-gray-500 text-sm">
-                    <Clock size={14} />
-                    <span>Saved {formatDate(item.time)}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Heart className="text-red-500 fill-current" size={16} />
-                    <span className="text-sm text-gray-500">Saved</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Footer */}
