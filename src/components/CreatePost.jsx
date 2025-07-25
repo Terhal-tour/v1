@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { toast } from "react-toastify";
+// https://backend-mu-ten-26.vercel.app
 const CreatePost = ({ onPostCreated }) => {
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
@@ -13,7 +14,7 @@ const CreatePost = ({ onPostCreated }) => {
     if (!token) return;
 
     axios
-      .get("https://backend-mu-ten-26.vercel.app/profile/me", {
+      .get("http://localhost:3000/profile/me", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setProfile(res.data.user))
@@ -56,19 +57,22 @@ const CreatePost = ({ onPostCreated }) => {
     try {
       setLoading(true);
 
-      await axios.post("https://backend-mu-ten-26.vercel.app/posts", formData, {
+      const response = await axios.post("http://localhost:3000/posts", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
 
-      alert("Post published successfully!");
+      const newPost = response.data.post;
+
+      toast.success("post created successfully");
+
       setDescription("");
       setImages([]);
       setPreviewUrls([]);
 
-      onPostCreated?.();
+      onPostCreated?.(newPost);
     } catch (err) {
       console.error("Error creating post:", err);
       alert("An error occurred while publishing the post.");
@@ -146,11 +150,10 @@ const CreatePost = ({ onPostCreated }) => {
             <button
               type="submit"
               disabled={loading}
-              className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 shadow-md ${
-                loading
-                  ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-blue-500 text-white hover:bg-blue-600"
-              }`}
+              className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 shadow-md ${loading
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-500 text-white hover:bg-blue-600"
+                }`}
             >
               {loading ? "Publishing..." : "Publish"}
             </button>

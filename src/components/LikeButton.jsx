@@ -16,7 +16,7 @@ const LikeButton = ({ postId, likes = [], onLike }) => {
       setLoading(true);
 
       await axios.put(
-        `https://backend-mu-ten-26.vercel.app/posts/${postId}/like`,
+        `http://localhost:3000/posts/${postId}/like`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
