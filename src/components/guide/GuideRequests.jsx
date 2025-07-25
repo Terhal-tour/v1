@@ -199,6 +199,16 @@ export default function GuideRequests({ token }) {
                     )}
                   </>
                 )}
+                {req.status === "done" && (
+                  
+                    
+                      <div className="text-green-600 font-semibold text-sm text-center">
+                        ✅ Paid
+
+                      </div>
+                    
+                  
+                )}
               </div>
             </div>
           </div>
