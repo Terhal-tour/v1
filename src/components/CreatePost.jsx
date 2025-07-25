@@ -8,7 +8,6 @@ const CreatePost = ({ onPostCreated }) => {
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState(null);
 
-  // 🔑 Fetch current user profile
   useEffect(() => {
     const token = sessionStorage.getItem("jwt");
     if (!token) return;
@@ -20,15 +19,13 @@ const CreatePost = ({ onPostCreated }) => {
       .then((res) => setProfile(res.data.user))
       .catch((err) => {
         console.error(err);
-        alert("❌ Failed to load profile");
+        alert("Failed to load profile");
       });
   }, []);
 
-  // Fallbacks
   const userName = profile?.name || "User";
   const userImage = profile?.image || "";
   const firstLetter = userName.charAt(0).toUpperCase();
-
 
   const handleImagesChange = (e) => {
     const files = Array.from(e.target.files);
@@ -42,12 +39,13 @@ const CreatePost = ({ onPostCreated }) => {
     e.preventDefault();
 
     if (!description.trim()) {
-      alert("⚠️ Please enter a description for the post.");
+      alert("Please enter a description.");
       return;
     }
 
-    if (images.length === 0) {
-      alert("⚠️ Please add at least one image.");
+    const token = sessionStorage.getItem("jwt");
+    if (!token) {
+      alert("You must be logged in.");
       return;
     }
 
@@ -65,15 +63,15 @@ const CreatePost = ({ onPostCreated }) => {
         },
       });
 
-      alert("✅ Post published successfully!");
+      alert("Post published successfully!");
       setDescription("");
       setImages([]);
       setPreviewUrls([]);
 
       onPostCreated?.();
     } catch (err) {
-      console.error("❌ Error creating post:", err);
-      alert("❌ An error occurred while publishing the post.");
+      console.error("Error creating post:", err);
+      alert("An error occurred while publishing the post.");
     } finally {
       setLoading(false);
     }
@@ -135,7 +133,7 @@ const CreatePost = ({ onPostCreated }) => {
                   d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              <span>Photo</span>
+              <span>Add Photo</span>
               <input
                 type="file"
                 multiple
@@ -148,12 +146,13 @@ const CreatePost = ({ onPostCreated }) => {
             <button
               type="submit"
               disabled={loading}
-              className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 shadow-md ${loading
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-                }`}
+              className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 shadow-md ${
+                loading
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-blue-500 text-white hover:bg-blue-600"
+              }`}
             >
-              {loading ? "Publishing..." : "Publish Post"}
+              {loading ? "Publishing..." : "Publish"}
             </button>
           </div>
         </form>
