@@ -454,13 +454,13 @@ export default function RealTimeRecommendations() {
                         <Camera className="w-4 h-4" />
                         <span>Save</span>
                       </button>
-                      <button
+                      {/* <button
                         onClick={() => handleShare()}
                         className="flex items-center space-x-1 text-xs text-pink-600 hover:text-pink-700 transition-colors bg-pink-50 hover:bg-pink-100 px-3 py-2 rounded-lg font-medium"
                       >
                         <Share2 className="w-4 h-4" />
                         <span>Share</span>
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>
