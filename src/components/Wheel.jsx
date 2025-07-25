@@ -1,21 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Howl } from 'howler';
-
-const sounds = {
-  spin: new Howl({ src: ['/sounds/spin.mp3'], volume: 0.5 }),
-  stop: new Howl({ src: ['/sounds/stop.mp3'], volume: 0.7 }),
-  click: new Howl({ src: ['/sounds/click.mp3'], volume: 0.3 }),
-  win: new Howl({ src: ['/sounds/win.mp3'], volume: 0.6 })
-};
 
 const Wheel = () => {
   const [places, setPlaces] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [spinning, setSpinning] = useState(false);
   const [showResult, setShowResult] = useState(false);
-  const [audioEnabled, setAudioEnabled] = useState(false);
   const wheelRef = useRef();
   const navigate = useNavigate();
 
@@ -30,21 +21,10 @@ const Wheel = () => {
 
   useEffect(() => {
     fetchPlaces();
-    
-    // Precaching الأصوات عند تحميل المكون
-    Object.values(sounds).forEach(sound => sound.load());
   }, []);
 
   const spin = () => {
     if (spinning || places.length === 0) return;
-    
-    if (!audioEnabled) {
-      alert("Please enable sound first!");
-      return;
-    }
-
-    sounds.click.play();
-    sounds.spin.play();
 
     const index = Math.floor(Math.random() * places.length);
     setSelectedIndex(index);
@@ -59,25 +39,18 @@ const Wheel = () => {
     wheelRef.current.style.transform = `rotate(${finalDeg}deg)`;
 
     setTimeout(() => {
-      sounds.stop.play();
-    }, 3500);
-
-    setTimeout(() => {
       setSpinning(false);
       setShowResult(true);
-      sounds.win.play();
-    }, 4600);
+    }, 4200);
   };
 
   const handleGoToDetails = () => {
-    sounds.click.play();
     if (places[selectedIndex]) {
       navigate(`/places/${places[selectedIndex]._id}`);
     }
   };
 
   const handleSpinAgain = () => {
-    sounds.click.play();
     setSelectedIndex(null);
     setShowResult(false);
     fetchPlaces();
@@ -95,23 +68,8 @@ const Wheel = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 px-4 py-12">
-      {!audioEnabled && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-lg max-w-md text-center">
-            <h2 className="text-2xl font-bold mb-4">Enable Audio</h2>
-            <p className="mb-6">For the best experience, please enable sound</p>
-            <button
-              onClick={() => setAudioEnabled(true)}
-              className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
-            >
-              Enable Sound
-            </button>
-          </div>
-        </div>
-      )}
-
       <div className="max-w-md w-full text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4 text-orange-400">Adventure Wheel</h1>
+        <h1 className="text-4xl font-bold mb-4 text-purple-800">🎡 Adventure Wheel</h1>
         <p className="text-gray-600 mb-6">
           Spin the wheel to discover a random destination! 
           All places are visible before spinning. After spinning, 
@@ -188,11 +146,11 @@ const Wheel = () => {
               Spinning...
             </span>
           ) : (
-            "SPIN THE WHEEL"
+            "SPIN THE WHEEL 🎯"
           )}
         </button>
       ) : (
-        <div className="flex flex-col items-center gap-6 bg-white p-6 rounded-xl shadow-md w-full max-w-sm ">
+        <div className="flex flex-col items-center gap-6 bg-white p-6 rounded-xl shadow-md w-full max-w-sm">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-purple-800 mb-2">Your Destination!</h2>
             <p className="text-xl font-semibold text-gray-800">{places[selectedIndex]?.name}</p>

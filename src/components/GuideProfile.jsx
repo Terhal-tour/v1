@@ -16,8 +16,11 @@ import {
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import GeoLocation from "./GeoLocation";
+import ConfirmTour from "./guide/ConfirmTour";
 
 export default function GuideProfile() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [requestId, setRequestId] = useState(null);
   const guide = JSON.parse(sessionStorage.getItem("user"));
   console.log(guide);
   const navigator = useNavigate();
@@ -27,7 +30,7 @@ export default function GuideProfile() {
     sessionStorage.removeItem("user");
     navigator("/login");
   };
-  const handleConfirm = async (requestId) => {
+  const handleConfirm = async (requestId, price) => {
     try {
       const token = sessionStorage.getItem("jwt");
       if (!token) return;
@@ -40,6 +43,7 @@ export default function GuideProfile() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          body: JSON.stringify({ price }),
         }
       );
 
@@ -50,14 +54,15 @@ export default function GuideProfile() {
 
       setRequests((prev) =>
         prev.map((r) =>
-          r._id === requestId ? { ...r, status: "confirmed" } : r
+          r._id === requestId ? { ...r, status: "approved" } : r
         )
       );
-      toast.success("this request was confirmed successfully");
-    } catch (error) {
-      //   toast.error("some thing went wrong try later");
 
+      toast.success("This request was approved successfully");
+      setIsOpen(false);
+    } catch (error) {
       console.error("Error confirming request:", error.message);
+      toast.error("Something went wrong. Try again later.");
     }
   };
 
@@ -92,7 +97,7 @@ export default function GuideProfile() {
   };
 
   const pendingRequests = requests.filter((r) => r.status === "pending");
-  const confirmedRequests = requests.filter((r) => r.status === "confirmed");
+  const approvedRequests = requests.filter((r) => r.status === "approved");
 
   if (!guide) {
     return (
@@ -131,7 +136,10 @@ export default function GuideProfile() {
       </div>
     );
   }
-
+  const handleOpenModal = (requestId) => {
+    setIsOpen(true);
+    setRequestId(requestId);
+  };
   useEffect(() => {
     const fetchRequests = async () => {
       try {
@@ -264,7 +272,7 @@ export default function GuideProfile() {
                       Total Tours
                     </p>
                     <p className="text-2xl font-bold text-gray-900">
-                      {confirmedRequests.length + pendingRequests.length}
+                      {approvedRequests.length + pendingRequests.length}
                     </p>
                   </div>
                   <div className="bg-green-100 rounded-full p-3">
@@ -296,7 +304,7 @@ export default function GuideProfile() {
                       {pendingRequests.length} Pending
                     </span>
                     <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                      {confirmedRequests.length} Confirmed
+                      {approvedRequests.length} approved
                     </span>
                   </div>
                 </div>
@@ -331,13 +339,13 @@ export default function GuideProfile() {
                               </h4>
                               <span
                                 className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                  req.status === "confirmed"
+                                  req.status === "approved"
                                     ? "bg-green-100 text-green-800"
                                     : "bg-yellow-100 text-yellow-800"
                                 }`}
                               >
-                                {req.status === "confirmed"
-                                  ? "Confirmed"
+                                {req.status === "approved"
+                                  ? "approved"
                                   : "Pending Review"}
                               </span>
                             </div>
@@ -376,9 +384,10 @@ export default function GuideProfile() {
                             {new Date(req.createdAt).toLocaleDateString()}
                           </p>
                           <div className="flex space-x-2">
-                            {req.status !== "confirmed" && (
+                            {req.status !== "approved" && (
                               <button
-                                onClick={() => handleConfirm(req._id)}
+                                // onClick={() => handleConfirm(req._id)}
+                                onClick={() => handleOpenModal(req._id)}
                                 className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                               >
                                 <CheckCircle className="h-4 w-4 mr-2" />
@@ -419,6 +428,13 @@ export default function GuideProfile() {
           </div>
         </div>
       </footer>
+      {isOpen && (
+        <ConfirmTour
+          setIsOpen={setIsOpen}
+          handleConfirm={handleConfirm}
+          requestId={requestId}
+        />
+      )}
     </div>
   );
 }

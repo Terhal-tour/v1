@@ -13,6 +13,25 @@ export default function NearbyGuides({ placeId }) {
   const [selectedGuideId, setSelectedGuideId] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  //  Submit handler for guide request modal
+  const handleSubmitRequest = async (formData) => {
+    try {
+      await axios.post(
+        `https://backend-mu-ten-26.vercel.app/guide/request/${selectedGuideId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success("Request sent successfully!");
+    } catch (error) {
+      console.error("Failed to send guide request:", error);
+      toast.error("Failed to send guide request");
+    }
+  };
+
   // Fetch nearby guides on mount
   useEffect(() => {
     const fetchGuides = async () => {
@@ -27,7 +46,7 @@ export default function NearbyGuides({ placeId }) {
         );
         setGuides(res.data || []);
       } catch (err) {
-        console.error("Failed to load nearby guides:", err);
+        console.info("This place has no guides nearby");
         toast.error("Failed to load nearby guides");
       } finally {
         setLoading(false);
@@ -68,6 +87,7 @@ export default function NearbyGuides({ placeId }) {
         <GuideRequestModal
           guideId={selectedGuideId}
           onClose={() => setShowModal(false)}
+          onSubmit={handleSubmitRequest} // Pass the handler to fix error
         />
       )}
     </div>

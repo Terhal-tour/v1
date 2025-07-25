@@ -38,6 +38,8 @@ import GuideProfile from "./components/GuideProfile";
 import FeedPage from "./pages/FeedPage";
 import CreatePost from "./components/CreatePost";
 import Wheel from "./components/Wheel"
+import RecommendedPlaces from "./components/RecommendedPlaces";
+import UpCommingEvents from "./components/UpCommingEvents";
 
 function App() {
   const location = useLocation();
@@ -67,6 +69,8 @@ function App() {
           <Route path="adminLogin" element={<AdminLogin />} />
           <Route path="reactive-account" element={<ReactiveAccount />} />
           <Route path="wheel" element={<Wheel />} />
+          <Route path="/events" element={<UpCommingEvents />} />
+          <Route path="/receomndedPlaces" element={<RecommendedPlaces />} />
           <Route
             path="smartRecommendation"
             element={<RealTimeRecommendations />}

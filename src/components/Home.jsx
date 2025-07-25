@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import Hero from "./Hero";
 import AboutUs from "./AboutUs";
 import TopRatedPlacesHome from "./TopRatedPlacesHome";
-import UpCommingEvents from "./UpCommingEvents";
-import RecommendedPlaces from "./RecommendedPlaces";
+// import UpCommingEvents from "./UpCommingEvents"; ← تم التعليق عليها
 import Spinner from "./Spinner";
 import "./../css/home.css";
 import NearbyNotifier from "./NearbyNotifier";
@@ -15,31 +14,22 @@ import RealTimeRecommendations from "./RealTimeRecommendations";
 
 export default function Home() {
   const [places, setPlaces] = useState([]);
-  const [events, setEvents] = useState([]);
-  const [recommended, setRecommended] = useState([]);
+  // const [events, setEvents] = useState([]); ← تم التعليق عليها
   const [loading, setLoading] = useState(true);
   const [nearByPlaces, setNearByPlaces] = useState([]);
-  // [TODO WILL BE ADDED FROM LOGIN]
+
   useEffect(() => {
     let isMounted = true;
-    const token = sessionStorage.getItem("jwt");
     Promise.all([
       fetch("https://backend-mu-ten-26.vercel.app/places/top").then((res) => res.json()),
-      fetch("https://backend-mu-ten-26.vercel.app/events/eventsinHome").then((res) =>
-        res.json()
-      ),
-      fetch("https://backend-mu-ten-26.vercel.app/places/suggested", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res.json()),
+      // fetch("https://backend-mu-ten-26.vercel.app/events/eventsinHome").then((res) =>
+      //   res.json()
+      // ),
     ])
-      .then(([placesData, eventsData, recommendedData]) => {
+      .then(([placesData /*, eventsData */]) => {
         if (isMounted) {
           setPlaces(placesData);
-          setEvents(eventsData);
-          setRecommended(recommendedData.places || []);
+          // setEvents(eventsData);
           setLoading(false);
         }
       })
@@ -51,6 +41,8 @@ export default function Home() {
       isMounted = false;
     };
   }, []);
+
+  const location = useLocation();
 
   useEffect(() => {
     if (location.state && location.state.scrollTo) {
@@ -75,12 +67,11 @@ export default function Home() {
         <>
           <GeoLocation />
           <NearbyNotifier />
-          <RecommendedPlaces recommended={recommended} />
         </>
       )}
 
       {places.length > 0 && <TopRatedPlacesHome places={places} />}
-      {events.length > 0 && <UpCommingEvents events={events} />}
+      {/* {events.length > 0 && <UpCommingEvents events={events} />} */}
       {sessionStorage.getItem("jwt") && <NearbyPlaces />}
       <AboutUs />
     </>

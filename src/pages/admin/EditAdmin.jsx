@@ -17,7 +17,7 @@ function EditAdmin() {
             return;
         }
 
-        axios.get(`http://backend-mu-ten-26.vercel.app/admin/${id}`, {
+        axios.get(`https://backend-mu-ten-26.vercel.app/admin/${id}`, {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(res => {

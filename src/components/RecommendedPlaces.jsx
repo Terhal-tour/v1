@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -7,10 +7,42 @@ import "swiper/css/pagination";
 import { NavLink } from "react-router-dom";
 import ChildPlace from "./ChildPlace";
 import { useTranslation } from "react-i18next";
+import Spinner from "./Spinner";
 
-export default function RecommendedPlaces({ recommended = [] }) {
+export default function RecommendedPlaces() {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === "ar";
+
+  const [recommended, setRecommended] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("jwt");
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
+    fetch("https://backend-mu-ten-26.vercel.app/places/suggested", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setRecommended(data.places || []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching recommended places:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <Spinner />;
+  if (!sessionStorage.getItem("jwt")) return null;
+  if (recommended.length === 0) return null;
 
   return (
     <section
@@ -29,7 +61,7 @@ export default function RecommendedPlaces({ recommended = [] }) {
           slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
-          dir={isRTL ? "rtl" : "ltr"} 
+          dir={isRTL ? "rtl" : "ltr"}
           breakpoints={{
             640: { slidesPerView: 1 },
             768: { slidesPerView: 2 },
@@ -55,3 +87,4 @@ export default function RecommendedPlaces({ recommended = [] }) {
     </section>
   );
 }
+
