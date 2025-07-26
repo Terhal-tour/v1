@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { toast } from "react-toastify";
+// https://backend-mu-ten-26.vercel.app
 const CreatePost = ({ onPostCreated }) => {
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
@@ -8,27 +9,24 @@ const CreatePost = ({ onPostCreated }) => {
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState(null);
 
-  // 🔑 Fetch current user profile
   useEffect(() => {
     const token = sessionStorage.getItem("jwt");
     if (!token) return;
 
     axios
-      .get("https://backend-mu-ten-26.vercel.app/profile/me", {
+      .get("http://localhost:3000/profile/me", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setProfile(res.data.user))
       .catch((err) => {
         console.error(err);
-        alert("❌ Failed to load profile");
+        alert("Failed to load profile");
       });
   }, []);
 
-  // Fallbacks
   const userName = profile?.name || "User";
   const userImage = profile?.image || "";
   const firstLetter = userName.charAt(0).toUpperCase();
-
 
   const handleImagesChange = (e) => {
     const files = Array.from(e.target.files);
@@ -42,12 +40,13 @@ const CreatePost = ({ onPostCreated }) => {
     e.preventDefault();
 
     if (!description.trim()) {
-      alert("⚠️ Please enter a description for the post.");
+      alert("Please enter a description.");
       return;
     }
 
-    if (images.length === 0) {
-      alert("⚠️ Please add at least one image.");
+    const token = sessionStorage.getItem("jwt");
+    if (!token) {
+      alert("You must be logged in.");
       return;
     }
 
@@ -58,22 +57,25 @@ const CreatePost = ({ onPostCreated }) => {
     try {
       setLoading(true);
 
-      await axios.post("https://backend-mu-ten-26.vercel.app/posts", formData, {
+      const response = await axios.post("http://localhost:3000/posts", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
 
-      alert("✅ Post published successfully!");
+      const newPost = response.data.post;
+
+      toast.success("post created successfully");
+
       setDescription("");
       setImages([]);
       setPreviewUrls([]);
 
-      onPostCreated?.();
+      onPostCreated?.(newPost);
     } catch (err) {
-      console.error("❌ Error creating post:", err);
-      alert("❌ An error occurred while publishing the post.");
+      console.error("Error creating post:", err);
+      alert("An error occurred while publishing the post.");
     } finally {
       setLoading(false);
     }
@@ -135,7 +137,7 @@ const CreatePost = ({ onPostCreated }) => {
                   d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              <span>Photo</span>
+              <span>Add Photo</span>
               <input
                 type="file"
                 multiple
@@ -153,7 +155,7 @@ const CreatePost = ({ onPostCreated }) => {
                 : "bg-blue-500 text-white hover:bg-blue-600"
                 }`}
             >
-              {loading ? "Publishing..." : "Publish Post"}
+              {loading ? "Publishing..." : "Publish"}
             </button>
           </div>
         </form>
