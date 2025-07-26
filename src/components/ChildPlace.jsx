@@ -40,7 +40,9 @@ export default function ChildPlace({ place }) {
             </svg>
           </span>
           <span className="text-[var(--color-text-light)] ">
-            {place.rating || "No description available."}
+            {typeof place.rating === "number"
+              ? place.rating.toFixed(1)
+              : place.rating || "No description available."}
           </span>
         </div>
         {sessionStorage.getItem("jwt") && (
