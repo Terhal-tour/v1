@@ -24,7 +24,7 @@ const CommentForm = ({ postId, onAddComment }) => {
       setLoading(true);
 
       const { data: comment } = await axios.post(
-        "https://backend-mu-ten-26.vercel.app/comments",
+        "http://localhost:3000/comments",
         { postId, text: trimmed },
         {
           headers: { Authorization: `Bearer ${token}` },
