@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { toast } from "react-toastify";
+// https://backend-mu-ten-26.vercel.app
 const CreatePost = ({ onPostCreated }) => {
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
@@ -8,19 +9,19 @@ const CreatePost = ({ onPostCreated }) => {
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState(null);
 
-  // 🔑 Fetch current user profile
+
   useEffect(() => {
     const token = sessionStorage.getItem("jwt");
     if (!token) return;
 
     axios
-      .get("https://backend-mu-ten-26.vercel.app/profile/me", {
+      .get("http://localhost:3000/profile/me", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setProfile(res.data.user))
       .catch((err) => {
         console.error(err);
-        alert("❌ Failed to load profile");
+        alert("Failed to load profile");
       });
   }, []);
 
@@ -28,34 +29,45 @@ const CreatePost = ({ onPostCreated }) => {
   const userImage = profile?.image || "";
   const firstLetter = userName.charAt(0).toUpperCase();
 
+
   const handleImagesChange = (e) => {
     const files = Array.from(e.target.files);
-    setImages(files);
+    // Allow all common image MIME types
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/jpg",
+      "image/gif",
+      "image/avif",
+      "image/svg+xml",
+      "image/bmp",
+      "image/tiff"
+    ];
 
+    const invalidFiles = files.filter((file) => !allowedTypes.includes(file.type));
+
+    if (invalidFiles.length > 0) {
+      alert("Only image files (jpg, png, webp, gif) are allowed.");
+      return;
+    }
+
+    setImages(files);
     const urls = files.map((file) => URL.createObjectURL(file));
     setPreviewUrls(urls);
   };
 
-  const handleRemoveImage = (indexToRemove) => {
-    setImages(images.filter((_, i) => i !== indexToRemove));
-    setPreviewUrls(previewUrls.filter((_, i) => i !== indexToRemove));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = sessionStorage.getItem("jwt");
-    if (!token) {
-      alert("❌ You are not logged in.");
-      return;
-    }
 
     if (!description.trim()) {
-      alert("⚠️ Please enter a description for the post.");
+      alert("Please enter a description.");
       return;
     }
 
-    if (images.length === 0) {
-      alert("⚠️ Please add at least one image.");
+    const token = sessionStorage.getItem("jwt");
+    if (!token) {
+      alert("You must be logged in.");
       return;
     }
 
@@ -66,21 +78,28 @@ const CreatePost = ({ onPostCreated }) => {
     try {
       setLoading(true);
 
-      await axios.post("https://backend-mu-ten-26.vercel.app/posts", formData, {
+      const response = await axios.post("http://localhost:3000/posts", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
 
-      alert("✅ Post published successfully!");
+      // const newPost = response.data.post;
+
+      toast.success("post created successfully");
+
       setDescription("");
       setImages([]);
       setPreviewUrls([]);
-      onPostCreated?.();
+      const newPost = response.data.post;
+      if (newPost && newPost._id) {
+        onPostCreated?.(newPost);
+      }
+      // onPostCreated?.(newPost);
     } catch (err) {
-      console.error("❌ Error creating post:", err);
-      alert(err.response?.data?.message || "❌ An error occurred while publishing the post.");
+      console.error("Error creating post:", err);
+      alert("An error occurred while publishing the post.");
     } finally {
       setLoading(false);
     }
@@ -117,20 +136,12 @@ const CreatePost = ({ onPostCreated }) => {
           {previewUrls.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {previewUrls.map((url, index) => (
-                <div key={index} className="relative">
-                  <img
-                    src={url}
-                    alt={`preview-${index}`}
-                    className="w-20 h-20 object-cover rounded-lg border"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveImage(index)}
-                    className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1"
-                  >
-                    ✕
-                  </button>
-                </div>
+                <img
+                  key={index}
+                  src={url}
+                  alt={`preview-${index}`}
+                  className="w-20 h-20 object-cover rounded-lg border"
+                />
               ))}
             </div>
           )}
@@ -150,7 +161,7 @@ const CreatePost = ({ onPostCreated }) => {
                   d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              <span>Photo</span>
+              <span>Add Photo</span>
               <input
                 type="file"
                 multiple
@@ -168,14 +179,10 @@ const CreatePost = ({ onPostCreated }) => {
                 : "bg-blue-500 text-white hover:bg-blue-600"
                 }`}
             >
-              {loading ? "Publishing..." : "Publish Post"}
+              {loading ? "Publishing..." : "Publish"}
             </button>
           </div>
         </form>
-
-        {loading && (
-          <p className="text-sm text-gray-500 mt-2">Uploading your post...</p>
-        )}
       </div>
     </div>
   );
