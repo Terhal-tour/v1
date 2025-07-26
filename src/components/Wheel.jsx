@@ -14,7 +14,7 @@ const Wheel = () => {
 useEffect(()=>{},[])
   const fetchPlaces = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/randomplaces/random");
+      const res = await axios.get("http://localhost:3000/places");
       setPlaces(res.data);
     } catch (err) {
       console.error("Error fetching places", err);
