@@ -56,20 +56,18 @@ export default function RealTimeRecommendations() {
   const [error, setError] = useState(null);
   const [favoritePlace, setFavoritePlace] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
-  const parsedRecommendations = (() => {
-    try {
-      if (
-        typeof data?.recommendation === "string" &&
-        data.recommendation.includes("recommendations")
-      ) {
-        const cleaned = data.recommendation.replace(/```json|```/g, "").trim();
-        return JSON.parse(cleaned).recommendations;
-      }
-    } catch (err) {
-      console.error("Failed to parse recommendations JSON", err);
+const parsedRecommendations = (() => {
+  try {
+    if (typeof data?.recommendation === "string") {
+      const cleaned = data.recommendation.replace(/```json|```/g, "").trim();
+      return JSON.parse(cleaned); // لا حاجة للوصول إلى .recommendations
     }
-    return [];
-  })();
+  } catch (err) {
+    console.error("Failed to parse recommendations JSON", err);
+  }
+  return [];
+})();
+const lang=localStorage.getItem("lang") || "AR";
 
   const fetchRecommendations = async (lat, lng) => {
     try {
@@ -82,15 +80,18 @@ export default function RealTimeRecommendations() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
           },
-          body: JSON.stringify({ lat, lng }),
+          body: JSON.stringify(lang === "AR" ? { lat, lng } : { lat, lng, lang }),
         }
       );
+// console.log(response ,"resssponsss");
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const responseData = await response.json();
+      console.log(responseData, "responseData");
+      
       setData(responseData);
     } catch (err) {
       setError(err.message || "Error fetching data");
@@ -204,6 +205,8 @@ export default function RealTimeRecommendations() {
     );
   }
   const handleSave = () => {
+    {console.log("Saving recommendation:", data?.recommendation);
+    }
     if (data?.recommendation) {
       const saved = {
         recommendation: data.recommendation,
@@ -419,6 +422,9 @@ export default function RealTimeRecommendations() {
             </div>
 
             <div className="p-6">
+              {
+                console.log("data:", data.recommendation , "parsedRecommendations:", parsedRecommendations)
+              }
               {data?.recommendation ? (
                 <div className="space-y-6">
                   <div className="bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 rounded-2xl p-6 border-2 border-purple-100 relative overflow-hidden">
@@ -528,20 +534,20 @@ export default function RealTimeRecommendations() {
         </div>
       </div>
 
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-      `}</style>
+     <style>{`
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+`}</style>
+
     </div>
   );
 }
