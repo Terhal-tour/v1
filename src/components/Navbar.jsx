@@ -203,7 +203,7 @@ const Navbar = () => {
                   <span className="text-xs">Smart</span>
                 </NavLink>
 
-                <NavLink
+                {/* <NavLink
                   to="/createPost"
                   className="flex items-center gap-1 bg-green-600 text-white font-semibold py-1.5 px-2 rounded-lg hover:bg-green-700 transition-colors duration-200"
                 >
@@ -211,8 +211,8 @@ const Navbar = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                   </svg>
                   <span className="text-xs">Create</span>
-                </NavLink>
-{/* 
+                </NavLink> */}
+
                 <NavLink
                   to="/feedPage"
                   className="flex items-center gap-1 bg-purple-600 text-white font-semibold py-1.5 px-2 rounded-lg hover:bg-purple-700 transition-colors duration-200"
@@ -221,7 +221,7 @@ const Navbar = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                   </svg>
                   <span className="text-xs">Feed</span>
-                </NavLink> */}
+                </NavLink> 
               </>
             ) : (
               <>
@@ -387,7 +387,7 @@ const Navbar = () => {
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
           </NavLink>
-
+{/* 
           <NavLink
             to="/createPost"
             className="flex items-center justify-end gap-3 w-full px-3 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition-colors duration-200"
@@ -397,7 +397,7 @@ const Navbar = () => {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
-          </NavLink>
+          </NavLink> */}
 
           <NavLink
             to="/feedPage"
