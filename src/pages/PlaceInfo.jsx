@@ -115,21 +115,6 @@ function PlaceInfo() {
     }
   };
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`https://backend-mu-ten-26.vercel.app/places/${_id}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data.data);
-  //       setPlace(res.data.data);
-  //       setSuggestions(res.data.suggestions.places);
-  //     })
-  //     .catch((err) => console.error("Error fetching place details:", err));
-  // }, [_id]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -198,7 +183,7 @@ function PlaceInfo() {
               backgroundImage: `url(${place.image})`,
             }}
           >
-            <div className="relative z-10">
+            <div className="relative z-10 bg-gradient-to-t from-black/70 via-black/30 to-transparent rounded-lg p-6 ">
               <h2 className="text-5xl font-bold text-white tracking-tight">
                 {place.name}
               </h2>
