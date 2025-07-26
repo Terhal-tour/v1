@@ -29,10 +29,30 @@ const CreatePost = ({ onPostCreated }) => {
   const firstLetter = userName.charAt(0).toUpperCase();
 
   const handleImagesChange = (e) => {
-    const files = Array.from(e.target.files);
-    setImages(files);
+    const selectedFiles = Array.from(e.target.files);
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif"]; // Define allowed image types
 
-    const urls = files.map((file) => URL.createObjectURL(file));
+    // Filter out unsupported files and warn the user
+    const validFiles = selectedFiles.filter((file) =>
+      allowedTypes.includes(file.type)
+    );
+    const unsupportedFiles = selectedFiles.filter(
+      (file) => !allowedTypes.includes(file.type)
+    );
+
+    if (unsupportedFiles.length > 0) {
+      alert(
+        `⚠️ The following files are not supported and will not be uploaded: ${unsupportedFiles
+          .map((file) => file.name)
+          .join(", ")}. Please upload only image files (JPG, PNG, GIF).`
+      );
+    }
+
+    setImages(validFiles);
+
+    // Revoke old object URLs to prevent memory leaks
+    previewUrls.forEach(URL.revokeObjectURL);
+    const urls = validFiles.map((file) => URL.createObjectURL(file));
     setPreviewUrls(urls);
   };
 
@@ -66,6 +86,7 @@ const CreatePost = ({ onPostCreated }) => {
     try {
       setLoading(true);
 
+      const token = sessionStorage.getItem("jwt"); // Ensure token is available here
       await axios.post("https://backend-mu-ten-26.vercel.app/posts", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -75,6 +96,8 @@ const CreatePost = ({ onPostCreated }) => {
 
       alert("✅ Post published successfully!");
       setDescription("");
+      // Revoke object URLs after successful upload and state reset
+      previewUrls.forEach(URL.revokeObjectURL);
       setImages([]);
       setPreviewUrls([]);
       onPostCreated?.();
@@ -85,6 +108,13 @@ const CreatePost = ({ onPostCreated }) => {
       setLoading(false);
     }
   };
+
+  // Revoke object URLs when component unmounts to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      previewUrls.forEach(URL.revokeObjectURL);
+    };
+  }, [previewUrls]);
 
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transition-all duration-300">
@@ -101,7 +131,9 @@ const CreatePost = ({ onPostCreated }) => {
               {firstLetter}
             </div>
           )}
-          <span className="font-semibold text-gray-800">What's on your mind?</span>
+          <span className="font-semibold text-gray-800">
+            What's on your mind?
+          </span>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -154,7 +186,7 @@ const CreatePost = ({ onPostCreated }) => {
               <input
                 type="file"
                 multiple
-                accept="image/*"
+                accept="image/*" // This helps, but backend validation is crucial
                 onChange={handleImagesChange}
                 className="hidden"
               />
@@ -163,10 +195,11 @@ const CreatePost = ({ onPostCreated }) => {
             <button
               type="submit"
               disabled={loading}
-              className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 shadow-md ${loading
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-                }`}
+              className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 shadow-md ${
+                loading
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-blue-500 text-white hover:bg-blue-600"
+              }`}
             >
               {loading ? "Publishing..." : "Publish Post"}
             </button>
