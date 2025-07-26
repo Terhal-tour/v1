@@ -6,11 +6,11 @@ export default function TopRatedPlacesHome({ places }) {
   const { t } = useTranslation();
   return (
     <section
-      className="py-20 sm:py-28 bg-[var(--color-desert-sand)]"
+      className="py-20 sm:py-28 bg-white-900"
       id="topRated"
     >
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-center text-[var(--color-nile-blue)] mb-12">
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-center text-yellow-600 mb-12">
           {t('top_rated_title')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

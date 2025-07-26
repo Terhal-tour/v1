@@ -1,0 +1,41 @@
+.wheel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+  position: relative;
+}
+
+.wheel {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 5px solid #333;
+  position: relative;
+  overflow: hidden;
+}
+
+.sector {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  left: 50%;
+  top: 50%;
+  transform-origin: 0% 0%;
+  background-color: #f9c74f;
+  border-right: 1px solid #fff;
+  clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sector span {
+  transform-origin: 0 0;
+  position: absolute;
+  left: 10px;
+  font-size: 12px;
+  max-width: 60px;
+  font-weight: bold;
+  color: #333;
+}

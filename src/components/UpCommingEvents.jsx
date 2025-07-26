@@ -1,21 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import Spinner from "./Spinner";
 
-export default function UpCommingEvents({ events }) {
+export default function UpCommingEvents() {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === "ar"; 
+  const isRTL = i18n.language === "ar";
+
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch("https://backend-mu-ten-26.vercel.app/events/eventsinHome")
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted) {
+          setEvents(data);
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        if (isMounted) setLoading(false);
+        console.error("Error fetching events:", err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (loading) return <Spinner />;
+
   const eventCount = events?.length || 0;
 
   return (
     <section
       className="py-20 sm:py-28 bg-gradient-to-br from-amber-50 to-orange-50"
       id="events"
-      dir={isRTL ? "rtl" : "ltr"} 
+      dir={isRTL ? "rtl" : "ltr"}
     >
       <div className="container mx-auto px-6">
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-center text-amber-900 mb-12">
@@ -33,7 +60,7 @@ export default function UpCommingEvents({ events }) {
             navigation
             pagination={{ clickable: true }}
             slidesPerView={1}
-            dir={isRTL ? "rtl" : "ltr"} 
+            dir={isRTL ? "rtl" : "ltr"}
             breakpoints={{
               640: { slidesPerView: 1 },
               768: { slidesPerView: 2 },
@@ -43,7 +70,6 @@ export default function UpCommingEvents({ events }) {
           >
             {events.map((event) => (
               <SwiperSlide key={event.id}>
-                {/* Slide Content */}
                 <div className="bg-gradient-to-br from-orange-100 to-amber-100 rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300 hover:shadow-xl border border-amber-200 flex flex-col h-full">
                   <div className="w-full h-56 relative">
                     <iframe
@@ -139,3 +165,4 @@ export default function UpCommingEvents({ events }) {
     </section>
   );
 }
+
