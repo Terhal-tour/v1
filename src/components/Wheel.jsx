@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 
 const Wheel = () => {
   const [places, setPlaces] = useState([]);
@@ -9,6 +10,7 @@ const Wheel = () => {
   const [showResult, setShowResult] = useState(false);
   const wheelRef = useRef();
   const navigate = useNavigate();
+   const { t } = useTranslation();
 useEffect(()=>{},[])
   const fetchPlaces = async () => {
     try {
@@ -66,14 +68,15 @@ const colors = [
 ];
 
 return (
-  <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-12">
+  <div id='wheel'
+   className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-12">
     <div className="max-w-md w-full text-center mb-8">
       <h1 className="text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-orange-600">
-        Dare to Explore! ✨
+       ✨ {t("Spin")} 
       </h1>
       <p className="text-lg text-gray-600 mb-6">
         Take a chance and discover hidden gems across Egypt — your next adventure is just a spin away!
-        <span className="block mt-2 text-md text-orange-500">Spin the wheel and let destiny guide you!</span>
+        <span className="block mt-2 text-md text-orange-500">Spin the wheel and let destiny guide you</span>
       </p>
     </div>
 

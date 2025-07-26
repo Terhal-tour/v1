@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
 import { toast } from "react-toastify";
 import DayPlanner from "./DayPlanner";
+import { useTranslation } from "react-i18next";
 import GuideRequests from "./guide/GuideRequests";
 const Profile = () => {
+  const { t } = useTranslation();
   const [user, setUser] = useState({
     name: "",
     mobile: "",
@@ -183,7 +185,7 @@ const Profile = () => {
 
       <div className="w-full max-w-3xl mx-auto mt-8">
         <h1 className="text-3xl font-bold mb-6 text-center text-orange-500">
-          Your Profile
+           {t('Profile')}
         </h1>
 
         <div className="bg-white rounded-2xl shadow-lg p-6 flex items-center gap-6">
