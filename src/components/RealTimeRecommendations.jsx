@@ -21,6 +21,7 @@ import {
   Award,
 } from "lucide-react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 // Enhanced Spinner component
 const Spinner = () => (
@@ -51,23 +52,25 @@ const handleShare = () => {
   }
 };
 export default function RealTimeRecommendations() {
+  const { t, i18n } = useTranslation();
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [favoritePlace, setFavoritePlace] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
-const parsedRecommendations = (() => {
-  try {
-    if (typeof data?.recommendation === "string") {
-      const cleaned = data.recommendation.replace(/```json|```/g, "").trim();
-      return JSON.parse(cleaned); // لا حاجة للوصول إلى .recommendations
+  const parsedRecommendations = (() => {
+    try {
+      if (typeof data?.recommendation === "string") {
+        const cleaned = data.recommendation.replace(/```json|```/g, "").trim();
+        return JSON.parse(cleaned); // لا حاجة للوصول إلى .recommendations
+      }
+    } catch (err) {
+      console.error("Failed to parse recommendations JSON", err);
     }
-  } catch (err) {
-    console.error("Failed to parse recommendations JSON", err);
-  }
-  return [];
-})();
-const lang=localStorage.getItem("lang") || "AR";
+    return [];
+  })();
+  const lang = localStorage.getItem("lang") || "AR";
 
   const fetchRecommendations = async (lat, lng) => {
     try {
@@ -80,10 +83,12 @@ const lang=localStorage.getItem("lang") || "AR";
             "Content-Type": "application/json",
             Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
           },
-          body: JSON.stringify(lang === "AR" ? { lat, lng } : { lat, lng, lang }),
+          body: JSON.stringify(
+            lang === "AR" ? { lat, lng } : { lat, lng, lang }
+          ),
         }
       );
-// console.log(response ,"resssponsss");
+      // console.log(response ,"resssponsss");
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -91,7 +96,7 @@ const lang=localStorage.getItem("lang") || "AR";
 
       const responseData = await response.json();
       console.log(responseData, "responseData");
-      
+
       setData(responseData);
     } catch (err) {
       setError(err.message || "Error fetching data");
@@ -160,9 +165,7 @@ const lang=localStorage.getItem("lang") || "AR";
             <Spinner />
           </div>
           <div className="space-y-3">
-            <h3 className="text-2xl font-bold text-gray-800">
-              Discovering Amazing Places
-            </h3>
+            <h3 className="text-2xl font-bold text-gray-800"></h3>
             <p className="text-gray-600">
               Analyzing your location for personalized recommendations...
             </p>
@@ -205,7 +208,8 @@ const lang=localStorage.getItem("lang") || "AR";
     );
   }
   const handleSave = () => {
-    {console.log("Saving recommendation:", data?.recommendation);
+    {
+      console.log("Saving recommendation:", data?.recommendation);
     }
     if (data?.recommendation) {
       const saved = {
@@ -246,10 +250,10 @@ const lang=localStorage.getItem("lang") || "AR";
               </div>
               <div>
                 <h1 className="text-4xl font-bold text-white mb-2">
-                  Smart Travel Recommendations
+                  {t("smart_travel_recommendations")}
                 </h1>
                 <p className="text-blue-100 text-lg">
-                  Discover personalized places just for you
+                  {t("discover_personalized_places")}
                 </p>
               </div>
             </div>
@@ -275,13 +279,13 @@ const lang=localStorage.getItem("lang") || "AR";
               </div>
               <div>
                 <p className="text-sm text-gray-500 font-semibold mb-1">
-                  Current Location
+                  {t("c_Location")}
                 </p>
                 <p className="text-gray-800 font-bold text-xl mb-1">
                   {data?.lat?.toFixed(6)}, {data?.lng?.toFixed(6)}
                 </p>
                 <p className="text-xs text-gray-400 bg-gray-100 px-3 py-1 rounded-full inline-block">
-                  GPS Coordinates
+                  {t("coordinates")}
                 </p>
               </div>
             </div>
@@ -293,7 +297,7 @@ const lang=localStorage.getItem("lang") || "AR";
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 font-semibold">
-                    Current Weather
+                    {t("current_weather")}
                   </p>
                   <p className="text-gray-800 font-bold text-lg">
                     {data?.weather || "Unknown"} • {data?.temperature || "--"}°C
@@ -319,9 +323,9 @@ const lang=localStorage.getItem("lang") || "AR";
                     <Navigation className="w-7 h-7" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold">Nearby Gems</h3>
+                    <h3 className="text-xl font-bold">{t("nearby_gems")}</h3>
                     <p className="text-emerald-100 text-sm">
-                      Handpicked for you
+                      {t("for_u")}
                     </p>
                   </div>
                 </div>
@@ -395,10 +399,10 @@ const lang=localStorage.getItem("lang") || "AR";
                     <MapPin className="w-12 h-12 text-gray-400" />
                   </div>
                   <h4 className="text-xl font-semibold text-gray-600 mb-2">
-                    No nearby places found
+                    {t("no_near_places")}
                   </h4>
                   <p className="text-sm text-gray-400">
-                    Try refreshing or check your location settings
+                    {t("try_refresh")}
                   </p>
                 </div>
               )}
@@ -413,18 +417,21 @@ const lang=localStorage.getItem("lang") || "AR";
                   <Sparkles className="w-6 h-6 animate-pulse" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold">AI Travel Guide</h3>
+                  <h3 className="text-lg font-bold">{t("ai_travel_guide")}</h3>
                   <p className="text-purple-100 text-sm">
-                    Powered by intelligence
+                    {t("powred_by_ai")}
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="p-6">
-              {
-                console.log("data:", data.recommendation , "parsedRecommendations:", parsedRecommendations)
-              }
+              {console.log(
+                "data:",
+                data.recommendation,
+                "parsedRecommendations:",
+                parsedRecommendations
+              )}
               {data?.recommendation ? (
                 <div className="space-y-6">
                   <div className="bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 rounded-2xl p-6 border-2 border-purple-100 relative overflow-hidden">
@@ -449,7 +456,7 @@ const lang=localStorage.getItem("lang") || "AR";
                   <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                     <div className="flex items-center space-x-2 text-xs text-gray-500">
                       <Clock className="w-4 h-4" />
-                      <span className="font-medium">Updated just now</span>
+                      <span className="font-medium">{t("updated_now")}</span>
                       <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse ml-2"></div>
                     </div>
                     <div className="flex space-x-2">
@@ -458,7 +465,7 @@ const lang=localStorage.getItem("lang") || "AR";
                         className="flex items-center space-x-1 text-xs text-purple-600 hover:text-purple-700 transition-colors bg-purple-50 hover:bg-purple-100 px-3 py-2 rounded-lg font-medium"
                       >
                         <Camera className="w-4 h-4" />
-                        <span>Save</span>
+                        <span>{t("save")}</span>
                       </button>
                       {/* <button
                         onClick={() => handleShare()}
@@ -476,10 +483,10 @@ const lang=localStorage.getItem("lang") || "AR";
                     <Sparkles className="w-10 h-10 text-purple-400 animate-spin" />
                   </div>
                   <h4 className="text-lg font-semibold text-gray-600 mb-2">
-                    Generating recommendations...
+                    {t("generate_recomendation")}
                   </h4>
                   <p className="text-sm text-gray-400">
-                    Our AI is crafting your perfect day
+                    {t("please_wait")}
                   </p>
                 </div>
               )}
@@ -528,13 +535,13 @@ const lang=localStorage.getItem("lang") || "AR";
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/10 to-indigo-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
             <MapPin className="w-6 h-6 group-hover:text-indigo-600 transition-colors relative z-10" />
             <span className="group-hover:text-indigo-700 transition-colors relative z-10">
-              Explore on Map
+              {t("explore_on_map")}
             </span>
           </button>
         </div>
       </div>
 
-     <style>{`
+      <style>{`
   @keyframes float {
     0%, 100% {
       transform: translateY(0px);
@@ -547,7 +554,6 @@ const lang=localStorage.getItem("lang") || "AR";
     animation: float 6s ease-in-out infinite;
   }
 `}</style>
-
     </div>
   );
 }
