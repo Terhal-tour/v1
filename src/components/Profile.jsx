@@ -103,31 +103,6 @@ const Profile = () => {
   //update profile
   const handleUpdate = async (e) => {
     e.preventDefault();
-
-    // Start of modified code for mobile number validation
-    // Allows an optional '+' at the beginning, followed by 7 to 15 digits.
-    // This accommodates international formats like +2010...
-    const mobileRegex = /^\+?\d{7,15}$/;
-    if (!mobileRegex.test(user.mobile)) {
-      setMobileError(
-        "Mobile number must start with an optional '+' and contain 7 to 15 digits."
-      );
-      toast.error("Invalid mobile number format");
-      return;
-    } else {
-      setMobileError("");
-    }
-    // End of modified code for mobile number validation
-
-    const nationalityRegex = /^[a-zA-Z\s]+$/; // Accepts letters and spaces
-    if (!nationalityRegex.test(user.nationality)) {
-      setNationalityError("Nationality must contain only letters and spaces.");
-      toast.error("Invalid nationality format");
-      return;
-    } else {
-      setNationalityError(""); // Clear error if valid
-    }
-
     try {
       const formData = new FormData();
       formData.append("name", user.name);
@@ -204,7 +179,7 @@ const Profile = () => {
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-start px-4  pt-7"
+      className="min-h-screen flex flex-col items-center justify-start px-4  pt-7"
       style={{ backgroundColor: "#e5e7eb" }}
     >
       {/* Profile Header */}

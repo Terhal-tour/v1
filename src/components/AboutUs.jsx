@@ -5,7 +5,7 @@ export default function AboutUs() {
   const { t } = useTranslation();
   return (
     <section
-      className="py-20 sm:py-28 bg-blue-50"
+      className="py-20 sm:py-28 bg-blue-30"
       id="about"
     >
       <div className="container mx-auto px-6 text-center">

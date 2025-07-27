@@ -29,7 +29,6 @@ const CreatePost = ({ onPostCreated }) => {
   const userImage = profile?.image || "";
   const firstLetter = userName.charAt(0).toUpperCase();
 
-
   const handleImagesChange = (e) => {
     const files = Array.from(e.target.files);
     // Allow all common image MIME types
@@ -57,15 +56,25 @@ const CreatePost = ({ onPostCreated }) => {
     setPreviewUrls(urls);
   };
 
+  const handleRemoveImage = (indexToRemove) => {
+    setImages(images.filter((_, i) => i !== indexToRemove));
+    setPreviewUrls(previewUrls.filter((_, i) => i !== indexToRemove));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = sessionStorage.getItem("jwt");
+    if (!token) {
+      alert("❌ You are not logged in.");
+      return;
+    }
 
     if (!description.trim()) {
       alert("Please enter a description.");
       return;
     }
 
-    const token = sessionStorage.getItem("jwt");
+    // const token = sessionStorage.getItem("jwt");
     if (!token) {
       alert("You must be logged in.");
       return;
@@ -92,14 +101,11 @@ const CreatePost = ({ onPostCreated }) => {
       setDescription("");
       setImages([]);
       setPreviewUrls([]);
-      const newPost = response.data.post;
-      if (newPost && newPost._id) {
-        onPostCreated?.(newPost);
-      }
-      // onPostCreated?.(newPost);
+
+      onPostCreated?.();
     } catch (err) {
-      console.error("Error creating post:", err);
-      alert("An error occurred while publishing the post.");
+      console.error("❌ Error creating post:", err);
+      alert("❌ An error occurred while publishing the post.");
     } finally {
       setLoading(false);
     }
@@ -136,12 +142,20 @@ const CreatePost = ({ onPostCreated }) => {
           {previewUrls.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {previewUrls.map((url, index) => (
-                <img
-                  key={index}
-                  src={url}
-                  alt={`preview-${index}`}
-                  className="w-20 h-20 object-cover rounded-lg border"
-                />
+                <div key={index} className="relative">
+                  <img
+                    src={url}
+                    alt={`preview-${index}`}
+                    className="w-20 h-20 object-cover rounded-lg border"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(index)}
+                    className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1"
+                  >
+                    ✕
+                  </button>
+                </div>
               ))}
             </div>
           )}
@@ -183,6 +197,10 @@ const CreatePost = ({ onPostCreated }) => {
             </button>
           </div>
         </form>
+
+        {loading && (
+          <p className="text-sm text-gray-500 mt-2">Uploading your post...</p>
+        )}
       </div>
     </div>
   );

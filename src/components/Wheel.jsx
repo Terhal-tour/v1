@@ -10,7 +10,7 @@ const Wheel = () => {
   const [showResult, setShowResult] = useState(false);
   const wheelRef = useRef();
 
-  const token = sessionStorage.getItem("token");
+  const token = sessionStorage.getItem("jwt");
   const navigate = useNavigate();
   const { t } = useTranslation();
   useEffect(() => {}, []);
@@ -82,7 +82,7 @@ const Wheel = () => {
   return (
     <div
       id="wheel"
-      className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-12"
+      className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-4 py-12"
     >
       <div className="max-w-md w-full text-center mb-8">
         <h1 className="text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-orange-600">
@@ -262,7 +262,7 @@ const Wheel = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                Login To enjoy full features
+                Login To View Details
               </NavLink>
             )}
             <button
