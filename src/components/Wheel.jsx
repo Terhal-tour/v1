@@ -82,7 +82,10 @@ const Wheel = () => {
   return (
     <div
       id="wheel"
-      className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-4 py-12"
+       style={{
+        background: '#dceaf7ff',
+      }}
+      className="min-h-screen flex flex-col items-center justify-center  px-4 py-12"
     >
       <div className="max-w-md w-full text-center mb-8">
         <h1 className="text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-orange-600">
