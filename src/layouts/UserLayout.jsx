@@ -9,7 +9,7 @@ export default function UserLayout() {
       <Navbar />
       <Outlet />
       <SupportUsButton />
-      <Assestant/>
+     {sessionStorage.getItem("jwt")&&<Assestant/>} 
       <Footer />
     </>
   );
