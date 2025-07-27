@@ -74,7 +74,7 @@ export default function Home() {
       {places.length > 0 && <TopRatedPlacesHome places={places} />}
       {/* {events.length > 0 && <UpCommingEvents events={events} />} */}
       {sessionStorage.getItem("jwt") && <NearbyPlaces />}
-      {/* <Wheel/> */}
+      <Wheel/>
       <AboutUs />
     </>
   );

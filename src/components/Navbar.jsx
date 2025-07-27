@@ -106,12 +106,12 @@ const Navbar = () => {
                 {t("near_by_title")}
               </button>}
 
-               {/* <button
+               <button
                 onClick={() => handleNavClick("wheel")}
                 className="font-medium text-sm text-gray-700 hover:text-[var(--color-gold)] transition-colors duration-200"
               >
                 {t("Spin")} 
-              </button> */}
+              </button>
 
                <button
                 onClick={() => handleNavClick("about")}
