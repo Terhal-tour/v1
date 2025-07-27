@@ -103,29 +103,6 @@ const Profile = () => {
   //update profile
   const handleUpdate = async (e) => {
     e.preventDefault();
-
-    const mobileRegex = /^[0-9]{10,15}$/;
-    if (!mobileRegex.test(user.mobile)) {
-      setMobileError(
-        "Mobile number must contain only digits and be between 10 to 15 digits long."
-      );
-      toast.error("Invalid mobile number format");
-      return;
-    } else {
-      setMobileError("");
-    }
-
-    // Start of added code for nationality validation
-    const nationalityRegex = /^[a-zA-Z\s]+$/; // Accepts letters and spaces
-    if (!nationalityRegex.test(user.nationality)) {
-      setNationalityError("Nationality must contain only letters and spaces.");
-      toast.error("Invalid nationality format");
-      return;
-    } else {
-      setNationalityError(""); // Clear error if valid
-    }
-    // End of added code for nationality validation
-
     try {
       const formData = new FormData();
       formData.append("name", user.name);
@@ -209,7 +186,7 @@ const Profile = () => {
 
       <div className="w-full max-w-3xl mx-auto mt-8">
         <h1 className="text-3xl font-bold mb-6 text-center text-orange-500">
-           {t('Profile')}
+          {t('Profile')}
         </h1>
 
         <div className="bg-white rounded-2xl shadow-lg p-6 flex items-center gap-6">

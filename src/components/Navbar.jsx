@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink,useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "./../css/navbar.css";
 import i18n from "../i18n";
@@ -7,6 +7,7 @@ import Profile from "./Profile";
 
 const Navbar = () => {
   const navigate = useNavigate();
+    const location = useLocation();
   const { t } = useTranslation();
   const [lang, setLang] = React.useState(localStorage.getItem("lang") || "EN");
   const [menuOpen, setMenuOpen] = React.useState(false);
@@ -43,15 +44,31 @@ const Navbar = () => {
 
   const token = sessionStorage.getItem("jwt");
 
-  const handleNavClick = (sectionId) => {
-    if (window.location.pathname === "/") {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+  // const handleNavClick = (sectionId) => {
+  //   if (window.location.pathname === "/") {
+  //     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+  //   } else {
+  //     navigate("/", { state: { scrollTo: sectionId } });
+  //   }
+  //   setMenuOpen(false);
+  // };
+  const handleNavClick = (id) => {
+    if (location.pathname === "/") {
+   
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     } else {
-      navigate("/", { state: { scrollTo: sectionId } });
+      
+      navigate(`/#${id}`);
     }
-    setMenuOpen(false);
   };
-
+   useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }, 100); 
+    }
+  }, [location]);
   return (
     <nav className="bg-white sticky top-0 z-50 font-jakarta shadow-sm border-b border-gray-100">
       {/* Mobile menu backdrop */}
@@ -99,12 +116,15 @@ const Navbar = () => {
               >
                 {t('top_rated_title')}
               </button>
-              {sessionStorage.getItem("jwt") && <button
-                onClick={() => handleNavClick("nearby")}
-                className="font-medium text-sm text-gray-700 hover:text-[var(--color-gold)] transition-colors duration-200"
-              >
-                {t("near_by_title")}
-              </button>}
+            {sessionStorage.getItem("jwt") && (
+  <button
+    onClick={() => handleNavClick("nearby")}
+    className="font-medium text-sm text-gray-700 hover:text-[var(--color-gold)] transition-colors duration-200"
+  >
+    {t("near_by_title")}
+  </button>
+)}
+
 
                <button
                 onClick={() => handleNavClick("wheel")}
@@ -203,7 +223,7 @@ const Navbar = () => {
                   <span className="text-xs">Smart</span>
                 </NavLink>
 
-                <NavLink
+                {/* <NavLink
                   to="/createPost"
                   className="flex items-center gap-1 bg-green-600 text-white font-semibold py-1.5 px-2 rounded-lg hover:bg-green-700 transition-colors duration-200"
                 >
@@ -211,8 +231,8 @@ const Navbar = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                   </svg>
                   <span className="text-xs">Create</span>
-                </NavLink>
-{/* 
+                </NavLink> */}
+
                 <NavLink
                   to="/feedPage"
                   className="flex items-center gap-1 bg-purple-600 text-white font-semibold py-1.5 px-2 rounded-lg hover:bg-purple-700 transition-colors duration-200"
@@ -221,7 +241,7 @@ const Navbar = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                   </svg>
                   <span className="text-xs">Feed</span>
-                </NavLink> */}
+                </NavLink> 
               </>
             ) : (
               <>
@@ -355,16 +375,7 @@ const Navbar = () => {
             </svg>
           </NavLink>
 
-          <NavLink
-            to="/assistant"
-            className="flex items-center justify-end gap-3 w-full px-3 py-3 rounded-lg bg-[var(--color-gold)] text-white font-semibold hover:bg-opacity-90 transition-all duration-200 shadow-sm"
-            onClick={() => setMenuOpen(false)}
-          >
-            <span>{t("assistant_button")}</span>
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-            </svg>
-          </NavLink>
+          
 
           <NavLink
             to="/Profile"
@@ -387,7 +398,7 @@ const Navbar = () => {
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
           </NavLink>
-
+{/* 
           <NavLink
             to="/createPost"
             className="flex items-center justify-end gap-3 w-full px-3 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition-colors duration-200"
@@ -397,7 +408,7 @@ const Navbar = () => {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
-          </NavLink>
+          </NavLink> */}
 
           <NavLink
             to="/feedPage"

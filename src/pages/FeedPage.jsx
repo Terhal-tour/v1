@@ -3,11 +3,14 @@ import axios from "axios";
 import CreatePost from "../components/CreatePost";
 import PostCard from "../components/PostCard";
 import Spinner from "../components/Spinner";
+import { toast } from "react-toastify";
 
 const FeedPage = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [commentsByPost, setCommentsByPost] = useState({});
+  const [profile, setProfile] = useState(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +25,9 @@ const FeedPage = () => {
         const commentsRes = await axios.get("https://backend-mu-ten-26.vercel.app/comments", {
           headers: { Authorization: `Bearer ${token}` },
         });
+        // console.log("postsRes.data", postsRes.data);
+        // console.log("Sample post:", postsRes.data[0]);
+
 
         setPosts(postsRes.data);
 
@@ -31,6 +37,14 @@ const FeedPage = () => {
           grouped[c.postId].push(c);
         });
         setCommentsByPost(grouped);
+
+        // ✅ Fetch profile too!
+        const profileRes = await axios.get("https://backend-mu-ten-26.vercel.app/profile/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        // console.log("profileRes.data.user", profileRes.data.user);
+
+        setProfile(profileRes.data.user);
 
       } catch (err) {
         console.error(err);
@@ -85,13 +99,44 @@ const FeedPage = () => {
     }));
   };
 
-  if (loading) return <Spinner />;
+  // const handlePostCreated = (newPost) => {
+  //   setPosts((prev) => [newPost, ...prev]);
+  // };
+
+  const handlePostCreated = (newPost) => {
+  if (newPost && newPost._id) {
+    setPosts((prev) => [newPost, ...prev]);
+  }
+};  
+
+
+  const handleDelete = async (postId) => {
+  if (!window.confirm("Are you sure you want to delete this post?")) return;
+
+  const token = sessionStorage.getItem("jwt");
+  if (!token) return;
+
+  try {
+    await axios.delete(`https://backend-mu-ten-26.vercel.app/posts/${postId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    // Remove post from UI:
+    setPosts(posts.filter((p) => p._id !== postId));
+    toast.success("Post deleted successfully!");
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to delete post.");
+  }
+};
+
+
+  if (loading || !profile) return <Spinner />;
 
   return (
     <div className="min-h-screen bg-gray-50">
 
       <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
-        <CreatePost />
+        <CreatePost onPostCreated={handlePostCreated} />
 
         {posts.length === 0 && (
           <div className="text-center py-12">
@@ -99,13 +144,15 @@ const FeedPage = () => {
           </div>
         )}
 
-        {posts.map((post) => (
+        {posts.filter(Boolean).map((post) => (
           <PostCard
             key={post._id}
             post={post}
             comments={commentsByPost}
             onLike={() => handleLike(post._id)}
             onAddComment={(comment) => addLocalComment(post._id, comment)}
+            currentUserId={profile?._id}
+            onDelete={handleDelete}
           />
         ))}
       </div>

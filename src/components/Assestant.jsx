@@ -67,7 +67,7 @@ export default function AssistantFloatingButton() {
         } else {
           const errorMessage = {
             id: messages.length + 2,
-            text: "Sorry, I'm having trouble connecting to the server. Please try again later.",
+            text: "Hi there ask me anything about your trip to Egypt.",
             sender: "assistant",
             time: new Date().toLocaleTimeString([], {
               hour: "2-digit",
