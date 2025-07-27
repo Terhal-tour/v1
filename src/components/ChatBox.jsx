@@ -16,8 +16,8 @@ const ChatBox = () => {
   useEffect(() => {
   if (!token || !currentUserId) return;
 
-  const socket = io("http://localhost:3000", {
-//   const socket = io("https://backend-mu-ten-26.vercel.app", {
+//   const socket = io("http://localhost:3000", {
+  const socket = io("https://backend-mu-ten-26.vercel.app", {
     auth: { token }
   });
 
