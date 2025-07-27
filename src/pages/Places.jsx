@@ -43,7 +43,9 @@ function Places() {
   // fetch categories
   useEffect(() => {
     axios
-      .get(`https://backend-mu-ten-26.vercel.app/categories`, {
+      .get(
+        `https://backend-mu-ten-26.vercel.app/categories`
+        , {
         headers: {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NzRlZTllNzMzMzE4MTAzYmJkNmUwYyIsImlhdCI6MTc1MjQ5MzgxOSwiZXhwIjoxNzUzMDk4NjE5fQ.jUTXtIpz0-g_Ni4Cl0ceUGSn-B8UPCX2QGf482fekeQ`,
           "Content-Type": "application/json",

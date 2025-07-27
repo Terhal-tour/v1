@@ -21,9 +21,10 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("liked");
   const [likedPlaces, setLikedPlaces] = useState([]);
   const [historyPlaces, setHistoryPlaces] = useState([]);
- 
-  const token = sessionStorage.getItem("jwt");
+  const [mobileError, setMobileError] = useState("");
+  const [nationalityError, setNationalityError] = useState(""); // State for nationality validation error
 
+  const token = sessionStorage.getItem("jwt");
 
   useEffect(() => {
     if (activeTab === "liked") {
@@ -102,6 +103,29 @@ const Profile = () => {
   //update profile
   const handleUpdate = async (e) => {
     e.preventDefault();
+
+    const mobileRegex = /^[0-9]{10,15}$/;
+    if (!mobileRegex.test(user.mobile)) {
+      setMobileError(
+        "Mobile number must contain only digits and be between 10 to 15 digits long."
+      );
+      toast.error("Invalid mobile number format");
+      return;
+    } else {
+      setMobileError("");
+    }
+
+    // Start of added code for nationality validation
+    const nationalityRegex = /^[a-zA-Z\s]+$/; // Accepts letters and spaces
+    if (!nationalityRegex.test(user.nationality)) {
+      setNationalityError("Nationality must contain only letters and spaces.");
+      toast.error("Invalid nationality format");
+      return;
+    } else {
+      setNationalityError(""); // Clear error if valid
+    }
+    // End of added code for nationality validation
+
     try {
       const formData = new FormData();
       formData.append("name", user.name);
@@ -178,7 +202,7 @@ const Profile = () => {
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-start px-4  pt-7"
+      className="min-h-screen flex flex-col items-center justify-start px-4  pt-7"
       style={{ backgroundColor: "#e5e7eb" }}
     >
       {/* Profile Header */}
@@ -396,9 +420,6 @@ const Profile = () => {
       {/* guides */}
       {activeTab === "requests" && <GuideRequests token={token} />}
 
-
-
-
       {/* Edit Form */}
       {activeTab === "edit" && (
         <form
@@ -420,22 +441,34 @@ const Profile = () => {
             <label className="block font-medium">Mobile</label>
             <input
               type="text"
-              className="w-full border p-2 rounded mt-1"
+              className={`w-full border p-2 rounded mt-1 ${
+                mobileError ? "border-red-500" : ""
+              }`}
               value={user.mobile}
               onChange={(e) => setUser({ ...user, mobile: e.target.value })}
             />
+            {mobileError && (
+              <p className="text-red-500 text-sm mt-1">{mobileError}</p>
+            )}
           </div>
 
           <div>
             <label className="block font-medium">Nationality</label>
             <input
               type="text"
-              className="w-full border p-2 rounded mt-1"
+              className={`w-full border p-2 rounded mt-1 ${
+                nationalityError ? "border-red-500" : ""
+              }`}
               value={user.nationality}
               onChange={(e) =>
                 setUser({ ...user, nationality: e.target.value })
               }
             />
+            {/* Added code: Display nationality error */}
+            {nationalityError && (
+              <p className="text-red-500 text-sm mt-1">{nationalityError}</p>
+            )}
+            {/* End of added code */}
           </div>
 
           <div>
