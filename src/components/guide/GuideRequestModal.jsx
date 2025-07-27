@@ -53,129 +53,156 @@ export default function GuideRequestModal({
 
   return (
     <dialog open className="modal modal-bottom sm:modal-middle">
-      <div className="modal-box">
-        <h3 className="font-bold text-lg mb-4 text-orange-600">{title}</h3>
+      <div className="modal-box max-w-md mx-auto bg-white rounded-xl shadow-xl">
+        {/* Header */}
+        <div className="text-center mb-6">
+          <h3 className="text-2xl font-semibold text-gray-800">{title}</h3>
+          <div className="w-12 h-1 bg-orange-500 mx-auto mt-2 rounded-full"></div>
+        </div>
 
         {/* Request Form */}
-        <form onSubmit={formik.handleSubmit} className="space-y-3">
-          {/* Name */}
-          <div>
+        <form onSubmit={formik.handleSubmit} className="space-y-5">
+          {/* Name Field */}
+          <div className="form-group">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Full Name *
+            </label>
             <input
               type="text"
               name="userName"
-              placeholder="Your Name"
-              className="input input-bordered w-full"
+              placeholder="Enter your full name"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 outline-none"
               onChange={formik.handleChange}
               value={formik.values.userName}
             />
             {formik.touched.userName && formik.errors.userName && (
-              <p className="text-red-500 text-sm">{formik.errors.userName}</p>
+              <p className="text-red-500 text-xs mt-1">{formik.errors.userName}</p>
             )}
           </div>
 
-          {/* Email */}
-          <div>
+          {/* Email Field */}
+          <div className="form-group">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email Address *
+            </label>
             <input
               type="email"
               name="userEmail"
-              placeholder="Your Email"
-              className="input input-bordered w-full"
+              placeholder="Enter your email address"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 outline-none"
               onChange={formik.handleChange}
               value={formik.values.userEmail}
             />
             {formik.touched.userEmail && formik.errors.userEmail && (
-              <p className="text-red-500 text-sm">{formik.errors.userEmail}</p>
+              <p className="text-red-500 text-xs mt-1">{formik.errors.userEmail}</p>
             )}
           </div>
 
-          {/* Group Size */}
-          <div>
-            <input
-              type="number"
-              name="groupSize"
-              min={1}
-              className="input input-bordered w-full"
-              placeholder="Group Size"
-              onChange={formik.handleChange}
-              value={formik.values.groupSize}
-            />
-            {formik.touched.groupSize && formik.errors.groupSize && (
-              <p className="text-red-500 text-sm">{formik.errors.groupSize}</p>
-            )}
+          {/* Group Size and Duration Row */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="form-group">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Group Size *
+              </label>
+              <input
+                type="number"
+                name="groupSize"
+                min={1}
+                placeholder="1"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 outline-none"
+                onChange={formik.handleChange}
+                value={formik.values.groupSize}
+              />
+              {formik.touched.groupSize && formik.errors.groupSize && (
+                <p className="text-red-500 text-xs mt-1">{formik.errors.groupSize}</p>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Duration *
+              </label>
+              <input
+                type="text"
+                name="duration"
+                placeholder="2 days, 1 week"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 outline-none"
+                onChange={formik.handleChange}
+                value={formik.values.duration}
+              />
+              {formik.touched.duration && formik.errors.duration && (
+                <p className="text-red-500 text-xs mt-1">{formik.errors.duration}</p>
+              )}
+            </div>
           </div>
 
-          {/* Duration */}
-          <div>
-            <input
-              type="text"
-              name="duration"
-              placeholder="e.g. 2 days, 1 week"
-              className="input input-bordered w-full"
-              onChange={formik.handleChange}
-              value={formik.values.duration}
-            />
-            {formik.touched.duration && formik.errors.duration && (
-              <p className="text-red-500 text-sm">{formik.errors.duration}</p>
-            )}
+          {/* Date and Time Row */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="form-group">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Preferred Date *
+              </label>
+              <input
+                type="date"
+                name="date"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 outline-none"
+                onChange={formik.handleChange}
+                value={formik.values.date}
+              />
+              {formik.touched.date && formik.errors.date && (
+                <p className="text-red-500 text-xs mt-1">{formik.errors.date}</p>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Preferred Time *
+              </label>
+              <input
+                type="time"
+                name="time"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 outline-none"
+                onChange={formik.handleChange}
+                value={formik.values.time}
+              />
+              {formik.touched.time && formik.errors.time && (
+                <p className="text-red-500 text-xs mt-1">{formik.errors.time}</p>
+              )}
+            </div>
           </div>
 
-          {/* Date */}
-          <div>
-            <input
-              type="date"
-              name="date"
-              className="input input-bordered w-full"
-              onChange={formik.handleChange}
-              value={formik.values.date}
-            />
-            {formik.touched.date && formik.errors.date && (
-              <p className="text-red-500 text-sm">{formik.errors.date}</p>
-            )}
-          </div>
-
-          {/* Time */}
-          <div>
-            <input
-              type="time"
-              name="time"
-              className="input input-bordered w-full"
-              onChange={formik.handleChange}
-              value={formik.values.time}
-            />
-            {formik.touched.time && formik.errors.time && (
-              <p className="text-red-500 text-sm">{formik.errors.time}</p>
-            )}
-          </div>
-
-          {/* Message */}
-          <div>
+          {/* Message Field */}
+          <div className="form-group">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Additional Message *
+            </label>
             <textarea
               name="message"
-              placeholder="What would you like the guide to know?"
-              className="textarea textarea-bordered w-full"
+              placeholder="Tell us about your preferences, special requirements, or what you'd like to explore..."
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 outline-none resize-none"
               rows={4}
               onChange={formik.handleChange}
               value={formik.values.message}
             ></textarea>
             {formik.touched.message && formik.errors.message && (
-              <p className="text-red-500 text-sm">{formik.errors.message}</p>
+              <p className="text-red-500 text-xs mt-1">{formik.errors.message}</p>
             )}
           </div>
 
-          {/* Actions */}
-          <div className="modal-action flex justify-end gap-3">
+          {/* Action Buttons */}
+          <div className="flex gap-3 pt-4">
             <button
               type="button"
-              className="px-4 py-2 border border-gray-400 text-gray-500 rounded-full text-sm hover:bg-gray-100 transition"
+              className="cursor-pointer flex-1 px-6 py-3 bg-gray-100 text-gray-600 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-200"
               onClick={onClose}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 border border-orange-500 text-orange-500 rounded-full text-sm hover:bg-orange-500 hover:text-white transition"
+              className="cursor-pointer flex-1 px-6 py-3 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors duration-200 shadow-lg hover:shadow-xl"
             >
-              Confirm
+              Submit Request
             </button>
           </div>
         </form>
