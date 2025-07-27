@@ -40,9 +40,11 @@ import CreatePost from "./components/CreatePost";
 import Wheel from "./components/Wheel"
 import RecommendedPlaces from "./components/RecommendedPlaces";
 import UpCommingEvents from "./components/UpCommingEvents";
+import ChatBox from "./components/ChatBox";
 
 function App() {
   const location = useLocation();
+
 
   return (
     <>
@@ -53,6 +55,8 @@ function App() {
           <Route path="adminLogin" element={<AdminLogin />} />
           {/* payment */}
           <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="chat/:toUserId" element={<ChatBox />} />
+
         </Route>
         {/* User layout routes */}
         <Route path="/" element={<UserLayout />}>
@@ -81,7 +85,6 @@ function App() {
           />
           <Route path="feedPage" element={<FeedPage />} />
           <Route path="createPost" element={<CreatePost />} />
-
           <Route path="*" element={<NotFound />} />
         </Route>
 

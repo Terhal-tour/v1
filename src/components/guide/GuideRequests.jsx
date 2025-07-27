@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import GuideRequestModal from "./GuideRequestModal";
+import { NavLink } from 'react-router-dom';
 
 export default function GuideRequests({ token }) {
   const [requests, setRequests] = useState([]);
@@ -169,6 +170,7 @@ export default function GuideRequests({ token }) {
                     >
                       ❌ Cancel
                     </button>
+                   
                   </>
                 )}
 
@@ -200,15 +202,30 @@ export default function GuideRequests({ token }) {
                   </>
                 )}
                 {req.status === "done" && (
-                  
-                    
-                      <div className="text-green-600 font-semibold text-sm text-center">
-                        ✅ Paid
-
-                      </div>
-                    
-                  
+                  <div className="text-green-600 font-semibold text-sm text-center">
+                    ✅ Paid
+                  </div>
                 )}
+                 <NavLink
+                      to={`/chat/${req.user}`}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium text-sm rounded-lg shadow-sm hover:shadow-md transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.955 8.955 0 01-4.126-.98L3 21l1.98-5.874A8.955 8.955 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z"
+                        />
+                      </svg>
+                      Send Message
+                    </NavLink>
               </div>
             </div>
           </div>
