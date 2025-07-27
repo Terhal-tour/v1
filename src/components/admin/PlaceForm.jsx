@@ -41,16 +41,56 @@ export default function PlaceForm({ initialData, onSubmitSuccess }) {
     };
 
     const validationSchema = Yup.object({
-        name: Yup.string().required('Required'),
+        name: Yup.string()
+            .matches(
+                /^[\p{Script=Arabic}A-Za-z\s'-]+$/u,
+                "Invalid name. Only Arabic/English letters, spaces, hyphens (-), and apostrophes (') are allowed."
+            )
+            .required('Required'),
+
+
         description: Yup.string().required('Required'),
-        location: Yup.string().url('Must be a valid URL').required('Required'),
+
+        location: Yup.string()
+            .url('Must be a valid URL')
+            .required('Required'),
+
         address: Yup.string().required('Required'),
+
         category: Yup.string().required('Required'),
-        coordinates: Yup.string().required('Required'),
-        image: Yup.string().url('Must be a valid URL').required('Required'),
-        rating: Yup.number().min(0).max(5).required('Required'),
-        visible: Yup.boolean(),
+
+        coordinates: Yup.string()
+            .matches(
+                /^-?\d{1,3}\.\d+,-?\d{1,3}\.\d+$/,
+                'Please enter valid latitude and longitude in decimal degrees (e.g., 30.0444,31.2357)'
+            )
+            .test(
+                'valid-range',
+                'Latitude must be between -90 and 90, longitude between -180 and 180',
+                value => {
+                    if (!value) return false;
+                    const [lat, lng] = value.split(',').map(Number);
+                    return (
+                        !isNaN(lat) && !isNaN(lng) &&
+                        lat >= -90 && lat <= 90 &&
+                        lng >= -180 && lng <= 180
+                    );
+                }
+            )
+            .required('Required'),
+
+        image: Yup.string()
+            .url('Must be a valid URL')
+            .required('Required'),
+
+        rating: Yup.number()
+            .min(0, 'Rating must be at least 0')
+            .max(5, 'Rating cannot exceed 5')
+            .required('Required'),
+
+        visible: Yup.boolean()
     });
+
 
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         try {

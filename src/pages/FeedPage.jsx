@@ -18,11 +18,11 @@ const FeedPage = () => {
         setLoading(true);
         const token = sessionStorage.getItem("jwt");
 
-        const postsRes = await axios.get("http://localhost:3000/posts", {
+        const postsRes = await axios.get("https://backend-mu-ten-26.vercel.app/posts", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const commentsRes = await axios.get("http://localhost:3000/comments", {
+        const commentsRes = await axios.get("https://backend-mu-ten-26.vercel.app/comments", {
           headers: { Authorization: `Bearer ${token}` },
         });
         // console.log("postsRes.data", postsRes.data);
@@ -39,7 +39,7 @@ const FeedPage = () => {
         setCommentsByPost(grouped);
 
         // ✅ Fetch profile too!
-        const profileRes = await axios.get("http://localhost:3000/profile/me", {
+        const profileRes = await axios.get("https://backend-mu-ten-26.vercel.app/profile/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         // console.log("profileRes.data.user", profileRes.data.user);
@@ -61,7 +61,7 @@ const FeedPage = () => {
     try {
       const token = sessionStorage.getItem("jwt");
       await axios.put(
-        `http://localhost:3000/posts/${postId}/like`,
+        `https://backend-mu-ten-26.vercel.app/posts/${postId}/like`,
         {},
         {
           headers: {
@@ -117,7 +117,7 @@ const FeedPage = () => {
   if (!token) return;
 
   try {
-    await axios.delete(`http://localhost:3000/posts/${postId}`, {
+    await axios.delete(`https://backend-mu-ten-26.vercel.app/posts/${postId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     // Remove post from UI:
