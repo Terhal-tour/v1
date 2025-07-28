@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import GuideRequestModal from "./GuideRequestModal";
+import GuidePaymentCard from "./GuidePaymentCard"; 
 
 export default function GuideRequests({ token }) {
   const [requests, setRequests] = useState([]);
@@ -12,13 +13,12 @@ export default function GuideRequests({ token }) {
   const fetchRequests = async () => {
     try {
       const res = await axios.get(
-        "https://backend-mu-ten-26.vercel.app/guide/request/traveller",
+        "http://localhost:3000/guide/request/traveller",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       console.log(res.data.requests);
-
       setRequests(res.data.requests);
     } catch (err) {
       console.error("Error fetching guide requests:", err);
@@ -62,7 +62,7 @@ export default function GuideRequests({ token }) {
   const handleUpdateSubmit = async (values) => {
     try {
       await axios.put(
-        `https://backend-mu-ten-26.vercel.app/guide/request/${selectedRequest._id}`,
+        `http://localhost:3000/guide/request/${selectedRequest._id}`,
         {
           message: values.message,
           date: new Date(`${values.date}T${values.time}`),
@@ -84,7 +84,7 @@ export default function GuideRequests({ token }) {
   const handlePayment = async (requestId) => {
     try {
       const res = await axios.post(
-        `https://backend-mu-ten-26.vercel.app/payments/create/${requestId}`,
+        `http://localhost:3000/payments/create/${requestId}`,
         {},
         {
           headers: {
@@ -113,105 +113,14 @@ export default function GuideRequests({ token }) {
     <>
       <div className="w-full flex flex-col items-center px-4 py-6">
         {requests.map((req) => (
-          <div
+          <GuidePaymentCard
             key={req._id}
-            className="bg-white rounded-2xl shadow-lg border-l-4 border-orange-400 w-full max-w-[650px] p-5 mb-6 transition hover:shadow-xl"
-          >
-            <div className="flex justify-between items-start">
-              <div className="space-y-2">
-                <p className="text-xl font-semibold text-gray-800 flex items-center gap-2">
-                  🧑‍🏫 Guide: <span>{req.guide?.name}</span>
-                </p>
-                <p className="text-sm text-gray-600">
-                  📅 Date: {new Date(req.date).toLocaleDateString()}
-                </p>
-                <p className="text-sm text-gray-600">
-                  ⏳ Duration: {req.duration}
-                </p>
-                <p className="text-sm text-gray-600">
-                  💬 Message: {req.message || "No message"}
-                </p>
-
-                <p className="text-sm text-gray-500">
-                  📌 Status:{" "}
-                  <span
-                    className={`font-semibold ${
-                      req.status === "pending"
-                        ? "text-yellow-600"
-                        : req.status === "approved"
-                        ? "text-green-600"
-                        : "text-red-500"
-                    }`}
-                  >
-                    {req.status}
-                  </span>
-                </p>
-                {req.paid && (
-                  <p className="text-sm text-green-600 font-semibold">
-                    ✅ Payment Completed
-                  </p>
-                )}
-              </div>
-
-              {/* Buttons shown depending on request status */}
-              <div className="flex flex-col gap-2 ml-4">
-                {req.status === "pending" && (
-                  <>
-                    <button
-                      onClick={() => openEditModal(req)}
-                      className="bg-yellow-400 hover:bg-yellow-500 text-white w-24 py-1 rounded-full text-sm shadow"
-                    >
-                      ✏️ Edit
-                    </button>
-                    <button
-                      onClick={() => cancelRequest(req._id)}
-                      className="bg-red-500 hover:bg-red-600 text-white w-24 py-1 rounded-full text-sm shadow"
-                    >
-                      ❌ Cancel
-                    </button>
-                  </>
-                )}
-
-                {req.status === "approved" && (
-                  <>
-                    {!req.paid ? (
-                      <>
-                        <p className="text-sm text-gray-600">
-                          💰 Price: {req.price || "No price"}
-                        </p>
-                        <button
-                          onClick={() => handlePayment(req._id)}
-                          className="bg-orange-500 hover:bg-orange-600 text-white w-24 py-1 rounded-full text-sm shadow"
-                        >
-                          💳 Pay Now
-                        </button>
-                        <button
-                          onClick={() => cancelRequest(req._id)}
-                          className="bg-red-500 hover:bg-red-600 text-white w-24 py-1 rounded-full text-sm shadow"
-                        >
-                          ❌ Cancel
-                        </button>
-                      </>
-                    ) : (
-                      <div className="text-green-600 font-semibold text-sm text-center">
-                        ✅ Paid
-                      </div>
-                    )}
-                  </>
-                )}
-                {req.status === "done" && (
-                  
-                    
-                      <div className="text-green-600 font-semibold text-sm text-center">
-                        ✅ Paid
-
-                      </div>
-                    
-                  
-                )}
-              </div>
-            </div>
-          </div>
+            request={req}
+            token={token}
+            onCancel={cancelRequest}
+            onEdit={openEditModal}
+            onPayment={handlePayment}
+          />
         ))}
       </div>
 
