@@ -14,7 +14,7 @@ function Places() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState("");
-
+const token = sessionStorage.getItem('jwt')
   // ✅ Fetch ALL places (with pagination) or SEARCHED places (by name)
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -48,11 +48,10 @@ function Places() {
       .get(
         `https://backend-mu-ten-26.vercel.app/categories`
         , {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NzRlZTllNzMzMzE4MTAzYmJkNmUwYyIsImlhdCI6MTc1MjQ5MzgxOSwiZXhwIjoxNzUzMDk4NjE5fQ.jUTXtIpz0-g_Ni4Cl0ceUGSn-B8UPCX2QGf482fekeQ`,
-          "Content-Type": "application/json",
-        },
-      })
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
       .then((res) => setCategories(res.data.categories))
       .catch((err) => console.error("Error fetching categories:", err));
   }, []);
@@ -127,43 +126,41 @@ function Places() {
             </div>
             {/* Categories */}
             <div className="md:col-span-9 flex flex-col md:flex-row md:justify-evenly md:items-center gap-4">
-  {/* Dropdown for small screens */}
-  <select
-    value={activeCategory}
-    onChange={(e) => setActiveCategory(e.target.value)}
-    className="block md:hidden w-full px-4 py-2 text-sm rounded-md border border-gray-300 text-primary-action bg-warm-white focus:outline-none focus:ring-2 focus:ring-primary-action"
-  >
-    <option value="All">{t('all')}</option>
-    {categories?.map((category) => (
-      <option key={category._id} value={category.title}>
-        {category.title}
-      </option>
-    ))}
-  </select>
+              {/* Dropdown for small screens */}
+              <select
+                value={activeCategory}
+                onChange={(e) => setActiveCategory(e.target.value)}
+                className="block md:hidden w-full px-4 py-2 text-sm rounded-md border border-gray-300 text-primary-action bg-warm-white focus:outline-none focus:ring-2 focus:ring-primary-action"
+              >
+                <option value="All">{t('all')}</option>
+                {categories?.map((category) => (
+                  <option key={category._id} value={category.title}>
+                    {category.title}
+                  </option>
+                ))}
+              </select>
 
-  {/* Buttons for medium and larger screens */}
-  <div className="hidden md:flex flex-wrap justify-evenly items-center gap-4">
-    <button
-      onClick={() => setActiveCategory("All")}
-      className={`px-4 py-2 text-sm md:text-base font-medium rounded-full bg-warm-white text-primary-action hover:bg-soft-cream transition-colors cursor-pointer ${
-        activeCategory === "All" ? "active-link" : ""
-      }`}
-    >
-      {t('all')}
-    </button>
-    {categories?.map((category) => (
-      <button
-        key={category._id}
-        onClick={() => setActiveCategory(category.title)}
-        className={`px-4 py-2 text-sm md:text-base font-medium rounded-full bg-warm-white text-primary-action hover:bg-soft-cream transition-colors cursor-pointer ${
-          activeCategory === category.title ? "active-link" : ""
-        }`}
-      >
-        {category.title}
-      </button>
-    ))}
-  </div>
-</div>
+              {/* Buttons for medium and larger screens */}
+              <div className="hidden md:flex flex-wrap justify-evenly items-center gap-4">
+                <button
+                  onClick={() => setActiveCategory("All")}
+                  className={`px-4 py-2 text-sm md:text-base font-medium rounded-full bg-warm-white text-primary-action hover:bg-soft-cream transition-colors cursor-pointer ${activeCategory === "All" ? "active-link" : ""
+                    }`}
+                >
+                  {t('all')}
+                </button>
+                {categories?.map((category) => (
+                  <button
+                    key={category._id}
+                    onClick={() => setActiveCategory(category.title)}
+                    className={`px-4 py-2 text-sm md:text-base font-medium rounded-full bg-warm-white text-primary-action hover:bg-soft-cream transition-colors cursor-pointer ${activeCategory === category.title ? "active-link" : ""
+                      }`}
+                  >
+                    {category.title}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {/* Sort */}
             <div className="md:col-span-1 flex justify-center items-center gap-4">

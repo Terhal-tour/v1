@@ -5,6 +5,8 @@ import { initReactI18next } from 'react-i18next';
 const resources = {
   EN: {
     translation: {
+      feedPage:"Feed",
+      smart:"Smart Suggestions",
       brand: 'Terhal',
       destinations: 'Places',
       experiences: 'Events',
@@ -158,6 +160,8 @@ const resources = {
   c_Location: "موقعك الحالي",
   smart_travel_recommendations: "توصيات السفر الذكي",
   discover_personalized_places: "اكتشف الأماكن المخصصة لك", 
+  feedPage:"شارك تجربتك",
+  smart:"اقتراحات"
     },
   },
 };
