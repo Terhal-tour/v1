@@ -259,9 +259,9 @@ export default function GuideProfile() {
                       {guide.rating}
                     </p>
                   </div>
-                  <div className="bg-yellow-100 rounded-full p-3">
+                  {/* <div className="bg-yellow-100 rounded-full p-3">
                     <Star className="h-6 w-6 text-yellow-600 fill-current" />
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
