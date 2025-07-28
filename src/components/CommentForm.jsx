@@ -32,6 +32,8 @@ const CommentForm = ({ postId, onAddComment }) => {
       );
 
       // Fallback: if your backend doesn’t attach user info, add minimal fallback
+      console.log(comment.userId  , comment.userId.name , comment);
+      
       if (!comment.userId || !comment.userId.name) {
         comment.userId = { name: "You" };
       }

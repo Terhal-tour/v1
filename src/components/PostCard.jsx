@@ -13,7 +13,7 @@ const PostCard = ({ post, comments, onLike, onAddComment, currentUserId, onDelet
 
 
   // هل المستخدم الحالي هو صاحب البوست؟
-  const isOwner = user?._id === currentUserId;
+  // const isOwner = user?._id === currentUserId;
 
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transition-all duration-500 hover:shadow">
