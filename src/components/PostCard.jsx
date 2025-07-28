@@ -9,12 +9,12 @@ const PostCard = ({ post, comments, onLike, onAddComment, currentUserId, onDelet
 
   
   const user = post.userId || {};
-  console.log(post);
-  console.log(user.image);
-  
   const userImage = user.image
-    ? `https://backend-mu-ten-26.vercel.app/uploads/${user.image}` // adjust if your user images are served from /uploads
-    : null;
+
+
+  // const isOwner = currentUserId === user._id;
+  const isOwner = currentUserId && user?._id && currentUserId === user._id;
+
 
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transition-all duration-500 hover:shadow">
@@ -68,7 +68,7 @@ const PostCard = ({ post, comments, onLike, onAddComment, currentUserId, onDelet
           {post.images.map((img, index) => (
             <img
               key={index}
-              src={`https://backend-mu-ten-26.vercel.app/uploads/${img}`}
+              src={img}
               alt={`Post image ${index + 1}`}
               className="w-full h-80 object-cover transition-transform duration-700 hover:scale-105"
             />
