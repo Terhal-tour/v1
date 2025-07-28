@@ -64,6 +64,8 @@ export default function Home() {
     <>
       <Hero />
       {/* {sessionStorage.setItem('jwt','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NmUxZDg4MWZiMmMwNTdkNGRmZDNmZCIsImlhdCI6MTc1MjYwOTc0MywiZXhwIjoxNzUzMjE0NTQzfQ.I92EV3CjabhODHWhjn8kA12Wk4Ri1kuBbE7gsuHB0X4')} */}
+      <AboutUs />
+      <Wheel/>
       {sessionStorage.getItem("jwt") && (
         <>
           <GeoLocation />
@@ -74,8 +76,7 @@ export default function Home() {
       {places.length > 0 && <TopRatedPlacesHome places={places} />}
       {/* {events.length > 0 && <UpCommingEvents events={events} />} */}
       {sessionStorage.getItem("jwt") && <NearbyPlaces />}
-      <Wheel/>
-      <AboutUs />
+      
     </>
   );
 }
