@@ -5,11 +5,12 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 const PostCard = ({ post, comments, onLike, onAddComment, currentUserId, onDelete }) => {
   // تأمين الوصول للمستخدم
   const user = post.userId || {};
+  const userImage = user.image
 
-  // تأمين رابط الصورة
-  const userImage = user?.image
-    ? `https://backend-mu-ten-26.vercel.app/uploads/${user.image}`
-    : null;
+
+  // const isOwner = currentUserId === user._id;
+  const isOwner = currentUserId && user?._id && currentUserId === user._id;
+
 
   // هل المستخدم الحالي هو صاحب البوست؟
   const isOwner = user?._id === currentUserId;
@@ -65,7 +66,7 @@ const PostCard = ({ post, comments, onLike, onAddComment, currentUserId, onDelet
           {post.images.map((img, index) => (
             <img
               key={index}
-              src={`https://backend-mu-ten-26.vercel.app/uploads/${img}`}
+              src={img}
               alt={`Post image ${index + 1}`}
               className="w-full h-80 object-cover transition-transform duration-700 hover:scale-105"
             />
