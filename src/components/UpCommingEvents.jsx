@@ -70,7 +70,7 @@ export default function UpCommingEvents() {
           >
             {events.map((event) => (
               <SwiperSlide key={event.id}>
-                <div className="bg-gradient-to-br from-orange-100 to-amber-100 rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300 hover:shadow-xl border border-amber-200 flex flex-col h-full">
+                <div className="bg-gradient-to-br from-orange-100 to-amber-100 rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300 hover:shadow-xl border border-amber-200 flex flex-col ">
                   <div className="w-full h-56 relative">
                     <iframe
                       width="100%"
@@ -83,8 +83,8 @@ export default function UpCommingEvents() {
                     ></iframe>
                   </div>
 
-                  <div className="p-6 h-full flex flex-col">
-                    <div className="flex-grow">
+                  <div className="p-6 flex flex-col">
+                    <div className="">
                       <h2 className="text-xl font-bold text-amber-900 mb-3 line-clamp-2">
                         {event.name}
                       </h2>
@@ -160,6 +160,7 @@ export default function UpCommingEvents() {
               </SwiperSlide>
             ))}
           </Swiper>
+
         )}
       </div>
     </section>
