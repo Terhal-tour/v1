@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-
 import {
   BarChart,
   Bar,
@@ -13,30 +11,23 @@ import {
   Pie,
   Cell,
   Legend,
+  ResponsiveContainer,
 } from "recharts";
 import "../../css/admin-theme.css";
 
 const AdminDashboard = () => {
-  
- 
-  // Get JWT token from sessionStorage (TODO: replace with secure method in production)
-  const token = sessionStorage.getItem("jwt") ;
+  const token = sessionStorage.getItem("jwt");
 
-  // Define state variables
   const [overview, setOverview] = useState({});
   const [nationalities, setNationalities] = useState([]);
   const [topLikedPlaces, setTopLikedPlaces] = useState([]);
   const [reviewsAnalysis, setReviewsAnalysis] = useState([]);
 
-  // Fetch all dashboard data on component mount
   useEffect(() => {
     const fetchDashboardStats = async () => {
       try {
-        const config = {
-          headers: { Authorization: `Bearer ${token}` },
-        };
+        const config = { headers: { Authorization: `Bearer ${token}` } };
 
-        // Fetch all API data in parallel
         const [overviewRes, nationalitiesRes, topRatedRes, reviewsRes] =
           await Promise.all([
             axios.get("https://backend-mu-ten-26.vercel.app/admin/stats/overview", config),
@@ -45,7 +36,6 @@ const AdminDashboard = () => {
             axios.get("https://backend-mu-ten-26.vercel.app/admin/stats/reviews-analysis", config),
           ]);
 
-        // Set state with received data
         setOverview(overviewRes.data);
         setNationalities(nationalitiesRes.data.nationalities || []);
         setTopLikedPlaces(overviewRes.data.topLikedPlaces || []);
@@ -58,75 +48,71 @@ const AdminDashboard = () => {
     fetchDashboardStats();
   }, [token]);
 
-  // Color palette for Pie chart
   const COLORS = ["#6366F1", "#22C55E", "#FACC15", "#F43F5E"];
 
-  // Utility function to render a BarChart
   const renderBarChart = (data, xKey, yKey, color) => (
-    <BarChart width={600} height={350} data={data} barCategoryGap={20}>
-      <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
-      <XAxis dataKey={xKey} stroke="#6b7280" />
-      <YAxis stroke="#6b7280" />
-      <Tooltip contentStyle={{ background: "#ffffff" }} />
-      <Bar dataKey={yKey} fill={color} radius={[8, 8, 0, 0]} />
-    </BarChart>
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart data={data} barCategoryGap={20}>
+        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+        <XAxis dataKey={xKey} stroke="#6b7280" />
+        <YAxis stroke="#6b7280" />
+        <Tooltip contentStyle={{ background: "#ffffff" }} />
+        <Bar dataKey={yKey} fill={color} radius={[6, 6, 0, 0]} />
+      </BarChart>
+    </ResponsiveContainer>
   );
 
   return (
-    <div className="grid gap-6 p-6 bg-white min-h-screen text-gray-900 rounded-xl">
-      {/* Dashboard summary cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="p-4 md:p-6 min-h-screen bg-gradient-to-br from-white via-gray-50 to-gray-100 text-gray-900 rounded-xl">
+      
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         {[
           { label: "Total Travelers", value: overview.travelersCount },
-          // { label: "Online Users", value: overview.onlineUsersCount },
           { label: "Top Liked Places", value: topLikedPlaces.length },
           { label: "Nationalities Count", value: nationalities.length },
         ].map((item, index) => (
-          <div key={index} className="p-4 bg-gray-50 rounded-lg shadow-md">
+          <div
+            key={index}
+            className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition text-center"
+          >
             <h3 className="text-sm text-gray-500">{item.label}</h3>
-            <p className="text-2xl font-bold">{item.value || 0}</p>
+            <p className="text-3xl font-bold mt-2">{item.value || 0}</p>
           </div>
         ))}
       </div>
 
-      {/* Bar chart - Users by Nationality */}
-      <div className="p-6 bg-gray-50 rounded-lg shadow-md">
-        <h3 className="font-bold text-lg mb-4">Users by Nationality</h3>
-        {nationalities.length > 0 ? (
-          <div className="w-full overflow-x-auto">
-            {renderBarChart(nationalities, "_id", "count", "#6366F1")}
-          </div>
-        ) : (
-          <p className="text-gray-500">No nationality data available</p>
-        )}
+      {/* Charts Row 1 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div className="p-4 bg-white rounded-xl shadow-lg">
+          <h3 className="font-bold text-lg mb-4">Users by Nationality</h3>
+          {nationalities.length > 0
+            ? renderBarChart(nationalities, "_id", "count", "#6366F1")
+            : <p className="text-gray-500">No nationality data available</p>}
+        </div>
+
+        <div className="p-4 bg-white rounded-xl shadow-lg">
+          <h3 className="font-bold text-lg mb-4">Top Rated Places</h3>
+          {topLikedPlaces.length > 0
+            ? renderBarChart(
+                topLikedPlaces.map((item) => ({
+                  name: item.place?.name || "Unknown",
+                  count: item.count,
+                })),
+                "name",
+                "count",
+                "#22C55E"
+              )
+            : <p className="text-gray-500">No top rated places data available</p>}
+        </div>
       </div>
 
-      {/* Bar chart - Top Rated Places */}
-      <div className="p-6 bg-gray-50 rounded-lg shadow-md">
-        <h3 className="font-bold text-lg mb-4">Top Rated Places</h3>
-        {topLikedPlaces.length > 0 ? (
-          <div className="w-full overflow-x-auto">
-            {renderBarChart(
-              topLikedPlaces.map((item) => ({
-                name: item.place?.name || "Unknown",
-                count: item.count,
-              })),
-              "name",
-              "count",
-              "#22C55E"
-            )}
-          </div>
-        ) : (
-          <p className="text-gray-500">No top rated places data available</p>
-        )}
-      </div>
-
-      {/* Pie chart - Reviews Analysis */}
-      <div className="p-6 bg-gray-50 rounded-lg shadow-md">
-        <h3 className="font-bold text-lg mb-4">Reviews Analysis</h3>
+      {/* Charts Row 2 */}
+      <div className="bg-white rounded-xl shadow-lg p-4">
+        <h3 className="font-bold text-lg mb-4 text-center">Reviews Analysis</h3>
         {reviewsAnalysis.length > 0 ? (
-          <div className="w-full overflow-x-auto">
-            <PieChart width={450} height={350}>
+          <ResponsiveContainer width="100%" height={350}>
+            <PieChart>
               <Pie
                 data={reviewsAnalysis.map((item) => ({
                   name: item._id || "No Status",
@@ -136,7 +122,7 @@ const AdminDashboard = () => {
                 nameKey="name"
                 cx="50%"
                 cy="50%"
-                outerRadius={120}
+                outerRadius="80%"
                 label
               >
                 {reviewsAnalysis.map((_, index) => (
@@ -146,9 +132,9 @@ const AdminDashboard = () => {
               <Tooltip contentStyle={{ background: "#ffffff" }} />
               <Legend wrapperStyle={{ color: "#6b7280" }} />
             </PieChart>
-          </div>
+          </ResponsiveContainer>
         ) : (
-          <p className="text-gray-500">No reviews analysis data available</p>
+          <p className="text-gray-500 text-center">No reviews analysis data available</p>
         )}
       </div>
     </div>
